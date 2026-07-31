@@ -55,7 +55,7 @@ CROPS = [
 DERIVATIVES = {
     "hero-main":        [("hero-desktop", 1920, 1080, (0.50, 0.55)),
                          ("hero-tablet",  1280,  900, (0.50, 0.55))],
-    "dumbbell-zone":    [("hero-mobile",  1080, 1440, (0.42, 0.60)),
+    "dumbbell-zone":    [("hero-mobile",  1080, 1440, (0.74, 0.52)),
                          ("card-dumbbell", 900, 1125, (0.40, 0.55))],
     "floor-wide":       [("band-floor",   1800,  760, (0.50, 0.55)),
                          ("join-bg",      1600,  900, (0.50, 0.55))],

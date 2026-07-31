@@ -90,7 +90,7 @@ window.CEZAR_IMG = {
   "h": 1440,
   "hw": 540,
   "hh": 720,
-  "lqip": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAADQBQCdASoUABoAPt1gqU6opSQiMBgIARAbiWMAnQAPDVyblAIEdjbw4T8+ToPdPJRLojBKX6YAAP3p6S6Gz6yC2kFGdQZMDzjjzvesnAjNBjpNVXpG9iaqf+8WJYgaKrQHsJPmVNG9qrU17GAt1M6KJnR2hYRHgAA="
+  "lqip": "data:image/webp;base64,UklGRoYAAABXRUJQVlA4IHoAAABwBACdASoUABoAPt1aqE8opKOiMBgIARAbiWMAtOgFxBNwTEnNzrAyJxsCAAD+3tvLwbsbYAXMyYfIuMzhINjDEQLS6v0+WQ0Xo3rriaMfiY4sUXX8kPGHRiFaNqrGnmzctwRnLQkmo/ZoKWws2sHUPuVlLIfltAAAAA=="
  },
  "card-dumbbell": {
   "w": 900,

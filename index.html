@@ -21,8 +21,8 @@
 <link rel="preload" as="image" href="assets/img/hero-desktop.webp" media="(min-width:901px)">
 <link rel="preload" as="image" href="assets/img/hero-mobile.webp" media="(max-width:900px)">
 <script>document.documentElement.className='js';</script>
-<link rel="stylesheet" href="assets/core.css">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/core.css?v=2">
+<link rel="stylesheet" href="assets/site.css?v=6">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"سيزر جيم","alternateName":"CEZAR GYM",
@@ -51,11 +51,9 @@
       <b class="lat">CEZAR<i>.</i></b>
     </a>
     <nav class="nav" id="nav">
-      <a href="#services">الأنشطة</a>
-      <a href="#gallery">جوّه سيزر</a>
+      <a href="#inside">جوّه سيزر</a>
       <a href="#pricing">الأسعار</a>
-      <a href="#schedule">المواعيد</a>
-      <a href="#location">مكاننا</a>
+      <a href="#where">مكاننا</a>
     </nav>
     <a href="#join" class="btn btn-lime btn-sm">اشترك الآن</a>
     <button class="burger" id="burger" aria-label="القائمة" aria-expanded="false"><i></i></button>
@@ -63,11 +61,9 @@
 </header>
 
 <div id="sheet" aria-hidden="true">
-  <a href="#services">الأنشطة</a>
-  <a href="#gallery">جوّه سيزر</a>
+  <a href="#inside">جوّه سيزر</a>
   <a href="#pricing">الأسعار</a>
-  <a href="#schedule">المواعيد</a>
-  <a href="#location">مكاننا</a>
+  <a href="#where">مكاننا</a>
   <div class="m-cta">
     <a href="#join" class="btn btn-lime" style="flex:1">اشترك الآن</a>
   </div>
@@ -94,132 +90,54 @@
     </picture>
   </div>
   <div class="wrap hero-in">
-    <span class="hero-loc"><s></s> بني سويف الجديدة — شرق النيل</span>
-    <h1>
-      <span class="ln" style="--i:0"><span>اصنع المحارب</span></span>
-      <span class="ln" style="--i:1"><span>اللي <em class="mark" style="font-style:normal">جوّاك</em></span></span>
-    </h1>
-    <p class="lead">أوزان وأجهزة تكنوجيم، كارديو، فنون قتالية، تأهيل عسكري وبدني، وساونا حرارية.
-      مكان واحد يطلّع منك أقوى نسخة — وفترات مخصّصة للسيدات كل يوم.</p>
-    <div class="hero-cta">
-      <a href="#join" class="btn btn-lime">اشترك الآن</a>
-      <a href="#pricing" class="btn btn-ghost-light">شوف الأسعار والعروض</a>
-    </div>
+    <h1><span class="ln"><span>اصنع المحارب<br>اللي <em class="mark" style="font-style:normal">جوّاك</em></span></span></h1>
+    <a href="#join" class="btn btn-lime hero-btn">اشترك الآن</a>
   </div>
   <div class="scroll-cue lat" aria-hidden="true">SCROLL</div>
 </section>
 
-<!-- ═══ 02 نبض سيزر — الحالة الحيّة ═══ -->
-<div class="wrap pulse-wrap">
-  <div class="pulse" id="pulse">
-    <div class="pulse-l">
-      <div class="pulse-state">
-        <s class="dot" id="pDot"></s>
-        <b id="pTitle">بنحمّل المواعيد…</b>
-        <span class="tag-g" id="pTag" hidden></span>
-      </div>
-      <div class="pulse-sub" id="pSub">—</div>
-      <div class="pbar"><i id="pBar"></i></div>
-    </div>
-    <div class="pulse-r">
-      <div class="cd" id="pCd">--:--:--</div>
-      <small id="pCdLab">&nbsp;</small>
-    </div>
-  </div>
-</div>
-
-<!-- ماركيه الأنشطة -->
-<div class="mq" aria-hidden="true"><div class="mq-in" id="mq"></div></div>
-
-<!-- ═══ 03 العروض الحالية ═══ -->
-<section class="sect offers grain" id="offers">
-  <img class="wm" src="assets/img/emblem-ghost.png" alt="" aria-hidden="true">
-  <div class="wrap">
-    <div class="head" data-reveal>
-      <span class="eyebrow">01 / offers</span>
-      <h2>العروض الشغّالة دلوقتي</h2>
-      <p class="sub">الخصم بيتحسب على السعر في الموقع على طول — والعدّاد بيقول لك العرض فاضله قد إيه.</p>
-    </div>
-    <div class="offer-grid" id="offerGrid"></div>
-
-    <!-- حاسبة عرض الصحاب -->
-    <div class="fcalc" id="fcalc" data-reveal hidden>
-      <div class="fcalc-l">
-        <div>
-          <h3>حاسبة عرض الصحاب</h3>
-          <p style="margin-top:8px">اختار إنتوا كام واحد وأي باقة، والحاسبة تقول لكم هتوفّروا كام بالظبط.</p>
-        </div>
-        <div class="pick-row">
-          <label class="lat">عددكم</label>
-          <div class="seg" id="fPeople"></div>
-        </div>
-        <div class="pick-row">
-          <label class="lat">الباقة</label>
-          <select class="fsel" id="fPlan"></select>
-        </div>
-      </div>
-      <div class="fcalc-r">
-        <div class="save-big"><span id="fSave">0</span><i>ج.م</i></div>
-        <div class="save-rows">
-          <div><span>السعر الأصلي للواحد</span><b id="fOne">—</b></div>
-          <div><span>بعد خصم <span id="fPct">30</span>%</span><b id="fOneNew">—</b></div>
-          <div class="tot"><span id="fCntLab">الإجمالي لـ 3 أفراد</span><b id="fTot">—</b></div>
-        </div>
-        <button class="btn btn-lime" id="fShare">ابعت العرض لصحابك</button>
+<!-- ═══ 02 الحلقة — الفترة الشغّالة دلوقتي ═══ -->
+<section class="live" id="live">
+  <div class="wrap live-in">
+    <div class="ring" id="ring">
+      <svg viewBox="0 0 260 260" aria-hidden="true">
+        <circle class="ring-bg" cx="130" cy="130" r="116"/>
+        <circle class="ring-fg" cx="130" cy="130" r="116" id="ringFg"/>
+      </svg>
+      <div class="ring-c">
+        <b id="ringGroup">—</b>
+        <span id="ringLeft">&nbsp;</span>
       </div>
     </div>
+    <p class="live-note" id="ringNote">&nbsp;</p>
   </div>
 </section>
 
-<!-- ═══ 04 الأنشطة ═══ -->
-<section class="sect" id="services">
+<!-- ═══ 03 جوّه سيزر — الأنشطة والصور في مكان واحد ═══ -->
+<section class="sect inside" id="inside">
   <div class="wrap">
     <div class="head" data-reveal>
-      <span class="eyebrow">02 / services</span>
-      <h2>كل اللي محتاجه في مكان واحد</h2>
-      <p class="sub">مش جيم أوزان وبس — ده ميدان تدريب متكامل، من كمال الأجسام للفنون القتالية للتأهيل والساونا.</p>
+      <h2>جوّه سيزر</h2>
+      <p class="sub">أوزان وأجهزة تكنوجيم، كارديو، فنون قتالية، تأهيل، ساونا، ولوكرات.
+        اسحب بصّ بعينك.</p>
     </div>
-    <div class="svc-grid" id="svcGrid"></div>
+  </div>
+  <div class="hscroll shots" id="shots"></div>
+  <div class="wrap">
+    <ul class="chips" id="chips" data-reveal></ul>
   </div>
 </section>
 
-<!-- ═══ إثبات: تكنوجيم ═══ -->
-<section class="proof grain" data-reveal>
-  <div class="ph" data-img="proof-techno" data-alt="دمبلز تكنوجيم في سيزر جيم"></div>
-  <div class="proof-txt">
-    <span class="eyebrow">03 / equipment</span>
-    <h2>الحديد نفسه بيتكلّم</h2>
-    <p>الدمبلز في سيزر <b class="lat">TECHNOGYM</b> — نفس البراند اللي في جيمات القاهرة الكبيرة.
-      مش كلام في إعلان، تعالى شوفه بعينك.</p>
-    <div class="proof-list">
-      <div>دمبلز من 5 لـ 40 كجم — صفّين كاملين</div>
-      <div>سكوات راك وسميث ماشين وبنشات أوليمبي</div>
-      <div>أجهزة بليت-لودد جديدة لسه بغلافها</div>
-      <div>كارديو على شبابيك واسعة — تريدميل وأوربيتراك</div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ 05 الجاليري ═══ -->
-<section class="gal" id="gallery">
-  <div class="gal-sticky" id="galSticky">
-    <div class="gal-head" data-reveal>
-      <span class="eyebrow">04 / inside</span>
-      <h2 style="font-size:clamp(28px,5vw,52px);margin-top:12px">جوّه سيزر</h2>
-      <div class="gal-hint lat">DRAG · أو كمّل سكرول</div>
-    </div>
-    <div class="hscroll gal-track" id="galTrack"></div>
-  </div>
-</section>
-
-<!-- ═══ 06 الأسعار ═══ -->
-<section class="sect" id="pricing" style="background:var(--cream)">
+<!-- ═══ 04 الأسعار — والعروض جواها في الأول ═══ -->
+<section class="sect prices" id="pricing">
   <div class="wrap">
     <div class="head" data-reveal>
-      <span class="eyebrow">05 / pricing</span>
-      <h2>اختار الباقة اللي على مقاسك</h2>
-      <p class="sub">كل الأسعار بالجنيه المصري. الخصم متحسّب جوّه السعر — والزرار بياخدك على طول لخطوة الاشتراك.</p>
+      <h2>الأسعار</h2>
+      <p class="sub">الخصم متحسّب جوّه السعر — اللي مكتوب هو اللي بتدفعه.</p>
     </div>
+
+    <!-- شريط العروض -->
+    <div class="obar" id="obar" data-reveal></div>
 
     <div class="tabs" id="priceTabs" data-reveal>
       <button data-pane="monthly" class="on">شهري</button>
@@ -228,72 +146,62 @@
     </div>
 
     <div class="panes">
-      <div class="on" id="pane-monthly">
-        <div class="plan-grid" id="monthlyGrid"></div>
-        <!-- حاسبة السعر الحقيقي -->
-        <div class="rcalc grain" data-reveal>
-          <div class="rc-l">
-            <div>
-              <h3>الجلسة بتطلعلك بكام؟</h3>
-              <p>حدّد بتتمرن كام يوم في الأسبوع، والحاسبة تختار لك الباقة وتقول لك سعر الجلسة الحقيقي.</p>
-            </div>
-            <div class="rng">
-              <div class="rng-top">
-                <b><span id="rDays">4</span></b>
-                <span>أيام في الأسبوع</span>
-              </div>
-              <input type="range" id="rRange" min="2" max="6" step="1" value="4"
-                     aria-label="عدد أيام التمرين في الأسبوع">
-              <div class="rng-scale lat"><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
-            </div>
-          </div>
-          <div class="rc-r">
-            <div class="rc-pick">الباقة المناسبة</div>
-            <div class="rc-plan" id="rPlan">—</div>
-            <div class="rc-num"><b id="rPer">—</b><span>جنيه للجلسة</span></div>
-            <div class="rc-cmp" id="rCmp">—</div>
-            <button class="btn btn-lime" id="rGo">اشترك بالباقة دي</button>
-          </div>
-        </div>
-      </div>
-
+      <div class="on" id="pane-monthly"><div class="plan-grid" id="monthlyGrid"></div></div>
       <div id="pane-yearly">
         <div style="display:grid;gap:14px" id="yearlyGrid"></div>
         <p class="per" style="margin-top:16px">كل اشتراك سنوي عليه دعوات مجانية وجلسات ساونا حسب المدة.</p>
       </div>
+      <div id="pane-acts"><div class="plan-grid" id="actsGrid"></div></div>
+    </div>
 
-      <div id="pane-acts">
-        <div class="plan-grid" id="actsGrid"></div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- الحاسبتين — مطويّين، يفتحوا بالضغط -->
+    <div class="tools" data-reveal>
+      <details class="tool">
+        <summary><b>الجلسة بتطلعلي بكام؟</b><i></i></summary>
+        <div class="tool-b rcalc-b">
+          <div class="rng">
+            <div class="rng-top"><b><span id="rDays">4</span></b><span>أيام في الأسبوع</span></div>
+            <input type="range" id="rRange" min="2" max="6" step="1" value="4"
+                   aria-label="عدد أيام التمرين في الأسبوع">
+            <div class="rng-scale lat"><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+          </div>
+          <div class="rc-out">
+            <div class="rc-plan" id="rPlan">—</div>
+            <div class="rc-num"><b id="rPer">—</b><span>جنيه للجلسة</span></div>
+            <div class="rc-cmp" id="rCmp">—</div>
+            <button class="btn btn-ink btn-sm" id="rGo">اشترك بالباقة دي</button>
+          </div>
+        </div>
+      </details>
 
-<!-- ═══ 07 المواعيد ═══ -->
-<section class="sect" id="schedule">
-  <div class="wrap">
-    <div class="head" data-reveal>
-      <span class="eyebrow">06 / hours</span>
-      <h2>المواعيد</h2>
-      <p class="sub">الجيم شغّال لحد الفجر في أيام السبت والإثنين والأربعاء. الفترة الشغّالة دلوقتي مضيّة بالفسفوري.</p>
-    </div>
-    <div class="tabs" id="schTabs" data-reveal>
-      <button data-g="men" class="on">رجال</button>
-      <button data-g="women">سيدات</button>
-    </div>
-    <div class="sch-grid" id="schGrid" data-reveal></div>
-  </div>
-</section>
+      <details class="tool" id="fcalc" hidden>
+        <summary><b>عرض الصحاب — هنوفّر كام؟</b><i></i></summary>
+        <div class="tool-b">
+          <div class="pick-row"><label>عددكم</label><div class="seg" id="fPeople"></div></div>
+          <div class="pick-row"><label>الباقة</label><select class="fsel" id="fPlan"></select></div>
+          <div class="rc-out">
+            <div class="save-big"><span id="fSave">0</span><i>ج.م</i></div>
+            <div class="save-rows">
+              <div><span>للواحد</span><b id="fOne">—</b></div>
+              <div><span>بعد خصم <span id="fPct">30</span>%</span><b id="fOneNew">—</b></div>
+              <div class="tot"><span id="fCntLab">الإجمالي</span><b id="fTot">—</b></div>
+            </div>
+            <button class="btn btn-ink btn-sm" id="fShare">ابعت العرض لصحابك</button>
+          </div>
+        </div>
+      </details>
 
-<!-- ═══ 08 الكباتن ═══ -->
-<section class="sect" id="coaches" style="background:var(--cream)">
-  <div class="wrap">
-    <div class="head" data-reveal>
-      <span class="eyebrow">07 / coaches</span>
-      <h2>الكباتن</h2>
-      <p class="sub">كل نشاط عليه كابتن متخصص — وفي البرايفيت الكابتن معاك الجلسة كلها من أول عدّة لآخر واحدة.</p>
+      <details class="tool">
+        <summary><b>كل المواعيد</b><i></i></summary>
+        <div class="tool-b">
+          <div class="tabs sm" id="schTabs">
+            <button data-g="men" class="on">رجال</button>
+            <button data-g="women">سيدات</button>
+          </div>
+          <div class="sch-grid" id="schGrid"></div>
+        </div>
+      </details>
     </div>
-    <div class="coach-grid" id="coachGrid"></div>
   </div>
 </section>
 
@@ -404,26 +312,21 @@
   </div>
 </section>
 
-<!-- ═══ 10 الموقع ═══ -->
-<section class="sect" id="location">
+</main>
+
+<!-- ═══ الفوتر ═══ -->
+<footer class="ftr grain" id="where">
+  <img class="wm" src="assets/img/emblem-ghost.png" alt="" aria-hidden="true"
+       style="inset-inline-start:-8%;bottom:-22%">
   <div class="wrap">
-    <div class="head" data-reveal>
-      <span class="eyebrow">09 / find us</span>
-      <h2>تعالى زورنا</h2>
-      <p class="sub">بني سويف الجديدة — شرق النيل، الحي الأول، بجوار مطعم كافيار.</p>
-    </div>
-    <div class="loc-grid">
-      <div class="loc-card" data-reveal>
-        <dl class="loc-list">
-          <div><dt class="lat">address</dt><dd id="locAddr">—</dd></div>
-          <div><dt class="lat">whatsapp</dt><dd class="lat" id="locWa">—</dd></div>
-          <div><dt class="lat">landline</dt><dd class="lat" id="locTel">—</dd></div>
-        </dl>
-        <div class="loc-btns">
-          <a class="btn btn-ink" id="locCall">اتصل بنا</a>
-          <a class="btn btn-lime" id="locWaBtn">واتساب</a>
-          <a class="btn btn-ghost" id="locFb">فيسبوك</a>
-          <a class="btn btn-ghost" id="locIg">انستجرام</a>
+    <div class="ftr-top">
+      <div class="ftr-brand">
+        <img src="assets/img/emblem-light.png" alt="سيزر جيم">
+        <p>بني سويف الجديدة — شرق النيل، الحي الأول، بجوار مطعم كافيار.</p>
+        <div class="ftr-btns">
+          <a class="btn btn-lime btn-sm" id="locWaBtn">واتساب</a>
+          <a class="btn btn-ghost-light btn-sm" id="locCall">اتصل</a>
+          <a class="btn btn-ghost-light btn-sm" id="fMap">الخريطة</a>
         </div>
       </div>
       <div class="map" data-reveal>
@@ -431,41 +334,9 @@
           src="https://www.google.com/maps?q=Cezar+Gym+Beni+Suef+New+City&output=embed"></iframe>
       </div>
     </div>
-  </div>
-</section>
-
-</main>
-
-<!-- ═══ الفوتر ═══ -->
-<footer class="ftr grain">
-  <img class="wm" src="assets/img/emblem-ghost.png" alt="" aria-hidden="true"
-       style="inset-inline-start:-6%;bottom:-18%">
-  <div class="wrap">
-    <div class="ftr-top">
-      <div class="ftr-brand">
-        <img src="assets/img/emblem-light.png" alt="سيزر جيم">
-        <p>أفضل رعاية رياضية في محافظة بني سويف. أوزان، فنون قتالية، تأهيل، وساونا — ومجتمع بيشدّ ضهرك.</p>
-      </div>
-      <div>
-        <h4>الموقع</h4>
-        <div class="ftr-links">
-          <a href="#services">الأنشطة</a>
-          <a href="#pricing">الأسعار</a>
-          <a href="#schedule">المواعيد</a>
-          <a href="#join">اشترك</a>
-        </div>
-      </div>
-      <div>
-        <h4>تواصل</h4>
-        <div class="ftr-links">
-          <a class="lat" id="fWa">—</a>
-          <a class="lat" id="fTel">—</a>
-          <a id="fMap">الخريطة</a>
-        </div>
-      </div>
-    </div>
     <div class="ftr-bot">
-      <span>© <span class="lat">2026</span> سيزر جيم — جميع الحقوق محفوظة</span>
+      <span>© <span class="lat">2026</span> سيزر جيم</span>
+      <span class="ftr-tel"><a class="lat" id="fWa">—</a> · <a class="lat" id="fTel">—</a></span>
       <div class="socials">
         <a id="sFb" aria-label="فيسبوك"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.5l.5-3H13v-2c0-.6.4-1 1-1z"/></svg></a>
         <a id="sIg" aria-label="انستجرام"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
@@ -483,21 +354,11 @@
 
 <a class="fab" id="fab" aria-label="كلّمنا على واتساب"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.7 15L2 22l5.2-1.3A10 10 0 1012 2zm0 2a8 8 0 11-4.1 14.9l-.4-.2-2.7.7.7-2.6-.2-.4A8 8 0 0112 4zm-2.3 4c-.2 0-.5.1-.7.4-.3.3-.8.8-.8 1.7 0 .9.6 1.8 1.8 3 1.2 1.1 2.4 1.7 3.4 1.9.9.2 1.4-.2 1.7-.5.3-.3.4-.8.3-1l-1.2-.6c-.2-.1-.4 0-.5.1l-.4.5c-.1.1-.3.2-.5.1-.5-.2-1-.5-1.5-1s-.8-1-1-1.5c-.1-.2 0-.3.1-.4l.4-.4c.2-.2.2-.4.1-.6L10.3 8.3c-.1-.2-.3-.3-.6-.3z"/></svg></a>
 
-<!-- لايت-بوكس -->
-<div id="lb" role="dialog" aria-modal="true" aria-label="معرض الصور">
-  <button class="lb-x" aria-label="إغلاق">✕</button>
-  <div class="lb-nav"><button data-lb="-1" aria-label="السابق">‹</button><button data-lb="1" aria-label="التالي">›</button></div>
-  <div>
-    <img id="lbImg" alt="">
-    <div class="lb-cap" id="lbCap"></div>
-  </div>
-</div>
-
 <div id="toast"><div></div></div>
 
-<script src="data/img.js"></script>
-<script src="data/site.js"></script>
-<script src="assets/hours.js"></script>
-<script src="assets/site.js"></script>
+<script src="data/img.js?v=2"></script>
+<script src="data/site.js?v=2"></script>
+<script src="assets/hours.js?v=2"></script>
+<script src="assets/site.js?v=3"></script>
 </body>
 </html>

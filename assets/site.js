@@ -178,14 +178,6 @@ function mountImages(root) { $$('.ph[data-img]', root || document).forEach(fillI
   }, { passive: true });
 })();
 
-/* ─── ماركيه الأنشطة ─── */
-(function marquee() {
-  var el = $('#mq'); if (!el) return;
-  var words = D.services.map(function (s) { return s.name; });
-  var one = words.map(function (w) { return '<span>' + esc(w) + '</span>'; }).join('');
-  el.innerHTML = one + one;   /* نسختين عشان اللف يبان مستمر */
-})();
-
 /* ============================================================
    المواعيد — المنطق كله في assets/hours.js
    ============================================================ */
@@ -195,44 +187,54 @@ function status(now) { return H.status(D.schedule.segments, now); }
 function hhmm(ms) { return H.hhmm(ms); }
 function clock(ms) { return H.clock(ms); }
 
-/* ─── نبض سيزر ─── */
-(function pulse() {
-  var dot = $('#pDot'), title = $('#pTitle'), tag = $('#pTag'),
-      sub = $('#pSub'), bar = $('#pBar'), cd = $('#pCd'), cdl = $('#pCdLab');
-  if (!title) return;
+/* ─── الحلقة: الفترة الشغّالة دلوقتي ─── */
+var ACC = { men: '#A8DC42', women: '#E8B14C' };   /* فسفوري للرجال، ذهبي للسيدات */
+
+(function ring() {
+  var sec = $('#live'), fg = $('#ringFg'), gEl = $('#ringGroup'),
+      lEl = $('#ringLeft'), note = $('#ringNote');
+  if (!sec) return;
+  var C = 2 * Math.PI * 116;
+
+  /* «باقي ساعتين و14 دقيقة» أوضح من 02:14:33 لما الوقت طويل.
+     المثنى في العربي مالوش رقم: «ساعتين» مش «2 ساعتين». */
+  function unit(k, one, two, few, many) {
+    if (k === 1) return one;
+    if (k === 2) return two;
+    return k + ' ' + (k <= 10 ? few : many);
+  }
+  function left(ms) {
+    var m = Math.floor(ms / 60000), h = Math.floor(m / 60), mm = m % 60;
+    if (h >= 1) return unit(h, 'ساعة', 'ساعتين', 'ساعات', 'ساعة') +
+                       (mm ? ' و' + unit(mm, 'دقيقة', 'دقيقتين', 'دقايق', 'دقيقة') : '');
+    if (m >= 1) return unit(m, 'دقيقة', 'دقيقتين', 'دقايق', 'دقيقة');
+    return 'أقل من دقيقة';
+  }
 
   function paint() {
     var now = new Date(), st = status(now), t = now.getTime();
     if (st.open) {
-      var seg = st.seg, span = seg.end - seg.start;
-      dot.classList.add('live');
-      title.textContent = 'مفتوح الآن';
-      tag.hidden = false;
-      tag.textContent = 'فترة ' + GNAME[seg.g];
-      tag.className = 'tag-g ' + seg.g;
-      /* الفترة الليلية الطويلة = نقطة بيع — نقولها بصريح العبارة */
-      var late = (seg.end - seg.start) / 3600000 >= 8 && new Date(seg.end).getHours() <= 8;
-      sub.innerHTML = late
-        ? 'الجيم شغّال لحد <b class="num">' + clock(seg.end) + '</b> الصبح'
-        : 'الفترة من <b class="num">' + clock(seg.start) + '</b> لـ <b class="num">' + clock(seg.end) + '</b>';
-      bar.style.width = Math.min(100, ((t - seg.start) / span) * 100) + '%';
-      cd.textContent = hhmm(seg.end - t);
-      cdl.textContent = 'يقفل بعد';
+      var seg = st.seg, span = seg.end - seg.start, rest = seg.end - t;
+      sec.classList.remove('shut');
+      sec.style.setProperty('--acc', ACC[seg.g]);
+      fg.style.strokeDashoffset = C * (1 - rest / span);
+      gEl.textContent = GNAME[seg.g];
+      lEl.innerHTML = '<i>باقي</i> ' + left(rest);
+      note.innerHTML = 'الفترة من <b>' + clock(seg.start) + '</b> لـ <b>' + clock(seg.end) + '</b>';
     } else {
-      dot.classList.remove('live');
-      title.textContent = 'مقفول دلوقتي';
+      sec.classList.add('shut');
+      sec.style.setProperty('--acc', 'var(--faint)');
+      fg.style.strokeDashoffset = C;
+      gEl.textContent = 'مقفول';
       if (st.next) {
-        tag.hidden = false;
-        tag.textContent = 'الجاي: ' + GNAME[st.next.g];
-        tag.className = 'tag-g ' + st.next.g;
-        sub.innerHTML = 'بيفتح <b class="num">' + clock(st.next.start) + '</b> — فترة ' + GNAME[st.next.g];
-        cd.textContent = hhmm(st.next.start - t);
-        cdl.textContent = 'يفتح بعد';
-      } else { tag.hidden = true; sub.textContent = '—'; cd.textContent = '--:--:--'; cdl.textContent = ''; }
-      bar.style.width = '0%';
+        lEl.innerHTML = '<i>يفتح بعد</i> ' + left(st.next.start - t);
+        note.innerHTML = 'الفترة الجاية <b>' + GNAME[st.next.g] + '</b> الساعة <b>' + clock(st.next.start) + '</b>';
+      } else { lEl.textContent = ''; note.textContent = ''; }
     }
   }
-  paint(); setInterval(paint, 1000);
+  fg.style.strokeDasharray = C;
+  paint();
+  setInterval(paint, 1000);
 })();
 
 /* ─── جدول المواعيد ─── */
@@ -288,41 +290,30 @@ function friendsOffer() {
 }
 
 (function offers() {
-  var grid = $('#offerGrid');
-  if (!grid) return;
-  var items = liveOffers();
-  if (!items.length) {
-    grid.innerHTML = '<div class="offers-empty" style="grid-column:1/-1">مفيش عروض شغّالة دلوقتي — تابعنا، بننزّل عروض كل فترة.</div>';
-    return;
-  }
-  grid.innerHTML = items.map(function (o) {
-    return '<article class="offer" data-until="' + esc(o.until || '') + '" data-reveal>' +
-      (o.badge ? '<span class="badge">' + esc(o.badge) + '</span>' : '') +
-      '<div class="offer-pct"><span>' + o.percent + '</span><em>%</em></div>' +
-      '<h3>' + esc(o.title) + '</h3>' +
-      '<p>' + esc(o.line) + '</p>' +
-      (o.minPeople ? '<p style="color:var(--lime);font-weight:800">الحد الأدنى: ' + o.minPeople + ' أفراد</p>' : '') +
-      '<div class="cd-row"><span>العرض فاضله</span><span class="num cdv">—</span></div>' +
-    '</article>';
+  var bar = $('#obar'); if (!bar) return;
+  var items = liveOffers().filter(function (o) {
+    return !o.until || new Date(o.until).getTime() > Date.now();
+  });
+  if (!items.length) { bar.remove(); return; }
+  bar.innerHTML = items.map(function (o) {
+    return '<div class="o" data-until="' + esc(o.until || '') + '">' +
+      '<span class="o-pct"><b>' + o.percent + '</b><i>%</i></span>' +
+      '<span class="o-t"><b>' + esc(o.title.replace(/^خصم\s*\d+%\s*/, '')) + '</b>' +
+      '<span class="o-cd">—</span></span></div>';
   }).join('');
 
   function tick() {
-    $$('.offer', grid).forEach(function (card) {
-      var u = card.dataset.until, row = $('.cd-row', card), v = $('.cdv', card);
-      if (!u) { row.innerHTML = '<span>عرض مفتوح</span>'; return; }
-      var left = new Date(u).getTime() - Date.now();
-      if (left <= 0) {
-        card.classList.add('dead');
-        row.classList.add('over');
-        row.innerHTML = '<span>العرض خلص</span>';
-        return;
-      }
-      var d = Math.floor(left / 86400000);
-      v.textContent = (d > 0 ? d + ' يوم و ' : '') + hhmm(left % 86400000);
+    $$('.o', bar).forEach(function (card) {
+      var u = card.dataset.until, v = $('.o-cd', card);
+      if (!u) { v.textContent = 'عرض مفتوح'; return; }
+      var lft = new Date(u).getTime() - Date.now();
+      if (lft <= 0) { card.classList.add('dead'); v.textContent = 'خلص'; return; }
+      var d = Math.floor(lft / 86400000);
+      v.textContent = d > 0 ? 'فاضل ' + (d === 1 ? 'يوم' : d === 2 ? 'يومين' : d + (d <= 10 ? ' أيام' : ' يوم'))
+                            : 'فاضل ' + hhmm(lft);
     });
   }
   tick(); setInterval(tick, 1000);
-  if (window.__watchReveal) window.__watchReveal(grid);
 })();
 
 /* ─── حاسبة عرض الصحاب ─── */
@@ -377,110 +368,24 @@ function friendsOffer() {
 /* ============================================================
    الأنشطة
    ============================================================ */
-(function services() {
-  var grid = $('#svcGrid'); if (!grid) return;
-  grid.innerHTML = D.services.map(function (s, i) {
-    var span = s.span > 1 ? ' span2' : '';
-    if (s.img) {
-      return '<article class="svc' + span + '" data-reveal style="--d:' + (i % 3) * 70 + 'ms">' +
-        '<div class="ph" data-img="' + s.img + '" data-alt="' + esc(s.name) + ' في سيزر جيم"' +
-          ' data-sizes="(max-width:600px) 100vw,(max-width:1000px) 50vw, 33vw"></div>' +
-        '<div class="svc-txt"><h3>' + esc(s.name) + '</h3><p>' + esc(s.line) + '</p></div>' +
-      '</article>';
-    }
-    return '<article class="svc noimg' + span + '" data-reveal style="--d:' + (i % 3) * 70 + 'ms">' +
-      '<div class="svc-txt"><span class="kicker">cezar</span>' +
-      '<h3>' + esc(s.name) + '</h3><p>' + esc(s.line) + '</p></div></article>';
+(function inside() {
+  var strip = $('#shots'), chips = $('#chips');
+  if (!strip) return;
+
+  /* الأنشطة اللي ليها صورة حقيقية = الشريط. الباقي = شيبس تحته. */
+  var withImg = D.services.filter(function (s) { return s.img; });
+  var noImg = D.services.filter(function (s) { return !s.img; });
+
+  strip.innerHTML = withImg.map(function (s) {
+    return '<figure class="shot"><div class="ph" data-img="' + s.img + '"' +
+      ' data-alt="' + esc(s.name) + ' في سيزر جيم" data-sizes="(max-width:900px) 74vw, 32vw"></div>' +
+      '<figcaption><b>' + esc(s.name) + '</b><span>' + esc(s.line) + '</span></figcaption></figure>';
   }).join('');
-  mountImages(grid);
-  if (window.__watchReveal) window.__watchReveal(grid);
-})();
+  mountImages(strip);
 
-/* ─── الكباتن ─── */
-(function coaches() {
-  var grid = $('#coachGrid'); if (!grid) return;
-  grid.innerHTML = D.coaches.items.map(function (c, i) {
-    var named = c.name && c.name !== '—';
-    return '<article class="coach" data-reveal style="--d:' + i * 80 + 'ms">' +
-      '<span class="n lat">0' + (i + 1) + '</span>' +
-      '<h3>' + esc(c.role) + '</h3>' +
-      (named ? '<span class="who">' + esc(c.name) + '</span>' : '') +
-      '<p>' + esc(c.line) + '</p></article>';
+  chips.innerHTML = noImg.map(function (s) {
+    return '<li>' + esc(s.name) + '</li>';
   }).join('');
-  if (window.__watchReveal) window.__watchReveal(grid);
-})();
-
-/* ============================================================
-   الجاليري — سحب على الموبايل، وتثبيت أفقي على الديسكتوب
-   ============================================================ */
-(function gallery() {
-  var track = $('#galTrack'), sect = $('#gallery'), sticky = $('#galSticky');
-  if (!track) return;
-  track.innerHTML = D.gallery.map(function (g, i) {
-    return '<figure class="gal-item" data-i="' + i + '">' +
-      '<div class="ph" data-img="' + g.img + '" data-alt="' + esc(g.cap) + '"' +
-      ' data-sizes="(max-width:900px) 78vw, 40vw"></div>' +
-      '<figcaption>' + esc(g.cap) + '</figcaption></figure>';
-  }).join('');
-  mountImages(track);
-
-  /* لايت-بوكس */
-  var lb = $('#lb'), lbImg = $('#lbImg'), lbCap = $('#lbCap'), cur = 0;
-  function open(i) {
-    cur = (i + D.gallery.length) % D.gallery.length;
-    var g = D.gallery[cur];
-    lbImg.src = 'assets/img/' + g.img + '.webp';
-    lbImg.alt = g.cap; lbCap.textContent = g.cap;
-    lb.classList.add('open'); document.body.style.overflow = 'hidden';
-  }
-  function close() { lb.classList.remove('open'); document.body.style.overflow = ''; }
-  track.addEventListener('click', function (e) {
-    var f = e.target.closest('.gal-item'); if (f) open(+f.dataset.i);
-  });
-  lb.addEventListener('click', function (e) {
-    if (e.target.closest('[data-lb]')) { open(cur + (+e.target.closest('[data-lb]').dataset.lb)); return; }
-    if (e.target.closest('.lb-x') || e.target === lb) close();
-  });
-  addEventListener('keydown', function (e) {
-    if (!lb.classList.contains('open')) return;
-    if (e.key === 'Escape') close();
-    if (e.key === 'ArrowLeft') open(cur + 1);
-    if (e.key === 'ArrowRight') open(cur - 1);
-  });
-
-  /* التثبيت الأفقي — ديسكتوب فقط */
-  var pinned = false, extra = 0;
-  function measure() {
-    var wide = window.innerWidth > 900 && !reduce;
-    if (!wide) {
-      if (pinned) { sect.style.height = ''; track.style.transform = ''; pinned = false; }
-      return;
-    }
-    /* التراك عنده width:max-content فمفيش overflow جواه —
-       المسافة الحقيقية = عرض المحتوى ناقص عرض الحاوية الظاهرة. */
-    var next = Math.max(0, track.scrollWidth - sticky.clientWidth);
-    if (pinned && next === extra) { move(); return; }
-    pinned = true; extra = next;
-    sect.style.height = (window.innerHeight + extra) + 'px';
-    move();
-  }
-  function move() {
-    if (!pinned) return;
-    var top = sect.offsetTop;
-    var p = Math.min(1, Math.max(0, (window.pageYOffset - top) / (extra || 1)));
-    track.style.transform = 'translateX(' + (p * extra) + 'px)';   /* RTL: لليمين */
-  }
-  addEventListener('scroll', function () { if (pinned) raf(move); }, { passive: true });
-  addEventListener('resize', measure);
-  addEventListener('load', measure);
-  /* الصور بتغيّر عرض التراك وهي بتنزل، وفي بعض المتصفحات مفيش resize event
-     لما الفيوبورت يتغيّر برمجيًا — فبنراقب المقاس نفسه. */
-  if (window.ResizeObserver) {
-    var ro = new ResizeObserver(function () { measure(); });
-    ro.observe(document.documentElement);
-    ro.observe(track);
-  }
-  measure();
 })();
 
 /* ============================================================
@@ -816,13 +721,8 @@ function priceBlock(price, pct) {
   var mob = c.mobile.replace(/(\d{4})(\d{3})(\d{4})/, '$1 $2 $3');
 
   var set = function (sel, fn) { var el = $(sel); if (el) fn(el); };
-  set('#locAddr', function (e) { e.textContent = c.address; });
-  set('#locWa', function (e) { e.textContent = mob; });
-  set('#locTel', function (e) { e.textContent = c.landline; });
   set('#locCall', function (e) { e.href = tel; });
   set('#locWaBtn', function (e) { e.href = wa; e.target = '_blank'; e.rel = 'noopener'; });
-  set('#locFb', function (e) { e.href = c.facebook; e.target = '_blank'; e.rel = 'noopener'; });
-  set('#locIg', function (e) { e.href = c.instagram; e.target = '_blank'; e.rel = 'noopener'; });
   set('#fWa', function (e) { e.href = wa; e.textContent = mob; e.target = '_blank'; });
   set('#fTel', function (e) { e.href = tel; e.textContent = c.landline; });
   set('#fMap', function (e) { e.href = c.maps; e.target = '_blank'; e.rel = 'noopener'; });
