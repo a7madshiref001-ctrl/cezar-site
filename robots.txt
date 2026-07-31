@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /owner.html
+Disallow: /offers.html
+
+Sitemap: https://cezar-gym.github.io/sitemap.xml

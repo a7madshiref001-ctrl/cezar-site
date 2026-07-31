@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>لوحة سيزر جيم</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#17181C">
+<link rel="icon" href="assets/img/icon-32.png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/core.css">
+<link rel="stylesheet" href="assets/owner.css">
+</head>
+<body>
+
+<header class="o-hdr">
+  <div class="wrap o-hdr-in">
+    <img src="assets/img/emblem-light.png" alt="">
+    <div class="t">
+      <b>لوحة سيزر جيم</b>
+      <span>عدّل الأسعار والعروض وأرقام التحويل — وانشر</span>
+    </div>
+    <div class="o-state" id="state"><s></s><span id="stateTxt">بنحمّل…</span></div>
+  </div>
+</header>
+
+<nav class="o-tabs">
+  <div class="wrap o-tabs-in" id="tabs">
+    <button data-p="req" class="on">الطلبات <span class="pill" id="reqCount">0</span></button>
+    <button data-p="offers">العروض</button>
+    <button data-p="prices">الأسعار</button>
+    <button data-p="pay">الدفع والتواصل</button>
+    <button data-p="publish">النشر</button>
+  </div>
+</nav>
+
+<main class="wrap o-main">
+
+  <!-- ═══ الطلبات ═══ -->
+  <section class="o-pane on" id="p-req">
+    <div class="card">
+      <div class="card-h">
+        <h2>طلبات الاشتراك</h2>
+        <button class="btn btn-ghost btn-sm" id="reqAdd">أضف طلب يدوي</button>
+        <button class="btn btn-ghost btn-sm" id="reqCsv">نزّل Excel</button>
+        <p class="hint" id="reqHint"></p>
+      </div>
+      <div class="card-b tight" id="reqList"></div>
+    </div>
+  </section>
+
+  <!-- ═══ العروض ═══ -->
+  <section class="o-pane" id="p-offers">
+    <div class="card">
+      <div class="card-h">
+        <h2>العروض</h2>
+        <label class="sw"><input type="checkbox" id="offersOn"><i></i> شغّال</label>
+        <button class="btn btn-ghost btn-sm" id="offerAdd">أضف عرض</button>
+        <p class="hint">الخصم بيتطبّق على الأسعار في الموقع على طول. عرض عليه «أقل عدد أفراد» بيظهر في حاسبة الصحاب بس ومش بيغيّر الأسعار المعروضة.</p>
+      </div>
+      <div class="card-b tight" id="offerList"></div>
+    </div>
+  </section>
+
+  <!-- ═══ الأسعار ═══ -->
+  <section class="o-pane" id="p-prices">
+    <div class="card">
+      <div class="card-h"><h2>الباقات الشهرية</h2>
+        <p class="hint">اكتب السعر الأصلي — والخصم بيتحسب لوحده وبيتقرّب لأعلى لأقرب 5 جنيه.</p></div>
+      <div class="card-b tight" id="pMonthly"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h2>تمرين منفصل وساونا</h2></div>
+      <div class="card-b tight" id="pSingles"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h2>الاشتراكات السنوية</h2></div>
+      <div class="card-b tight" id="pYearly"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h2>الأنشطة والبرايفيت</h2></div>
+      <div class="card-b tight" id="pActs"></div>
+    </div>
+  </section>
+
+  <!-- ═══ الدفع والتواصل ═══ -->
+  <section class="o-pane" id="p-pay">
+    <div class="card">
+      <div class="card-h">
+        <h2>طرق الدفع</h2>
+        <label class="sw"><input type="checkbox" id="cashOn"><i></i> الكاش في الجيم متاح</label>
+        <button class="btn btn-ghost btn-sm" id="payAdd">أضف طريقة</button>
+        <p class="hint">دي الأرقام اللي العميل بيشوفها في خطوة التأكيد ومعاها زرار «كوبي».</p>
+      </div>
+      <div class="card-b tight" id="payList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>بيانات التواصل</h2></div>
+      <div class="card-b">
+        <div class="row">
+          <div class="fld"><label>واتساب (بكود الدولة)</label><input id="cWa" inputmode="numeric"><span class="tip">من غير + ولا مسافات — مثال: 201097419761</span></div>
+          <div class="fld"><label>موبايل معروض</label><input id="cMob" inputmode="numeric"></div>
+          <div class="fld"><label>الأرضي</label><input id="cTel"></div>
+        </div>
+        <div class="fld wide"><label>العنوان</label><input id="cAddr"></div>
+        <div class="row">
+          <div class="fld"><label>فيسبوك</label><input id="cFb" dir="ltr"></div>
+          <div class="fld"><label>انستجرام</label><input id="cIg" dir="ltr"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">
+        <h2>نقطة استقبال الطلبات (اختياري)</h2>
+        <p class="hint">من غيرها الطلبات بتوصل على واتساب بس، والقائمة اللي فوق بتسجّل اللي اتبعت من الجهاز ده.
+          لو ظبّطت نقطة استقبال (Google Apps Script مثلًا)، حطّ اللينك هنا والطلبات هتوصل هنا من أي جهاز.</p>
+      </div>
+      <div class="card-b">
+        <div class="fld wide"><label>لينك الاستقبال</label><input id="hook" dir="ltr" placeholder="https://script.google.com/…"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ النشر ═══ -->
+  <section class="o-pane" id="p-publish">
+    <div class="card">
+      <div class="card-h"><h2>النشر على الموقع</h2>
+        <p class="hint">التعديلات بتتحفظ في المتصفح لحد ما تنشر. بعد النشر الموقع بيتحدّث خلال دقيقة تقريبًا.</p></div>
+      <div class="card-b tok">
+        <div class="warn">
+          التوكن بيتحفظ في المتصفح ده بس، وبيتبعت لـ GitHub وخلاص — عمره ما بيدخل جوه الموقع.
+          متفتحش اللوحة على جهاز مش بتاعك، ولما تخلّص اضغط «نسيان التوكن».
+        </div>
+        <div class="fld"><label>المستودع</label><input id="repo" dir="ltr" placeholder="cezar-gym/cezar-gym.github.io"></div>
+        <div class="fld"><label>التوكن</label><input id="token" type="password" dir="ltr" placeholder="github_pat_…"></div>
+        <label class="sw"><input type="checkbox" id="remember" checked><i></i> فكّرني على الجهاز ده</label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" id="forget">نسيان التوكن</button>
+          <button class="btn btn-ghost btn-sm" id="download">نزّل الملف بدل النشر</button>
+        </div>
+        <details>
+          <summary style="cursor:pointer;font-weight:800;padding:8px 0">إزاي أعمل توكن؟</summary>
+          <ol style="margin-top:10px">
+            <li>افتح <code>github.com/settings/personal-access-tokens</code> واختار <b>Fine-grained token</b>.</li>
+            <li>في <b>Repository access</b> اختار <b>Only select repositories</b> والمستودع بتاع الموقع بس.</li>
+            <li>في <b>Permissions</b> ← <b>Repository permissions</b> ← <b>Contents</b> خلّيها <code>Read and write</code>. مش محتاج أي صلاحية تانية.</li>
+            <li>حطّ له تاريخ انتهاء، اعمله Generate، وانسخه هنا.</li>
+          </ol>
+        </details>
+        <div class="warn red" style="display:none" id="pubErr"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h2>الملف اللي هيتنشر</h2>
+        <p class="hint">ده محتوى <code style="direction:ltr">data/site.js</code> بعد تعديلاتك.</p></div>
+      <div class="card-b">
+        <textarea id="preview" rows="14" readonly dir="ltr"
+          style="font-family:'Archivo',monospace;font-size:12px;line-height:1.6;
+                 padding:14px;border-radius:12px;border:1.5px solid var(--hair);
+                 background:var(--cream);resize:vertical"></textarea>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="pub">
+  <div class="wrap pub-in">
+    <span class="msg" id="pubMsg">—</span>
+    <button class="btn btn-ghost-light btn-sm" id="revert">رجّع آخر منشور</button>
+    <button class="btn btn-lime btn-sm" id="publish">حفظ ونشر</button>
+  </div>
+</div>
+
+<div id="toast"><div></div></div>
+
+<script src="data/site.js"></script>
+<script src="assets/hours.js"></script>
+<script src="assets/owner.js"></script>
+</body>
+</html>

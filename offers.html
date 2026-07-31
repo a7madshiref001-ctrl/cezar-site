@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>كروت عروض سيزر جيم</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="assets/img/icon-32.png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/core.css">
+<style>
+body{background:var(--panel);padding:26px 0 70px}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.top h1{font-size:26px;margin-inline-end:auto}
+.top p{width:100%;color:var(--muted);font-weight:600;font-size:15px}
+.sheet{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+.slot{display:grid;gap:11px;justify-items:center}
+.slot .cap{font-weight:800;color:var(--muted);font-size:14.5px}
+
+/* الكارت نفسه: 1080×1350 مصغّر للعرض، وبيتصدّر بمقاسه الكامل */
+.card{
+  width:1080px;height:1350px;position:relative;overflow:hidden;
+  background:var(--paper);color:var(--ink);
+  transform-origin:top center;
+  font-family:'Tajawal',sans-serif;
+}
+.card *{box-sizing:border-box}
+.card .pad{position:absolute;inset:80px;display:flex;flex-direction:column}
+.card .top-row{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.card .lbl{
+  font-family:'Archivo',sans-serif;font-size:22px;font-weight:600;letter-spacing:5px;
+  color:#83847B;display:flex;align-items:center;gap:14px;
+}
+.card .lbl::before{content:'';width:14px;height:14px;background:var(--lime)}
+.card .emblem{width:120px}
+.card .mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:26px}
+.card .pct{
+  direction:ltr;display:flex;align-items:baseline;gap:2px;
+  font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-16px;
+  font-size:340px;line-height:.8;color:var(--ink);
+}
+.card .pct em{font-size:.36em;letter-spacing:-6px;font-style:normal;color:var(--lime-deep)}
+.card h2{font-size:76px;font-weight:900;letter-spacing:-2px;line-height:1.05;max-width:16ch}
+.card .line{font-size:34px;font-weight:600;color:var(--muted);line-height:1.5;max-width:24ch}
+.card .rule{height:1px;background:var(--hair)}
+.card .rows{display:flex;flex-direction:column;gap:0}
+.card .rows div{
+  display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  padding:22px 0;border-top:1px solid var(--hair);font-size:32px;font-weight:700;
+}
+.card .rows b{font-family:'Archivo',sans-serif;font-weight:900;font-size:40px;letter-spacing:-1.5px}
+.card .rows s{font-family:'Archivo',sans-serif;color:var(--faint);font-size:28px;margin-inline-start:14px}
+.card .foot{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.card .foot .cta{font-size:38px;font-weight:900;letter-spacing:-1px}
+.card .foot .wa{font-family:'Archivo',sans-serif;font-size:30px;font-weight:800;color:var(--lime-deep);direction:ltr}
+.card .foot .site{font-family:'Archivo',sans-serif;font-size:22px;color:#83847B;letter-spacing:2px}
+.card .wm{
+  position:absolute;inset-inline-end:-14%;top:34%;width:78%;
+  background:url('assets/img/emblem-ghost.png') center/contain no-repeat;
+  aspect-ratio:651/424;opacity:.05;
+}
+/* نسخة غامقة للتنويع */
+.card.dark{background:var(--ink);color:var(--paper)}
+.card.dark .pct{color:var(--paper)}
+.card.dark .pct em{color:var(--lime)}
+.card.dark .line{color:#A3A49B}
+.card.dark .rule,.card.dark .rows div{border-color:rgba(243,241,235,.14)}
+.card.dark .rows s{color:#75766D}
+.card.dark .foot .wa{color:var(--lime)}
+.card.dark .lbl{color:#8C8D83}
+.card.dark .wm{opacity:.07}
+
+/* معاينة مصغّرة: الكارت بمقاسه الكامل ومتحجّم من الركن الشمال الفوقاني */
+.stage{width:340px;height:425px;overflow:hidden;border-radius:14px;box-shadow:var(--sh-2);
+  background:var(--paper);position:relative}
+.stage .card{position:absolute;top:0;left:0;transform:scale(.3148);transform-origin:top left}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>كروت العروض</h1>
+    <button class="btn btn-ink btn-sm" id="dlAll">نزّل الكل PNG</button>
+    <button class="btn btn-ghost btn-sm" id="flip">بدّل فاتح / غامق</button>
+    <p>الكروت دي متولّدة من نفس بيانات الموقع — أي تعديل في العروض من اللوحة بيظهر هنا على طول.
+       المقاس 1080×1350 (بورتريه إنستجرام). اضغط على أي كارت عشان تنزّله لوحده.</p>
+  </div>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script src="data/site.js"></script>
+<script>
+(function () {
+'use strict';
+var D = window.CEZAR_DATA;
+var n = function (v) { return Number(v).toLocaleString('en-US'); };
+var disc = function (p, pct) { return Math.ceil(p * (1 - pct / 100) / 5) * 5; };
+var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+  return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var dark = false;
+
+/* الصفوف اللي تحت كل عرض: أمثلة حقيقية من الباقات */
+function rowsFor(o) {
+  if (o.appliesTo === 'yearly') {
+    var g = D.plans.yearly.filter(function (c) { return c.id === 'goldY'; })[0];
+    return g.tiers.map(function (t) {
+      return { k: 'جولد ' + t.label, v: disc(t.price, o.percent), was: t.price };
+    });
+  }
+  var pick = ['power', 'silver', 'gold'];
+  return D.plans.monthly.filter(function (p) { return pick.indexOf(p.id) > -1; })
+    .map(function (p) {
+      return { k: p.name + ' — ' + p.sessions + (p.sessions >= 3 && p.sessions <= 10 ? ' جلسات' : ' جلسة'),
+               v: disc(p.price, o.percent), was: p.price };
+    });
+}
+
+function cardHTML(o, i) {
+  var rows = rowsFor(o);
+  /* الشرح هو نفسه اللي في اللوحة — عشان الكارت والموقع ميختلفوش */
+  var sub = o.line;
+  return '<div class="card' + (dark ? ' dark' : '') + '" data-i="' + i + '">' +
+    '<div class="wm"></div>' +
+    '<div class="pad">' +
+      '<div class="top-row">' +
+        '<span class="lbl">CEZAR GYM</span>' +
+        '<img class="emblem" src="assets/img/emblem-' + (dark ? 'light' : 'dark') + '.png" alt="">' +
+      '</div>' +
+      '<div class="mid">' +
+        '<div class="pct"><span>' + o.percent + '</span><em>%</em></div>' +
+        '<h2>' + esc(o.title) + '</h2>' +
+        '<div class="line">' + esc(sub) + '</div>' +
+      '</div>' +
+      '<div class="rows">' +
+        rows.map(function (r) {
+          return '<div><span>' + esc(r.k) + '</span><span><b>' + n(r.v) + ' ج</b>' +
+                 '<s>' + n(r.was) + '</s></span></div>';
+        }).join('') +
+      '</div>' +
+      '<div class="foot" style="margin-top:44px">' +
+        '<div><div class="cta">احجز مكانك دلوقتي</div>' +
+          '<div class="wa">' + esc(D.contact.mobile.replace(/(\d{4})(\d{3})(\d{4})/, '$1 $2 $3')) + '</div></div>' +
+        '<div class="site">BENI SUEF</div>' +
+      '</div>' +
+    '</div></div>';
+}
+
+function render() {
+  var items = D.offers.items.filter(function (o) { return o.active; });
+  document.getElementById('sheet').innerHTML = items.map(function (o, i) {
+    return '<div class="slot"><div class="stage">' + cardHTML(o, i) + '</div>' +
+           '<span class="cap">' + esc(o.title) + '</span></div>';
+  }).join('') || '<p style="color:var(--muted);font-weight:700">مفيش عروض شغّالة — شغّل عرض من اللوحة.</p>';
+}
+
+/* تصدير الكارت PNG — نرسمه على canvas بإيدنا.
+   جرّبنا SVG + foreignObject وكانت بتقع على أول تاج مش XML سليم،
+   فالرسم المباشر أضمن: الخطوط بتيجي من الصفحة نفسها والصورة
+   نفس الأصل فمفيش تلويث للـ canvas. */
+var W = 1080, HH = 1350, PAD = 80, R = W - PAD;   /* R = الحافة اليمنى للنص */
+var C = {
+  ink: '#17181C', paper: '#F3F1EB', muted: '#6E6F67', faint: '#9A9B91',
+  hair: '#E2DFD6', lime: '#A8DC42', limeDeep: '#8AB81B', label: '#83847B',
+  dinkMuted: '#A3A49B', dHair: 'rgba(243,241,235,.14)', dLabel: '#8C8D83', dFaint: '#75766D'
+};
+
+var emblemCache = {};
+function loadImg(src) {
+  if (emblemCache[src]) return emblemCache[src];
+  emblemCache[src] = new Promise(function (res, rej) {
+    var im = new Image();
+    im.onload = function () { res(im); };
+    im.onerror = function () { rej(new Error('مش قادر أحمّل ' + src)); };
+    im.src = src;
+  });
+  return emblemCache[src];
+}
+
+function fontsReady() {
+  var need = ['900 340px Archivo', '900 40px Archivo', '800 30px Archivo', '600 22px Archivo',
+              '900 76px Tajawal', '700 32px Tajawal', '500 34px Tajawal', '900 38px Tajawal'];
+  return Promise.all(need.map(function (f) { return document.fonts.load(f); }))
+    .then(function () { return document.fonts.ready; });
+}
+
+/* لفّ النص العربي على أسطر */
+function wrap(x, text, max) {
+  var words = String(text).split(' '), lines = [], cur = '';
+  for (var i = 0; i < words.length; i++) {
+    var t = cur ? cur + ' ' + words[i] : words[i];
+    if (x.measureText(t).width > max && cur) { lines.push(cur); cur = words[i]; }
+    else cur = t;
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+function drawCard(o, dark) {
+  var rows = rowsFor(o);
+  var c = document.createElement('canvas');
+  c.width = W; c.height = HH;
+  var x = c.getContext('2d');
+  var fg = dark ? C.paper : C.ink;
+  var sub = dark ? C.dinkMuted : C.muted;
+  var hair = dark ? C.dHair : C.hair;
+  var lab = dark ? C.dLabel : C.label;
+  var accent = dark ? C.lime : C.limeDeep;
+
+  x.fillStyle = dark ? C.ink : C.paper;
+  x.fillRect(0, 0, W, HH);
+  x.textBaseline = 'alphabetic';
+
+  return loadImg('assets/img/emblem-' + (dark ? 'light' : 'dark') + '.png').then(function (em) {
+    return loadImg('assets/img/emblem-ghost.png').then(function (ghost) {
+
+      /* علامة مائية */
+      x.save();
+      x.globalAlpha = dark ? 0.07 : 0.05;
+      var gw = W * 0.78, gh = gw * 424 / 651;
+      x.drawImage(ghost, W * 0.14 - gw * 0.15, HH * 0.34, gw, gh);
+      x.restore();
+
+      /* السطر العلوي: الإمبلم يمين، الليبل شمال */
+      var ew = 120, eh = ew * em.height / em.width;
+      x.drawImage(em, R - ew, PAD, ew, eh);
+
+      x.font = '600 22px Archivo';
+      x.fillStyle = lab;
+      x.textAlign = 'left';
+      x.save();
+      x.letterSpacing = '5px';
+      x.fillText('CEZAR GYM', PAD + 26, PAD + 34);
+      x.restore();
+      x.fillStyle = C.lime;
+      x.fillRect(PAD, PAD + 20, 14, 14);
+
+      /* النسبة الكبيرة — LTR: الرقم وبعده % */
+      x.textAlign = 'left';
+      x.font = '900 340px Archivo';
+      x.letterSpacing = '-16px';
+      var numW = x.measureText(String(o.percent)).width;
+      x.font = '900 122px Archivo';
+      x.letterSpacing = '-6px';
+      var pctW = x.measureText('%').width;
+      var startX = R - (numW + pctW);
+      var pctBase = 560;
+      x.font = '900 340px Archivo'; x.letterSpacing = '-16px';
+      x.fillStyle = fg;
+      x.fillText(String(o.percent), startX, pctBase);
+      x.font = '900 122px Archivo'; x.letterSpacing = '-6px';
+      x.fillStyle = accent;
+      x.fillText('%', startX + numW, pctBase);
+      x.letterSpacing = '0px';
+
+      /* العنوان */
+      x.direction = 'rtl';
+      x.textAlign = 'right';
+      x.font = '900 76px Tajawal';
+      x.fillStyle = fg;
+      var titleLines = wrap(x, o.title, W - PAD * 2);
+      var y = pctBase + 110;
+      titleLines.forEach(function (ln) { x.fillText(ln, R, y); y += 84; });
+
+      /* الشرح */
+      x.font = '500 34px Tajawal';
+      x.fillStyle = sub;
+      y += 14;
+      wrap(x, o.line, W - PAD * 2 - 40).forEach(function (ln) { x.fillText(ln, R, y); y += 50; });
+
+      /* الصفوف — مثبّتة من تحت */
+      var footTop = HH - PAD - 150;
+      var rowH = 96;
+      var rowsTop = footTop - 40 - rows.length * rowH;
+      rows.forEach(function (r, i) {
+        var ry = rowsTop + i * rowH;
+        x.strokeStyle = hair; x.lineWidth = 1;
+        x.beginPath(); x.moveTo(PAD, ry + 0.5); x.lineTo(R, ry + 0.5); x.stroke();
+
+        x.direction = 'rtl'; x.textAlign = 'right';
+        x.font = '700 32px Tajawal'; x.fillStyle = fg;
+        x.fillText(r.k, R, ry + 62);
+
+        /* السعر الجديد + القديم مشطوب — على الشمال */
+        x.direction = 'ltr'; x.textAlign = 'left';
+        x.font = '900 40px Archivo'; x.fillStyle = fg;
+        var pTxt = n(r.v) + ' EGP';
+        x.fillText(pTxt, PAD, ry + 64);
+        var pw = x.measureText(pTxt).width;
+        x.font = '700 28px Archivo';
+        x.fillStyle = dark ? C.dFaint : C.faint;
+        var wTxt = n(r.was);
+        x.fillText(wTxt, PAD + pw + 16, ry + 64);
+        var ww = x.measureText(wTxt).width;
+        x.beginPath();
+        x.moveTo(PAD + pw + 14, ry + 54); x.lineTo(PAD + pw + 20 + ww, ry + 54);
+        x.strokeStyle = dark ? C.dFaint : C.faint; x.lineWidth = 2.5; x.stroke();
+      });
+      x.strokeStyle = hair; x.lineWidth = 1;
+      x.beginPath();
+      x.moveTo(PAD, rowsTop + rows.length * rowH + 0.5);
+      x.lineTo(R, rowsTop + rows.length * rowH + 0.5); x.stroke();
+
+      /* الفوتر */
+      x.direction = 'rtl'; x.textAlign = 'right';
+      x.font = '900 38px Tajawal'; x.fillStyle = fg;
+      x.fillText('احجز مكانك دلوقتي', R, HH - PAD - 56);
+      x.direction = 'ltr'; x.textAlign = 'right';
+      x.font = '800 32px Archivo'; x.fillStyle = accent;
+      x.fillText(D.contact.mobile.replace(/(\d{4})(\d{3})(\d{4})/, '$1 $2 $3'), R, HH - PAD - 4);
+
+      x.direction = 'ltr'; x.textAlign = 'left';
+      x.font = '600 22px Archivo'; x.fillStyle = lab;
+      x.letterSpacing = '2px';
+      x.fillText('BENI SUEF', PAD, HH - PAD - 4);
+      x.letterSpacing = '0px';
+
+      return c;
+    });
+  });
+}
+
+function toPNG(o, name, dark) {
+  return fontsReady()
+    .then(function () { return drawCard(o, dark); })
+    .then(function (c) {
+      return new Promise(function (res) {
+        c.toBlob(function (b) {
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(b); a.download = name;
+          document.body.appendChild(a); a.click();
+          setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); res(); }, 350);
+        }, 'image/png');
+      });
+    });
+}
+
+function activeOffers() { return D.offers.items.filter(function (o) { return o.active; }); }
+function fail(err) { alert('التصدير وقع: ' + (err && err.message || err)); }
+
+document.getElementById('sheet').addEventListener('click', function (e) {
+  var card = e.target.closest('.card'); if (!card) return;
+  var i = +card.dataset.i;
+  card.style.opacity = '.5';
+  toPNG(activeOffers()[i], 'cezar-offer-' + (i + 1) + '.png', dark)
+    .catch(fail).finally(function () { card.style.opacity = ''; });
+});
+document.getElementById('dlAll').addEventListener('click', function () {
+  activeOffers().reduce(function (p, o, i) {
+    return p.then(function () { return toPNG(o, 'cezar-offer-' + (i + 1) + '.png', dark); });
+  }, Promise.resolve()).catch(fail);
+});
+document.getElementById('flip').addEventListener('click', function () { dark = !dark; render(); });
+
+render();
+})();
+</script>
+</body>
+</html>
