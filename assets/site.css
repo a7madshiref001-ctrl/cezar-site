@@ -224,28 +224,44 @@
   fill:var(--acc);stroke:var(--paper);stroke-width:3;
   filter:drop-shadow(0 0 12px var(--acc));
   transition:cx .9s linear,cy .9s linear,fill .6s var(--e-out);
+  transform-box:fill-box;transform-origin:center;
+  animation:beat 1s steps(1,end) infinite;
 }
+/* نبضة كل ثانية — القلب اللي بيقول إنه شغّال */
+@keyframes beat{0%,55%{r:7}56%,100%{r:9}}
+.ladies:not(.live-now) .ring-head{animation:none}
 .live.shut .ring-head,.ladies:not(.live-now) .ring-head{opacity:0}
 
 /* شراطات الاستوب-واتش */
-.ticks line{stroke:var(--hair);stroke-width:2;stroke-linecap:round}
+.ticks line{
+  stroke:var(--hair);stroke-width:2;stroke-linecap:round;
+  transition:stroke .5s var(--e-out),opacity .5s var(--e-out);
+}
 .ticks line.big{stroke:#C9C5B8;stroke-width:2.5}
+/* الشرطة اللي لسه فاضلة بتبقى بلون الفترة، واللي عدّت بتخفت */
+.ticks line.left{stroke:var(--acc);opacity:.85}
+.ticks line.left.big{stroke:var(--acc);opacity:1}
+.ticks line.gone{opacity:.35}
 
 .ring-c{
   position:absolute;inset:0;display:grid;place-content:center;
-  justify-items:center;gap:7px;text-align:center;padding:24%;
+  justify-items:center;gap:5px;text-align:center;padding:22%;
 }
 .ring-c b{
-  font-size:clamp(34px,9.5vw,46px);font-weight:900;letter-spacing:-1.4px;
+  font-size:clamp(26px,7.2vw,34px);font-weight:900;letter-spacing:-1.2px;
   line-height:1;color:var(--paper);
 }
-.ring-c span{
-  font-family:'Tajawal',sans-serif;font-variant-numeric:tabular-nums;
-  font-size:clamp(12.5px,3.3vw,14.5px);font-weight:700;color:#A3A49B;
-  direction:rtl;line-height:1.45;text-wrap:balance;
+/* الساعة اللي بتعد — دي اللي بتقول إن العدّاد ماشي فعلًا */
+.ring-cd{
+  font-size:clamp(21px,5.8vw,27px);font-weight:800;letter-spacing:-.5px;
+  line-height:1;color:var(--acc);direction:ltr;
+  text-shadow:0 0 16px var(--acc-glow);
 }
-.ring-c span i{font-style:normal;color:var(--acc)}
-.live.shut .ring-c b{font-size:clamp(27px,7.5vw,36px);color:#B9BAB1}
+.ring-c small{
+  font-family:'Tajawal',sans-serif;font-size:clamp(11px,2.9vw,12.5px);
+  font-weight:700;color:#8C8D83;line-height:1.4;
+}
+.live.shut .ring-c b{font-size:clamp(22px,6vw,28px);color:#B9BAB1}
 
 .live-note{
   color:var(--muted);font-weight:700;font-size:clamp(15px,4vw,17px);

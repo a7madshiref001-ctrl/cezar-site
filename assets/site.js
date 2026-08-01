@@ -222,6 +222,17 @@ function drawTicks(g) {
 }
 $$('[data-ticks]').forEach(drawTicks);
 
+/* الشراطات: اللي لسه فاضل بلون الفترة، واللي عدّى بيخفت.
+   دي اللي بتخلي التقدّم باين بالعين من غير ما تقرا رقم. */
+function paintTicks(g, remain) {
+  if (!g) return;
+  var lines = g.children, cut = 1 - remain;
+  for (var i = 0; i < lines.length; i++) {
+    var f = i / lines.length, big = lines[i].classList.contains('big');
+    lines[i].className.baseVal = (big ? 'big ' : '') + (remain == null ? '' : (f >= cut ? 'left' : 'gone'));
+  }
+}
+
 /* مكان النقطة على القوس: القوس بينتهي فوق (12)، وبدايته بتلف
    مع الوقت — فالنقطة بتمشي مع عقارب الساعة كل ما الوقت يقل. */
 function headAt(head, remain) {
@@ -232,7 +243,8 @@ function headAt(head, remain) {
 
 (function ring() {
   var sec = $('#live'), fg = $('#ringFg'), head = $('#ringHead'),
-      gEl = $('#ringGroup'), lEl = $('#ringLeft'), note = $('#ringNote');
+      gEl = $('#ringGroup'), cd = $('#ringCd'), lEl = $('#ringLeft'),
+      note = $('#ringNote'), ticks = $('#live [data-ticks]');
   if (!sec) return;
   fg.style.strokeDasharray = CIRC;
 
@@ -246,19 +258,24 @@ function headAt(head, remain) {
       sec.style.setProperty('--acc-glow', GLOW[seg.g]);
       fg.style.strokeDashoffset = CIRC * (1 - remain);
       headAt(head, remain);
+      paintTicks(ticks, remain);
       gEl.textContent = GNAME[seg.g];
-      lEl.innerHTML = '<i>باقي</i> ' + leftText(rest);
-      note.innerHTML = 'الفترة من <b>' + clock(seg.start) + '</b> لـ <b>' + clock(seg.end) + '</b>';
+      cd.textContent = hhmm(rest);
+      lEl.textContent = 'باقي على آخر الفترة';
+      note.innerHTML = 'الفترة من <b>' + clock(seg.start) + '</b> لـ <b>' + clock(seg.end) + '</b>' +
+        ' · فاضل <b>' + Math.round(remain * 100) + '%</b> منها';
     } else {
       sec.classList.add('shut');
       sec.style.setProperty('--acc', '#9A9B91');
       sec.style.setProperty('--acc-glow', 'rgba(154,155,145,.35)');
       fg.style.strokeDashoffset = CIRC;
+      paintTicks(ticks, null);
       gEl.textContent = 'مقفول';
       if (st.next) {
-        lEl.innerHTML = '<i>يفتح بعد</i> ' + leftText(st.next.start - t);
+        cd.textContent = hhmm(st.next.start - t);
+        lEl.textContent = 'باقي على الفتح';
         note.innerHTML = 'الفترة الجاية <b>' + GNAME[st.next.g] + '</b> الساعة <b>' + clock(st.next.start) + '</b>';
-      } else { lEl.textContent = ''; note.textContent = ''; }
+      } else { cd.textContent = '--:--:--'; lEl.textContent = ''; note.textContent = ''; }
     }
   }
   paint(); setInterval(paint, 1000);
@@ -454,7 +471,8 @@ function friendsOffer() {
   var g = $('#ladiesList');
   if (g && D.ladies) g.innerHTML = D.ladies.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
 
-  var fg = $('#ringLadiesFg'), head = $('#ringLadiesHead');
+  var fg = $('#ringLadiesFg'), head = $('#ringLadiesHead'), cd = $('#ringLadiesCd'),
+      ticks = $('#ladies [data-ticks]');
   if (!fg) return;
   var C = CIRC;
   var gEl = $('#ringLadiesGroup'), lEl = $('#ringLadiesLeft'), note = $('#ringLadiesNote');
@@ -471,8 +489,10 @@ function friendsOffer() {
       var remain = rest / (s.end - s.start);
       fg.style.strokeDashoffset = C * (1 - remain);
       headAt(head, remain);
+      paintTicks(ticks, remain);
       gEl.textContent = 'دلوقتي';
-      lEl.innerHTML = '<i>باقي</i> ' + leftText(rest);
+      cd.textContent = hhmm(rest);
+      lEl.textContent = 'باقي على آخر الفترة';
       note.innerHTML = 'فترة السيدات شغّالة لحد <b>' + clock(s.end) + '</b>';
       return;
     }
@@ -481,9 +501,11 @@ function friendsOffer() {
       return x.g === 'women' && x.start > t;
     })[0];
     fg.style.strokeDashoffset = C;
-    if (!iv) { gEl.textContent = '—'; lEl.textContent = ''; note.textContent = ''; return; }
+    paintTicks(ticks, null);
+    if (!iv) { gEl.textContent = '—'; cd.textContent = '--:--:--'; lEl.textContent = ''; note.textContent = ''; return; }
     gEl.textContent = 'الجاية';
-    lEl.innerHTML = '<i>بعد</i> ' + leftText(iv.start - t);
+    cd.textContent = hhmm(iv.start - t);
+    lEl.textContent = 'باقي على أول الفترة';
     note.innerHTML = D.schedule.days[iv.dow] + ' من <b>' + clock(iv.start) + '</b> لـ <b>' + clock(iv.end) + '</b>';
   }
   paint(); setInterval(paint, 1000);
