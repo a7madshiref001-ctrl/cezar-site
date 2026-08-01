@@ -203,29 +203,57 @@ function leftText(ms) {
 }
 
 /* ─── الحلقة: الفترة الشغّالة دلوقتي ─── */
-var ACC = { men: '#A8DC42', women: '#E8B14C' };   /* فسفوري للرجال، ذهبي للسيدات */
+var ACC = { men: '#BEF23C', women: '#E8B14C' };   /* فسفوري للرجال، ذهبي للسيدات */
+var GLOW = { men: 'rgba(190,242,60,.55)', women: 'rgba(232,177,76,.5)' };
+var RAD = 120, CIRC = 2 * Math.PI * RAD;
+
+/* شراطات زي الاستوب-واتش حوالين الحلقة — كل خامس واحدة أطول */
+function drawTicks(g) {
+  var svgns = 'http://www.w3.org/2000/svg', out = '';
+  for (var i = 0; i < 60; i++) {
+    var big = i % 5 === 0;
+    var a = (i / 60) * Math.PI * 2;
+    var r1 = RAD - 19, r2 = r1 - (big ? 11 : 6);
+    out += '<line class="' + (big ? 'big' : '') + '"' +
+      ' x1="' + (140 + r1 * Math.sin(a)).toFixed(1) + '" y1="' + (140 - r1 * Math.cos(a)).toFixed(1) + '"' +
+      ' x2="' + (140 + r2 * Math.sin(a)).toFixed(1) + '" y2="' + (140 - r2 * Math.cos(a)).toFixed(1) + '"/>';
+  }
+  g.innerHTML = out;
+}
+$$('[data-ticks]').forEach(drawTicks);
+
+/* مكان النقطة على القوس: القوس بينتهي فوق (12)، وبدايته بتلف
+   مع الوقت — فالنقطة بتمشي مع عقارب الساعة كل ما الوقت يقل. */
+function headAt(head, remain) {
+  var a = (1 - remain) * Math.PI * 2;
+  head.setAttribute('cx', (140 + RAD * Math.sin(a)).toFixed(2));
+  head.setAttribute('cy', (140 - RAD * Math.cos(a)).toFixed(2));
+}
 
 (function ring() {
-  var sec = $('#live'), fg = $('#ringFg'), gEl = $('#ringGroup'),
-      lEl = $('#ringLeft'), note = $('#ringNote');
+  var sec = $('#live'), fg = $('#ringFg'), head = $('#ringHead'),
+      gEl = $('#ringGroup'), lEl = $('#ringLeft'), note = $('#ringNote');
   if (!sec) return;
-  var C = 2 * Math.PI * 116;
-
+  fg.style.strokeDasharray = CIRC;
 
   function paint() {
     var now = new Date(), st = status(now), t = now.getTime();
     if (st.open) {
       var seg = st.seg, span = seg.end - seg.start, rest = seg.end - t;
+      var remain = rest / span;
       sec.classList.remove('shut');
       sec.style.setProperty('--acc', ACC[seg.g]);
-      fg.style.strokeDashoffset = C * (1 - rest / span);
+      sec.style.setProperty('--acc-glow', GLOW[seg.g]);
+      fg.style.strokeDashoffset = CIRC * (1 - remain);
+      headAt(head, remain);
       gEl.textContent = GNAME[seg.g];
       lEl.innerHTML = '<i>باقي</i> ' + leftText(rest);
       note.innerHTML = 'الفترة من <b>' + clock(seg.start) + '</b> لـ <b>' + clock(seg.end) + '</b>';
     } else {
       sec.classList.add('shut');
-      sec.style.setProperty('--acc', 'var(--faint)');
-      fg.style.strokeDashoffset = C;
+      sec.style.setProperty('--acc', '#9A9B91');
+      sec.style.setProperty('--acc-glow', 'rgba(154,155,145,.35)');
+      fg.style.strokeDashoffset = CIRC;
       gEl.textContent = 'مقفول';
       if (st.next) {
         lEl.innerHTML = '<i>يفتح بعد</i> ' + leftText(st.next.start - t);
@@ -233,9 +261,7 @@ var ACC = { men: '#A8DC42', women: '#E8B14C' };   /* فسفوري للرجال،
       } else { lEl.textContent = ''; note.textContent = ''; }
     }
   }
-  fg.style.strokeDasharray = C;
-  paint();
-  setInterval(paint, 1000);
+  paint(); setInterval(paint, 1000);
 })();
 
 /* ─── جدول المواعيد ─── */
@@ -428,8 +454,9 @@ function friendsOffer() {
   var g = $('#ladiesList');
   if (g && D.ladies) g.innerHTML = D.ladies.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
 
-  var fg = $('#ringLadiesFg'); if (!fg) return;
-  var C = 2 * Math.PI * 116;
+  var fg = $('#ringLadiesFg'), head = $('#ringLadiesHead');
+  if (!fg) return;
+  var C = CIRC;
   var gEl = $('#ringLadiesGroup'), lEl = $('#ringLadiesLeft'), note = $('#ringLadiesNote');
   var sec = $('#ladies');
   fg.style.strokeDasharray = C;
@@ -441,7 +468,9 @@ function friendsOffer() {
     if (st.open && st.seg.g === 'women') {
       var s = st.seg, rest = s.end - t;
       sec.classList.add('live-now');
-      fg.style.strokeDashoffset = C * (1 - rest / (s.end - s.start));
+      var remain = rest / (s.end - s.start);
+      fg.style.strokeDashoffset = C * (1 - remain);
+      headAt(head, remain);
       gEl.textContent = 'دلوقتي';
       lEl.innerHTML = '<i>باقي</i> ' + leftText(rest);
       note.innerHTML = 'فترة السيدات شغّالة لحد <b>' + clock(s.end) + '</b>';
