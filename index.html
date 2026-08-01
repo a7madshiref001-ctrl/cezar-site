@@ -22,7 +22,7 @@
 <link rel="preload" as="image" href="assets/img/hero-m1.webp" media="(max-width:900px)">
 <script>document.documentElement.className='js';</script>
 <link rel="stylesheet" href="assets/core.css?v=8">
-<link rel="stylesheet" href="assets/site.css?v=12">
+<link rel="stylesheet" href="assets/site.css?v=13">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"سيزر جيم","alternateName":"CEZAR GYM",
@@ -116,16 +116,14 @@
   <div class="wrap live-in">
     <div class="ring" id="ring">
       <svg viewBox="0 0 280 280" aria-hidden="true">
-        <g class="ticks" data-ticks></g>
         <circle class="ring-track" cx="140" cy="140" r="120"/>
         <circle class="ring-fg" cx="140" cy="140" r="120" id="ringFg"/>
-        <circle class="ring-hub" cx="140" cy="140" r="88"/>
+        <circle class="ring-hub" cx="140" cy="140" r="96"/>
         <circle class="ring-head" r="7" cx="140" cy="20" id="ringHead"/>
       </svg>
       <div class="ring-c">
         <b id="ringGroup">—</b>
         <span class="ring-cd num" id="ringCd">--:--:--</span>
-        <small id="ringLeft">&nbsp;</small>
       </div>
     </div>
     <p class="live-note" id="ringNote">&nbsp;</p>
@@ -181,21 +179,10 @@
       <a href="#join" class="btn btn-gold">اشتركي دلوقتي</a>
     </div>
     <div class="ladies-r" data-reveal>
-      <div class="ring sm" id="ringLadies">
-        <svg viewBox="0 0 280 280" aria-hidden="true">
-          <g class="ticks" data-ticks></g>
-          <circle class="ring-track" cx="140" cy="140" r="120"/>
-          <circle class="ring-fg" cx="140" cy="140" r="120" id="ringLadiesFg"/>
-          <circle class="ring-hub" cx="140" cy="140" r="88"/>
-          <circle class="ring-head" r="7" cx="140" cy="20" id="ringLadiesHead"/>
-        </svg>
-        <div class="ring-c">
-          <b id="ringLadiesGroup">—</b>
-          <span class="ring-cd num" id="ringLadiesCd">--:--:--</span>
-          <small id="ringLadiesLeft">&nbsp;</small>
-        </div>
+      <div class="hours-card">
+        <span class="hours-t">مواعيد السيدات</span>
+        <ul id="ladiesHours"></ul>
       </div>
-      <p class="live-note" id="ringLadiesNote">&nbsp;</p>
     </div>
   </div>
 </section>
@@ -437,6 +424,6 @@
 <script src="data/img.js?v=2"></script>
 <script src="data/site.js?v=12"></script>
 <script src="assets/hours.js?v=2"></script>
-<script src="assets/site.js?v=12"></script>
+<script src="assets/site.js?v=14"></script>
 </body>
 </html>

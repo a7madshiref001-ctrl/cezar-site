@@ -183,10 +183,9 @@
 @keyframes cue{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
 @media (max-width:900px){.scroll-cue{display:none}}
 
-/* ---------- 02 الحلقة ---------- */
-/* شكلها وش وزنة حديد: قوس على الحافة بيقول باقي قد إيه،
-   شراطات زي الاستوب-واتش، نقطة بتجري على القوس، والاسم على
-   قلب معدني غامق في النص. لون لكل فترة وبس. */
+/* ---------- 02 العدّاد ---------- */
+/* حاجة واحدة بس: شريط بيتملي على محيط الدايرة كل ما الفترة
+   تعدّي، والفترة الحالية والباقي منها في النص. */
 .live{
   --acc:var(--faint);
   --acc-glow:rgba(190,242,60,.55);
@@ -194,7 +193,6 @@
   background:var(--paper);
   padding-block:clamp(60px,10vw,104px);
 }
-/* الإضاءة: هالة بلون الفترة خلف الحلقة */
 .live::before{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(42% 30% at 50% 45%,var(--acc-glow),transparent 72%);
@@ -204,65 +202,45 @@
 
 .live-in{position:relative;z-index:1;display:grid;justify-items:center;gap:22px}
 .ring{position:relative;width:clamp(244px,68vw,320px);aspect-ratio:1}
-.ring svg{width:100%;height:100%;overflow:visible}
-.ring>svg{transform:rotate(-90deg)}
-
+.ring>svg{width:100%;height:100%;overflow:visible;transform:rotate(-90deg)}
 .ring circle{fill:none}
-.ring-track{stroke:var(--hair);stroke-width:10}
+
+.ring-track{stroke:var(--hair);stroke-width:12}
+/* الشريط اللي بيتملي */
 .ring-fg{
-  stroke:var(--acc);stroke-width:10;stroke-linecap:round;
+  stroke:var(--acc);stroke-width:12;stroke-linecap:round;
   stroke-dasharray:753.98;      /* 2πr عند r=120 */
   stroke-dashoffset:753.98;
   transition:stroke-dashoffset .9s linear,stroke .6s var(--e-out);
-  filter:drop-shadow(0 0 7px var(--acc)) drop-shadow(0 0 20px var(--acc-glow));
+  filter:drop-shadow(0 0 8px var(--acc)) drop-shadow(0 0 22px var(--acc-glow));
 }
-/* قلب الوزنة — قرص غامق الاسم بيقعد عليه.
-   لازم يبقى أخص من .ring circle{fill:none} وإلا يطلع شفاف. */
 .ring circle.ring-hub{fill:var(--ink);stroke:none}
-/* النقطة اللي بتجري على القوس */
+/* رأس الشريط — نقطة بتنبض كل ثانية عشان يبان إنه ماشي */
 .ring circle.ring-head{
   fill:var(--acc);stroke:var(--paper);stroke-width:3;
   filter:drop-shadow(0 0 12px var(--acc));
   transition:cx .9s linear,cy .9s linear,fill .6s var(--e-out);
-  transform-box:fill-box;transform-origin:center;
   animation:beat 1s steps(1,end) infinite;
 }
-/* نبضة كل ثانية — القلب اللي بيقول إنه شغّال */
-@keyframes beat{0%,55%{r:7}56%,100%{r:9}}
-.ladies:not(.live-now) .ring-head{animation:none}
-.live.shut .ring-head,.ladies:not(.live-now) .ring-head{opacity:0}
-
-/* شراطات الاستوب-واتش */
-.ticks line{
-  stroke:var(--hair);stroke-width:2;stroke-linecap:round;
-  transition:stroke .5s var(--e-out),opacity .5s var(--e-out);
-}
-.ticks line.big{stroke:#C9C5B8;stroke-width:2.5}
-/* الشرطة اللي لسه فاضلة بتبقى بلون الفترة، واللي عدّت بتخفت */
-.ticks line.left{stroke:var(--acc);opacity:.85}
-.ticks line.left.big{stroke:var(--acc);opacity:1}
-.ticks line.gone{opacity:.35}
+@keyframes beat{0%,55%{r:7}56%,100%{r:9.5}}
+.live.shut .ring-head{opacity:0;animation:none}
 
 .ring-c{
   position:absolute;inset:0;display:grid;place-content:center;
-  justify-items:center;gap:5px;text-align:center;padding:22%;
+  justify-items:center;gap:9px;text-align:center;padding:20%;
 }
 .ring-c b{
-  font-size:clamp(26px,7.2vw,34px);font-weight:900;letter-spacing:-1.2px;
+  font-size:clamp(30px,8.4vw,40px);font-weight:900;letter-spacing:-1.3px;
   line-height:1;color:var(--paper);
 }
-/* الساعة اللي بتعد — دي اللي بتقول إن العدّاد ماشي فعلًا */
 .ring-cd{
-  font-size:clamp(21px,5.8vw,27px);font-weight:800;letter-spacing:-.5px;
+  font-size:clamp(23px,6.4vw,30px);font-weight:800;letter-spacing:-.5px;
   line-height:1;color:var(--acc);direction:ltr;
   text-shadow:0 0 16px var(--acc-glow);
 }
-.ring-c small{
-  font-family:'Tajawal',sans-serif;font-size:clamp(11px,2.9vw,12.5px);
-  font-weight:700;color:#8C8D83;line-height:1.4;
-}
-.live.shut .ring-c b{font-size:clamp(22px,6vw,28px);color:#B9BAB1}
+.live.shut .ring-c b{font-size:clamp(25px,6.8vw,32px);color:#B9BAB1}
 
+/* الفترة الجاية — تحت الدايرة */
 .live-note{
   color:var(--muted);font-weight:700;font-size:clamp(15px,4vw,17px);
   text-align:center;max-width:32ch;
@@ -401,15 +379,26 @@
 .btn-gold:hover{background:#F0C167;box-shadow:0 10px 26px rgba(232,177,76,.4)}
 .ladies-r{display:grid;justify-items:center;gap:16px}
 .ring.sm{width:clamp(230px,62vw,278px)}
-.ladies{--acc:var(--gold);--acc-glow:rgba(232,177,76,.5)}
-.ladies .ring-track{stroke:rgba(243,241,235,.16)}
-.ladies .ticks line{stroke:rgba(243,241,235,.18)}
-.ladies .ticks line.big{stroke:rgba(243,241,235,.32)}
-.ladies .ring-hub{fill:#101114}
-.ladies .ring-head{stroke:var(--ink)}
-.ladies .ring-c b{font-size:clamp(28px,7.5vw,38px)}
-.ladies .live-note{color:#A3A49B}
-.ladies .live-note b{color:var(--paper)}
+.hours-card{
+  width:100%;max-width:400px;
+  border:1px solid rgba(243,241,235,.16);border-radius:var(--r-card);
+  padding:clamp(20px,3vw,26px);background:rgba(243,241,235,.04);
+  display:grid;gap:14px;
+}
+.hours-t{font-weight:800;font-size:13.5px;color:var(--gold)}
+.hours-card ul{display:grid;gap:0}
+.hours-card li{
+  display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding-block:13px;border-top:1px solid rgba(243,241,235,.12);
+}
+.hours-card li:first-child{border-top:0}
+.hours-card li span{font-weight:700;font-size:15px;color:#D6D7CE}
+.hours-card li b{
+  font-family:'Archivo',sans-serif;font-weight:800;font-size:15.5px;
+  color:var(--gold);white-space:nowrap;direction:ltr;
+}
+.hours-card li.now{background:rgba(232,177,76,.1);border-radius:10px;
+  padding-inline:12px;margin-inline:-12px}
 
 /* ---------- كروت الباقات والتابات ---------- */
 .tabs{

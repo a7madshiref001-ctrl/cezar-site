@@ -202,81 +202,58 @@ function leftText(ms) {
   return 'أقل من دقيقة';
 }
 
-/* ─── الحلقة: الفترة الشغّالة دلوقتي ─── */
+/* ─── العدّاد: فترة واحدة، شريط بيتملي ─── */
 var ACC = { men: '#BEF23C', women: '#E8B14C' };   /* فسفوري للرجال، ذهبي للسيدات */
 var GLOW = { men: 'rgba(190,242,60,.55)', women: 'rgba(232,177,76,.5)' };
 var RAD = 120, CIRC = 2 * Math.PI * RAD;
 
-/* شراطات زي الاستوب-واتش حوالين الحلقة — كل خامس واحدة أطول */
-function drawTicks(g) {
-  var svgns = 'http://www.w3.org/2000/svg', out = '';
-  for (var i = 0; i < 60; i++) {
-    var big = i % 5 === 0;
-    var a = (i / 60) * Math.PI * 2;
-    var r1 = RAD - 19, r2 = r1 - (big ? 11 : 6);
-    out += '<line class="' + (big ? 'big' : '') + '"' +
-      ' x1="' + (140 + r1 * Math.sin(a)).toFixed(1) + '" y1="' + (140 - r1 * Math.cos(a)).toFixed(1) + '"' +
-      ' x2="' + (140 + r2 * Math.sin(a)).toFixed(1) + '" y2="' + (140 - r2 * Math.cos(a)).toFixed(1) + '"/>';
-  }
-  g.innerHTML = out;
-}
-$$('[data-ticks]').forEach(drawTicks);
-
-/* الشراطات: اللي لسه فاضل بلون الفترة، واللي عدّى بيخفت.
-   دي اللي بتخلي التقدّم باين بالعين من غير ما تقرا رقم. */
-function paintTicks(g, remain) {
-  if (!g) return;
-  var lines = g.children, cut = 1 - remain;
-  for (var i = 0; i < lines.length; i++) {
-    var f = i / lines.length, big = lines[i].classList.contains('big');
-    lines[i].className.baseVal = (big ? 'big ' : '') + (remain == null ? '' : (f >= cut ? 'left' : 'gone'));
-  }
-}
-
-/* مكان النقطة على القوس: القوس بينتهي فوق (12)، وبدايته بتلف
-   مع الوقت — فالنقطة بتمشي مع عقارب الساعة كل ما الوقت يقل. */
-function headAt(head, remain) {
-  var a = (1 - remain) * Math.PI * 2;
-  head.setAttribute('cx', (140 + RAD * Math.sin(a)).toFixed(2));
-  head.setAttribute('cy', (140 - RAD * Math.cos(a)).toFixed(2));
+/* رأس الشريط: بيمشي مع عقارب الساعة كل ما الشريط يتملي */
+function headAt(head, filled) {
+  var ang = filled * Math.PI * 2;
+  head.setAttribute('cx', (140 + RAD * Math.sin(ang)).toFixed(2));
+  head.setAttribute('cy', (140 - RAD * Math.cos(ang)).toFixed(2));
 }
 
 (function ring() {
   var sec = $('#live'), fg = $('#ringFg'), head = $('#ringHead'),
-      gEl = $('#ringGroup'), cd = $('#ringCd'), lEl = $('#ringLeft'),
-      note = $('#ringNote'), ticks = $('#live [data-ticks]');
+      gEl = $('#ringGroup'), cd = $('#ringCd'), note = $('#ringNote');
   if (!sec) return;
   fg.style.strokeDasharray = CIRC;
 
   function paint() {
     var now = new Date(), st = status(now), t = now.getTime();
+
     if (st.open) {
       var seg = st.seg, span = seg.end - seg.start, rest = seg.end - t;
-      var remain = rest / span;
+      var filled = 1 - rest / span;          /* الشريط بيتملي مع الوقت */
       sec.classList.remove('shut');
       sec.style.setProperty('--acc', ACC[seg.g]);
       sec.style.setProperty('--acc-glow', GLOW[seg.g]);
-      fg.style.strokeDashoffset = CIRC * (1 - remain);
-      headAt(head, remain);
-      paintTicks(ticks, remain);
+      fg.style.strokeDashoffset = CIRC * (1 - filled);
+      headAt(head, filled);
       gEl.textContent = GNAME[seg.g];
       cd.textContent = hhmm(rest);
-      lEl.textContent = 'باقي على آخر الفترة';
-      note.innerHTML = 'الفترة من <b>' + clock(seg.start) + '</b> لـ <b>' + clock(seg.end) + '</b>' +
-        ' · فاضل <b>' + Math.round(remain * 100) + '%</b> منها';
-    } else {
-      sec.classList.add('shut');
-      sec.style.setProperty('--acc', '#9A9B91');
-      sec.style.setProperty('--acc-glow', 'rgba(154,155,145,.35)');
-      fg.style.strokeDashoffset = CIRC;
-      paintTicks(ticks, null);
-      gEl.textContent = 'مقفول';
-      if (st.next) {
-        cd.textContent = hhmm(st.next.start - t);
-        lEl.textContent = 'باقي على الفتح';
-        note.innerHTML = 'الفترة الجاية <b>' + GNAME[st.next.g] + '</b> الساعة <b>' + clock(st.next.start) + '</b>';
-      } else { cd.textContent = '--:--:--'; lEl.textContent = ''; note.textContent = ''; }
+      /* «الجاية» يعني أول فترة بتتغيّر فيها المجموعة — مش أول فترة
+         في الجدول، لأن فترات الرجال بتتقسم على يومين ورا بعض. */
+      var flip = H.intervals(D.schedule.segments, now).filter(function (x) {
+        return x.start >= seg.end && x.g !== seg.g;
+      })[0];
+      note.innerHTML = flip
+        ? 'بعدها <b>' + GNAME[flip.g] + '</b> — ' + D.schedule.days[flip.dow] +
+          ' الساعة <b>' + clock(flip.start) + '</b>'
+        : '';
+      return;
     }
+
+    sec.classList.add('shut');
+    sec.style.setProperty('--acc', '#9A9B91');
+    sec.style.setProperty('--acc-glow', 'rgba(154,155,145,.35)');
+    fg.style.strokeDashoffset = CIRC;
+    gEl.textContent = 'مقفول';
+    if (st.next) {
+      cd.textContent = hhmm(st.next.start - t);
+      note.innerHTML = 'بيفتح <b>' + GNAME[st.next.g] + '</b> الساعة <b>' + clock(st.next.start) + '</b>';
+    } else { cd.textContent = '--:--:--'; note.textContent = ''; }
   }
   paint(); setInterval(paint, 1000);
 })();
@@ -466,49 +443,33 @@ function friendsOffer() {
   if (window.__watchReveal) window.__watchReveal(g);
 })();
 
-/* ─── قسم السيدات: نفس الحلقة بس بتقول امتى الفترة الجاية ─── */
+/* ─── قسم السيدات: مزاياها + مواعيدها ─── */
 (function ladies() {
   var g = $('#ladiesList');
   if (g && D.ladies) g.innerHTML = D.ladies.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
 
-  var fg = $('#ringLadiesFg'), head = $('#ringLadiesHead'), cd = $('#ringLadiesCd'),
-      ticks = $('#ladies [data-ticks]');
-  if (!fg) return;
-  var C = CIRC;
-  var gEl = $('#ringLadiesGroup'), lEl = $('#ringLadiesLeft'), note = $('#ringLadiesNote');
-  var sec = $('#ladies');
-  fg.style.strokeDasharray = C;
+  var box = $('#ladiesHours'); if (!box) return;
+  var segs = D.schedule.segments, days = D.schedule.days;
 
-  function paint() {
-    var now = new Date(), t = now.getTime();
-    var st = status(now);
-    /* الفترة النسائية الحالية، أو أقرب فترة نسائية جاية */
-    if (st.open && st.seg.g === 'women') {
-      var s = st.seg, rest = s.end - t;
-      sec.classList.add('live-now');
-      var remain = rest / (s.end - s.start);
-      fg.style.strokeDashoffset = C * (1 - remain);
-      headAt(head, remain);
-      paintTicks(ticks, remain);
-      gEl.textContent = 'دلوقتي';
-      cd.textContent = hhmm(rest);
-      lEl.textContent = 'باقي على آخر الفترة';
-      note.innerHTML = 'فترة السيدات شغّالة لحد <b>' + clock(s.end) + '</b>';
-      return;
-    }
-    sec.classList.remove('live-now');
-    var iv = H.intervals(D.schedule.segments, now).filter(function (x) {
-      return x.g === 'women' && x.start > t;
-    })[0];
-    fg.style.strokeDashoffset = C;
-    paintTicks(ticks, null);
-    if (!iv) { gEl.textContent = '—'; cd.textContent = '--:--:--'; lEl.textContent = ''; note.textContent = ''; return; }
-    gEl.textContent = 'الجاية';
-    cd.textContent = hhmm(iv.start - t);
-    lEl.textContent = 'باقي على أول الفترة';
-    note.innerHTML = D.schedule.days[iv.dow] + ' من <b>' + clock(iv.start) + '</b> لـ <b>' + clock(iv.end) + '</b>';
-  }
-  paint(); setInterval(paint, 1000);
+  /* الأيام اللي ليها نفس الفترة بالظبط بنجمّعها في سطر واحد */
+  var groups = [];
+  [6, 0, 1, 2, 3, 4, 5].forEach(function (dow) {
+    (segs[String(dow)] || []).forEach(function (sg) {
+      if (sg.g !== 'women') return;
+      var key = sg.from + '-' + sg.to;
+      var hit = groups.filter(function (x) { return x.key === key; })[0];
+      if (hit) hit.days.push(dow);
+      else groups.push({ key: key, from: sg.from, to: sg.to, days: [dow] });
+    });
+  });
+
+  var today = new Date().getDay();
+  box.innerHTML = groups.map(function (gr) {
+    var live = gr.days.indexOf(today) > -1;
+    return '<li' + (live ? ' class="now"' : '') + '>' +
+      '<span>' + gr.days.map(function (d) { return days[d]; }).join(' · ') + '</span>' +
+      '<b>' + H.clockFromMins(gr.from) + ' — ' + H.clockFromMins(gr.to) + '</b></li>';
+  }).join('');
 })();
 
 /* ============================================================
