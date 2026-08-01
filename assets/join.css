@@ -1,0 +1,304 @@
+/* ============================================================
+   سيزر جيم — صفحة الاشتراك
+   صفحة لوحدها عن قصد: مفيش ناف ولا فوتر ولا أقسام تانية.
+   خطوة واحدة على الشاشة، وزرار واحد تحت.
+   ============================================================ */
+
+.j-body{
+  background:var(--paper);
+  min-height:100svh;
+  padding-bottom:calc(96px + env(safe-area-inset-bottom));
+}
+
+/* ---------- الهيدر ---------- */
+.j-hdr{
+  position:sticky;top:0;z-index:40;
+  background:var(--ink);color:var(--paper);
+}
+.j-hdr-in{
+  display:flex;align-items:center;gap:14px;
+  height:62px;padding-inline:var(--pad);
+}
+.j-back{
+  width:40px;height:40px;flex:none;border-radius:12px;
+  display:grid;place-items:center;
+  background:rgba(243,241,235,.09);
+  transition:background var(--t-fast) var(--e-out);
+}
+.j-back:hover{background:rgba(243,241,235,.18)}
+.j-back svg{width:20px;height:20px}
+.j-mark{width:34px;margin-inline-end:auto}
+.j-step-lab{
+  font-size:13px;font-weight:800;color:#8C8D83;
+  font-variant-numeric:tabular-nums;
+}
+.j-bar{height:3px;background:rgba(243,241,235,.12)}
+.j-bar i{
+  display:block;height:100%;width:25%;background:var(--lime);
+  box-shadow:var(--glow);
+  transition:width .55s var(--e-out);
+}
+
+/* ---------- الخطوات ---------- */
+.j-main{padding-inline:var(--pad);padding-block:clamp(26px,5vw,44px)}
+.j-step{display:none;max-width:640px;margin-inline:auto}
+.j-step.on{display:block;animation:jIn .45s var(--e-out)}
+@keyframes jIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.j-step h1{font-size:clamp(28px,7.4vw,40px);letter-spacing:-1.2px}
+.j-sub{margin-top:10px;color:var(--muted);font-weight:600;font-size:clamp(15px,4vw,16.5px)}
+
+/* ---------- شريط العرض ---------- */
+.j-offer{
+  display:flex;align-items:center;gap:13px;margin-top:22px;
+  padding:14px 17px;border-radius:16px;
+  background:var(--ink);color:var(--paper);
+}
+.j-offer b.p{
+  direction:ltr;flex:none;color:var(--lime);
+  font-family:'Archivo',sans-serif;font-weight:900;font-size:30px;
+  letter-spacing:-1.6px;line-height:1;text-shadow:0 0 18px rgba(190,242,60,.6);
+}
+.j-offer span{font-size:14.5px;font-weight:700;line-height:1.4}
+
+/* ---------- تابات النوع ---------- */
+.j-tabs{
+  display:flex;gap:6px;margin-top:22px;
+  background:var(--panel);padding:5px;border-radius:var(--r-pill);
+  overflow-x:auto;scrollbar-width:none;
+}
+.j-tabs::-webkit-scrollbar{display:none}
+.j-tabs button{
+  flex:none;white-space:nowrap;padding:10px 18px;border-radius:var(--r-pill);
+  font-weight:800;font-size:14.5px;color:var(--muted);
+  transition:all var(--t-fast) var(--e-out);
+}
+.j-tabs button.on{background:var(--ink);color:var(--paper)}
+
+/* ---------- الباقات ---------- */
+.j-plans{display:grid;gap:10px;margin-top:16px}
+.j-plan{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+  text-align:start;padding:16px 18px;border-radius:16px;
+  background:var(--surface);border:1.5px solid var(--hair);
+  transition:all var(--t-fast) var(--e-out);position:relative;
+}
+.j-plan:hover{border-color:#CFCBBE}
+.j-plan.on{border-color:var(--ink);background:var(--cream)}
+.j-radio{
+  width:22px;height:22px;border-radius:50%;flex:none;
+  border:2px solid var(--hair);position:relative;
+  transition:all var(--t-fast) var(--e-out);
+}
+.j-plan.on .j-radio,.j-way.on .j-radio{border-color:var(--ink);background:var(--ink)}
+.j-plan.on .j-radio::after,.j-way.on .j-radio::after{
+  content:'';position:absolute;inset:5px;border-radius:50%;background:var(--lime);
+}
+.j-plan-t{display:grid;gap:2px;min-width:0}
+.j-plan-t b{font-size:17px;font-weight:800}
+.j-plan-t span{font-size:13.5px;color:var(--muted);font-weight:600}
+.j-plan-p{display:grid;justify-items:end;gap:1px;flex:none}
+.j-plan-p b{
+  font-family:'Archivo',sans-serif;font-weight:900;font-size:24px;
+  letter-spacing:-1.2px;line-height:1;
+}
+.j-plan-p s{
+  font-family:'Archivo',sans-serif;font-size:13px;color:var(--faint);
+  text-decoration:line-through;
+}
+.j-plan .hot{
+  position:absolute;inset-inline-start:14px;top:-9px;
+  padding:3px 9px;border-radius:var(--r-pill);
+  background:var(--lime);color:var(--ink);font-size:11px;font-weight:800;
+}
+
+/* ---------- عرض الصحاب ---------- */
+.j-friends{
+  display:flex;align-items:start;gap:12px;margin-top:14px;cursor:pointer;
+  padding:16px 18px;border-radius:16px;
+  background:rgba(190,242,60,.14);border:1.5px solid rgba(190,242,60,.5);
+}
+.j-friends input{position:absolute;opacity:0;width:0;height:0}
+.j-friends i{
+  width:22px;height:22px;border-radius:7px;flex:none;margin-top:2px;
+  border:2px solid var(--lime-deep);position:relative;background:var(--surface);
+  transition:all var(--t-fast) var(--e-out);
+}
+.j-friends input:checked + i{background:var(--lime-deep);border-color:var(--lime-deep)}
+.j-friends input:checked + i::after{
+  content:'';position:absolute;inset-inline-start:6px;top:2px;width:6px;height:11px;
+  border:solid var(--paper);border-width:0 2.5px 2.5px 0;rotate:45deg;
+}
+.j-friends span{display:grid;gap:3px}
+.j-friends b{font-size:15.5px;font-weight:800}
+.j-friends em{font-style:normal;font-size:13.5px;color:var(--muted);font-weight:600}
+.j-friends-n{
+  display:grid;gap:9px;margin-top:12px;padding:16px 18px;
+  border-radius:16px;background:var(--panel);
+}
+.j-friends-n>span{font-size:14px;font-weight:800;color:var(--muted)}
+
+/* ---------- الحقول ---------- */
+.j-fields{display:grid;gap:18px;margin-top:24px}
+.f{display:grid;gap:8px}
+.f label{font-size:14.5px;font-weight:800}
+.f label em{font-style:normal;color:var(--faint);font-weight:600}
+.f input,.f textarea{
+  padding:15px 16px;border-radius:14px;
+  background:var(--surface);border:1.5px solid var(--hair);
+  font-weight:700;font-size:16px;   /* 16px عشان iOS ميزوّمش */
+  transition:border-color var(--t-fast) ease;
+}
+.f input::placeholder,.f textarea::placeholder{color:var(--faint);font-weight:600}
+.f input:focus,.f textarea:focus{border-color:var(--ink);outline:0}
+.f input.bad{border-color:#C0492B;background:#FDF6F4}
+.f .err{color:#B33F22;font-size:13.5px;font-weight:700;display:none}
+.f .err.show{display:block}
+.j-pick{display:flex;gap:8px}
+.j-pick button{
+  flex:1;padding:14px;border-radius:14px;font-weight:800;font-size:16px;
+  background:var(--surface);border:1.5px solid var(--hair);color:var(--muted);
+  transition:all var(--t-fast) var(--e-out);
+}
+.j-pick button.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+
+/* ---------- الدفع ---------- */
+.j-pay{display:grid;gap:10px;margin-top:24px}
+.j-way{
+  display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;
+  text-align:start;padding:17px 18px;border-radius:16px;
+  background:var(--surface);border:1.5px solid var(--hair);
+  transition:all var(--t-fast) var(--e-out);
+}
+.j-way.on{border-color:var(--ink);background:var(--cream)}
+.j-way .j-radio{margin:0}
+.j-way-t{display:grid;gap:2px}
+.j-way-t b{font-size:17px;font-weight:800}
+.j-way-t span{font-size:13.5px;color:var(--muted);font-weight:600}
+
+/* بطاقة التحويل */
+.j-how{
+  margin-top:16px;border-radius:18px;overflow:hidden;
+  background:var(--ink);color:var(--paper);
+  animation:jIn .4s var(--e-out);
+}
+.j-how-h{
+  padding:18px 20px;border-bottom:1px solid rgba(243,241,235,.13);
+  display:grid;gap:3px;
+}
+.j-how-h b{font-size:17px}
+.j-how-h span{font-size:13.5px;color:#8C8D83;font-weight:600}
+.j-copy{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;border-top:1px solid rgba(243,241,235,.1);
+}
+.j-copy:first-of-type{border-top:0}
+.j-copy-t{display:grid;gap:3px;min-width:0;flex:1}
+.j-copy-t span{font-size:12.5px;color:#8C8D83;font-weight:700}
+.j-copy-t b{
+  font-family:'Archivo',sans-serif;font-weight:900;font-size:21px;
+  letter-spacing:.4px;direction:ltr;word-break:break-all;
+}
+.j-copy-t b.big{font-size:27px;color:var(--lime);letter-spacing:-.6px}
+.j-copy button{
+  flex:none;padding:11px 18px;border-radius:var(--r-pill);
+  background:var(--lime);color:var(--ink);font-weight:800;font-size:14px;
+  transition:all var(--t-fast) var(--e-out);
+}
+.j-copy button.done{background:var(--paper)}
+.j-how ol{
+  padding:18px 20px 20px;border-top:1px solid rgba(243,241,235,.13);
+  display:grid;gap:11px;counter-reset:h;
+}
+.j-how ol li{
+  display:grid;grid-template-columns:auto 1fr;gap:11px;align-items:start;
+  font-size:14.5px;font-weight:600;color:#B9BAB1;line-height:1.55;
+}
+.j-how ol li::before{
+  counter-increment:h;content:counter(h);
+  width:24px;height:24px;border-radius:50%;flex:none;
+  display:grid;place-items:center;background:rgba(190,242,60,.18);
+  color:var(--lime);font-family:'Archivo',sans-serif;font-weight:900;font-size:12.5px;
+}
+.j-how ol li b{color:var(--paper)}
+.j-confirm{
+  display:flex;align-items:start;gap:12px;cursor:pointer;
+  padding:16px 20px;border-top:1px solid rgba(243,241,235,.13);
+  background:rgba(190,242,60,.07);
+}
+.j-confirm input{position:absolute;opacity:0;width:0;height:0}
+.j-confirm i{
+  width:22px;height:22px;border-radius:7px;flex:none;margin-top:1px;
+  border:2px solid var(--lime);position:relative;
+  transition:background var(--t-fast) var(--e-out);
+}
+.j-confirm input:checked + i{background:var(--lime)}
+.j-confirm input:checked + i::after{
+  content:'';position:absolute;inset-inline-start:6px;top:2px;width:6px;height:11px;
+  border:solid var(--ink);border-width:0 2.5px 2.5px 0;rotate:45deg;
+}
+.j-confirm span{font-size:15px;font-weight:800}
+
+/* ---------- المراجعة ---------- */
+.j-rev{
+  margin-top:24px;border-radius:18px;overflow:hidden;
+  background:var(--surface);border:1px solid var(--hair);
+}
+.j-rev div{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:15px 18px;border-top:1px solid var(--hair);
+  font-size:15.5px;font-weight:700;
+}
+.j-rev div:first-child{border-top:0}
+.j-rev span{color:var(--muted);font-weight:600;flex:none}
+.j-rev b{text-align:end}
+.j-rev .tot{background:var(--ink);color:var(--paper)}
+.j-rev .tot span{color:#8C8D83}
+.j-rev .tot b{
+  font-family:'Archivo',sans-serif;font-weight:900;font-size:24px;
+  color:var(--lime);letter-spacing:-1px;
+}
+.j-rev .code b{font-family:'Archivo',sans-serif;letter-spacing:1px;color:var(--lime-deep)}
+.j-hint{margin-top:14px;color:var(--muted);font-size:14px;font-weight:600;line-height:1.6}
+
+/* ---------- تم ---------- */
+.j-done{text-align:center;display:grid;justify-items:center;gap:14px;padding-block:20px}
+.j-check{
+  width:76px;height:76px;border-radius:50%;display:grid;place-items:center;
+  background:var(--lime);color:var(--ink);box-shadow:var(--glow-lg);
+  animation:pop .6s var(--e-out) both;
+}
+@keyframes pop{from{scale:.4;opacity:0}to{scale:1;opacity:1}}
+.j-check svg{width:34px;height:34px}
+.j-code-card{
+  width:100%;margin-top:8px;padding:22px;border-radius:18px;
+  background:var(--ink);color:var(--paper);display:grid;gap:6px;justify-items:center;
+}
+.j-code-card>span{font-size:13px;color:#8C8D83;font-weight:700}
+.j-code-card>b{
+  font-family:'Archivo',sans-serif;font-weight:900;font-size:40px;
+  color:var(--lime);letter-spacing:2px;text-shadow:var(--glow);
+}
+.j-code-rows{
+  width:100%;margin-top:12px;display:grid;gap:0;
+  border-top:1px solid rgba(243,241,235,.14);
+}
+.j-code-rows div{
+  display:flex;justify-content:space-between;gap:14px;
+  padding-block:11px;font-size:14.5px;font-weight:700;
+  border-top:1px solid rgba(243,241,235,.09);
+}
+.j-code-rows div:first-child{border-top:0}
+.j-code-rows span{color:#8C8D83;font-weight:600}
+.j-done-btns{display:grid;gap:10px;width:100%;margin-top:8px}
+
+/* ---------- الزرار تحت ---------- */
+.j-dock{
+  position:fixed;inset-inline:0;bottom:0;z-index:50;
+  display:flex;gap:10px;
+  padding:12px var(--pad) calc(12px + env(safe-area-inset-bottom));
+  background:rgba(243,241,235,.94);backdrop-filter:blur(14px);
+  border-top:1px solid var(--hair);
+}
+.j-dock .btn{padding-block:16px;font-size:17px}
+.j-next{flex:1}
+.j-back-btn{flex:none;padding-inline:24px}

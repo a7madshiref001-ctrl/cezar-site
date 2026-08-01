@@ -21,8 +21,8 @@
 <link rel="preload" as="image" href="assets/img/hero-d1.webp" media="(min-width:901px)">
 <link rel="preload" as="image" href="assets/img/hero-m1.webp" media="(max-width:900px)">
 <script>document.documentElement.className='js';</script>
-<link rel="stylesheet" href="assets/core.css?v=8">
-<link rel="stylesheet" href="assets/site.css?v=13">
+<link rel="stylesheet" href="assets/core.css?v=16">
+<link rel="stylesheet" href="assets/site.css?v=15">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"سيزر جيم","alternateName":"CEZAR GYM",
@@ -55,7 +55,7 @@
       <a href="#pricing">الأسعار</a>
       <a href="#where">مكاننا</a>
     </nav>
-    <a href="#join" class="btn btn-lime btn-sm">اشترك الآن</a>
+    <a href="join.html" class="btn btn-lime btn-sm">اشترك الآن</a>
     <button class="burger" id="burger" aria-label="القائمة" aria-expanded="false"><i></i></button>
   </div>
 </header>
@@ -65,7 +65,7 @@
   <a href="#pricing">الأسعار</a>
   <a href="#where">مكاننا</a>
   <div class="m-cta">
-    <a href="#join" class="btn btn-lime" style="flex:1">اشترك الآن</a>
+    <a href="join.html" class="btn btn-lime" style="flex:1">اشترك الآن</a>
   </div>
 </div>
 
@@ -106,7 +106,7 @@
   </div>
   <div class="wrap hero-in">
     <h1><span class="ln"><span>اصنع المحارب<br>اللي <em class="mark" style="font-style:normal">جوّاك</em></span></span></h1>
-    <a href="#join" class="btn btn-lime hero-btn">اشترك الآن</a>
+    <a href="join.html" class="btn btn-lime hero-btn">اشترك الآن</a>
   </div>
   <div class="scroll-cue lat" aria-hidden="true">SCROLL</div>
 </section>
@@ -116,8 +116,12 @@
   <div class="wrap live-in">
     <div class="ring" id="ring">
       <svg viewBox="0 0 280 280" aria-hidden="true">
-        <circle class="ring-track" cx="140" cy="140" r="120"/>
-        <circle class="ring-fg" cx="140" cy="140" r="120" id="ringFg"/>
+        <!-- اللفة على الشريط بس. النقطة بره اللفة عشان إحداثياتها
+             تتحسب في نفس اتجاه اللي بنشوفه على الشاشة. -->
+        <g class="ring-rot">
+          <circle class="ring-track" cx="140" cy="140" r="120"/>
+          <circle class="ring-fg" cx="140" cy="140" r="120" id="ringFg"/>
+        </g>
         <circle class="ring-hub" cx="140" cy="140" r="96"/>
         <circle class="ring-head" r="7" cx="140" cy="20" id="ringHead"/>
       </svg>
@@ -150,7 +154,7 @@
     <div class="why-grid" id="whyGrid"></div>
     <div class="cta-band" data-reveal>
       <p>الكلام ده كله معناه حاجة واحدة: مكان يستحمل جدّيتك.</p>
-      <a href="#join" class="btn btn-lime">اشترك الآن</a>
+      <a href="join.html" class="btn btn-lime">اشترك الآن</a>
     </div>
   </div>
 </section>
@@ -176,7 +180,7 @@
       <p class="sub">مش ركن صغير ولا وقت مسروق — فترات مخصّصة كل يوم،
         الصالة كلها بأجهزتها ووزنها بالكامل، وكابتن متخصص.</p>
       <ul class="tick" id="ladiesList"></ul>
-      <a href="#join" class="btn btn-gold">اشتركي دلوقتي</a>
+      <a href="join.html" class="btn btn-gold">اشتركي دلوقتي</a>
     </div>
     <div class="ladies-r" data-reveal>
       <div class="hours-card">
@@ -265,114 +269,7 @@
 
     <div class="cta-band" data-reveal>
       <p>اختارت باقتك؟ خلّص الاشتراك من هنا وانت في البيت.</p>
-      <a href="#join" class="btn btn-lime">اشترك وانت في البيت</a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ 09 رحلة الاشتراك ═══ -->
-<section class="sect join grain" id="join">
-  <div class="join-bg"><div class="ph" data-img="join-bg" data-alt="" style="height:100%"></div></div>
-  <div class="wrap">
-    <div class="head" data-reveal>
-      <span class="eyebrow">08 / join</span>
-      <h2>اشترك في دقيقة</h2>
-      <p class="sub">3 خطوات وخلاص — تختار، تكتب بياناتك، وتبعت. الطلب بيوصلنا على واتساب وبنرد عليك بالتأكيد.</p>
-    </div>
-
-    <div class="steps" id="steps">
-      <span class="step-p on" data-s="1"><b class="lat">1</b> الباقة</span>
-      <i class="step-line"></i>
-      <span class="step-p" data-s="2"><b class="lat">2</b> بياناتك</span>
-      <i class="step-line"></i>
-      <span class="step-p" data-s="3"><b class="lat">3</b> التأكيد</span>
-    </div>
-
-    <div class="jbox" data-reveal>
-      <!-- خطوة 1 -->
-      <div class="jstep on" data-step="1">
-        <h3>اختار نوع الاشتراك</h3>
-        <div class="opt-grid" id="jKind"></div>
-        <div id="jPlanWrap" hidden>
-          <h3 style="margin-top:6px">اختار الباقة</h3>
-          <div class="opt-grid" id="jPlans" style="margin-top:14px"></div>
-        </div>
-        <div class="jnav">
-          <button class="btn btn-lime" id="j1next" disabled>كمّل</button>
-        </div>
-      </div>
-
-      <!-- خطوة 2 -->
-      <div class="jstep" data-step="2">
-        <h3>بياناتك</h3>
-        <div class="fields">
-          <div class="f">
-            <label class="lat">الاسم</label>
-            <input id="jName" type="text" placeholder="اكتب اسمك بالكامل" autocomplete="name">
-            <span class="err">اكتب اسمك الأول والأخير على الأقل</span>
-          </div>
-          <div class="f">
-            <label class="lat">رقم الموبايل</label>
-            <input id="jPhone" type="tel" inputmode="numeric" placeholder="01xxxxxxxxx" autocomplete="tel">
-            <span class="err">رقم مصري صحيح بيبدأ بـ 010 أو 011 أو 012 أو 015</span>
-          </div>
-          <div class="f">
-            <label class="lat">الفترة</label>
-            <select id="jGender">
-              <option value="men">رجال</option>
-              <option value="women">سيدات</option>
-            </select>
-          </div>
-          <div class="f">
-            <label class="lat">طريقة الدفع</label>
-            <select id="jPay"></select>
-          </div>
-          <div class="f full">
-            <label class="lat">ملاحظة (اختياري)</label>
-            <textarea id="jNote" rows="2" placeholder="أي حاجة عايز تقولها — هدفك من التمرين، وقت مناسب للاتصال…"></textarea>
-          </div>
-        </div>
-        <div class="jnav">
-          <button class="btn btn-ghost-light" data-back="1">رجوع</button>
-          <button class="btn btn-lime" id="j2next">مراجعة الطلب</button>
-        </div>
-      </div>
-
-      <!-- خطوة 3 -->
-      <div class="jstep" data-step="3">
-        <h3>راجع وابعت</h3>
-        <div class="rev" id="jRev"></div>
-        <div class="pay-box" id="jPayBox"></div>
-        <div class="jnav">
-          <button class="btn btn-ghost-light" data-back="2">رجوع</button>
-          <button class="btn btn-lime" id="jSend">ابعت الطلب على واتساب</button>
-        </div>
-        <p style="color:#8C8D83;font-size:14px;font-weight:600">
-          الطلب بيتفتح في واتساب مكتوب جاهز — اضغط إرسال وبس. مفيش دفع أونلاين على الموقع دلوقتي.</p>
-      </div>
-
-      <!-- تم -->
-      <div class="jstep" data-step="4">
-        <h3>الطلب اتبعت 💪</h3>
-        <p>دي بطاقتك — اضغط عليها بالزنق لو عايز تحفظها صورة.</p>
-        <div class="mcard" id="mcard">
-          <div class="mcard-h">
-            <img src="assets/img/emblem-light.png" alt="">
-            <span class="lat">CEZAR GYM · MEMBER</span>
-          </div>
-          <div class="mcard-b">
-            <div class="nm" id="mcName">—</div>
-            <div class="pl" id="mcPlan">—</div>
-          </div>
-          <div class="mcard-f">
-            <span id="mcDate">—</span>
-            <span id="mcAmt">—</span>
-          </div>
-        </div>
-        <div class="jnav">
-          <button class="btn btn-ghost-light" id="jRestart">طلب تاني</button>
-        </div>
-      </div>
+      <a href="join.html" class="btn btn-lime">اشترك وانت في البيت</a>
     </div>
   </div>
 </section>
@@ -413,7 +310,7 @@
 
 <!-- الشريط الثابت في الموبايل -->
 <div class="dock" id="dock">
-  <a href="#join" class="btn btn-lime">اشترك الآن</a>
+  <a href="join.html" class="btn btn-lime">اشترك الآن</a>
   <a class="btn btn-wa" id="dockWa" aria-label="واتساب"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.7 15L2 22l5.2-1.3A10 10 0 1012 2zm0 2a8 8 0 11-4.1 14.9l-.4-.2-2.7.7.7-2.6-.2-.4A8 8 0 0112 4zm-2.3 4c-.2 0-.5.1-.7.4-.3.3-.8.8-.8 1.7 0 .9.6 1.8 1.8 3 1.2 1.1 2.4 1.7 3.4 1.9.9.2 1.4-.2 1.7-.5.3-.3.4-.8.3-1l-1.2-.6c-.2-.1-.4 0-.5.1l-.4.5c-.1.1-.3.2-.5.1-.5-.2-1-.5-1.5-1s-.8-1-1-1.5c-.1-.2 0-.3.1-.4l.4-.4c.2-.2.2-.4.1-.6L10.3 8.3c-.1-.2-.3-.3-.6-.3z"/></svg></a>
 </div>
 
@@ -424,6 +321,6 @@
 <script src="data/img.js?v=2"></script>
 <script src="data/site.js?v=12"></script>
 <script src="assets/hours.js?v=2"></script>
-<script src="assets/site.js?v=14"></script>
+<script src="assets/site.js?v=16"></script>
 </body>
 </html>
