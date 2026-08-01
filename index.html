@@ -12,17 +12,17 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="سيزر جيم | أقوى جيم في بني سويف الجديدة">
 <meta property="og:description" content="أوزان، كارديو، فنون قتالية، تأهيل، وساونا — ومواعيد للرجال والسيدات. اشترك من الموقع في دقيقة.">
-<meta property="og:image" content="assets/img/hero-desktop.webp">
+<meta property="og:image" content="assets/img/hero-d1.webp">
 <meta property="og:locale" content="ar_EG">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/img/hero-desktop.webp" media="(min-width:901px)">
-<link rel="preload" as="image" href="assets/img/hero-mobile.webp" media="(max-width:900px)">
+<link rel="preload" as="image" href="assets/img/hero-d1.webp" media="(min-width:901px)">
+<link rel="preload" as="image" href="assets/img/hero-m1.webp" media="(max-width:900px)">
 <script>document.documentElement.className='js';</script>
-<link rel="stylesheet" href="assets/core.css?v=2">
-<link rel="stylesheet" href="assets/site.css?v=6">
+<link rel="stylesheet" href="assets/core.css?v=8">
+<link rel="stylesheet" href="assets/site.css?v=9">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"سيزر جيم","alternateName":"CEZAR GYM",
@@ -83,11 +83,26 @@
 
 <!-- ═══ 01 الهيرو ═══ -->
 <section class="hero grain">
-  <div class="hero-bg">
-    <picture>
-      <source media="(max-width:900px)" srcset="assets/img/hero-mobile.webp">
-      <img src="assets/img/hero-desktop.webp" alt="قاعة الأوزان في سيزر جيم" id="heroImg" fetchpriority="high">
-    </picture>
+  <!-- تلات لقطات بتتبدّل مع بعض بزووم بطيء — حركة حقيقية بصور الجيم -->
+  <div class="hero-bg" id="heroBg">
+    <div class="hero-slide on">
+      <picture>
+        <source media="(max-width:900px)" srcset="assets/img/hero-m1.webp">
+        <img src="assets/img/hero-d1.webp" alt="قاعة الأوزان في سيزر جيم" fetchpriority="high">
+      </picture>
+    </div>
+    <div class="hero-slide">
+      <picture>
+        <source media="(max-width:900px)" srcset="assets/img/hero-m2.webp">
+        <img src="assets/img/hero-d2.webp" alt="صالة سيزر جيم" loading="lazy">
+      </picture>
+    </div>
+    <div class="hero-slide">
+      <picture>
+        <source media="(max-width:900px)" srcset="assets/img/hero-m3.webp">
+        <img src="assets/img/hero-d3.webp" alt="دمبلز تكنوجيم" loading="lazy">
+      </picture>
+    </div>
   </div>
   <div class="wrap hero-in">
     <h1><span class="ln"><span>اصنع المحارب<br>اللي <em class="mark" style="font-style:normal">جوّاك</em></span></span></h1>
@@ -113,20 +128,70 @@
   </div>
 </section>
 
-<!-- ═══ 03 جوّه سيزر — الأنشطة والصور في مكان واحد ═══ -->
-<section class="sect inside" id="inside">
+<!-- ═══ 03 الجولة — كل مكان في الجيم بشاشة كاملة ═══ -->
+<section class="tour" id="inside">
+  <div class="wrap tour-head" data-reveal>
+    <span class="kick">الجولة</span>
+    <h2>اتفضّل، خد جولة</h2>
+    <p class="sub">كل ركن في سيزر — بصورته الحقيقية، من غير فلاتر ولا كلام.</p>
+  </div>
+  <div id="stops"></div>
+</section>
+
+<!-- ═══ 04 ليه سيزر ═══ -->
+<section class="sect why" id="why">
   <div class="wrap">
     <div class="head" data-reveal>
-      <h2>جوّه سيزر</h2>
-      <p class="sub">أوزان وأجهزة تكنوجيم، كارديو، فنون قتالية، تأهيل، ساونا، ولوكرات.
-        اسحب بصّ بعينك.</p>
+      <span class="kick">ليه سيزر</span>
+      <h2>٤ حاجات مش هتلاقيها في أي جيم تاني في بني سويف</h2>
+    </div>
+    <div class="why-grid" id="whyGrid"></div>
+    <div class="cta-band" data-reveal>
+      <p>الكلام ده كله معناه حاجة واحدة: مكان يستحمل جدّيتك.</p>
+      <a href="#join" class="btn btn-lime">اشترك الآن</a>
     </div>
   </div>
-  <div class="hscroll shots" id="shots"></div>
+</section>
+
+<!-- ═══ 05 يومك في سيزر ═══ -->
+<section class="sect day" id="day">
   <div class="wrap">
-    <ul class="chips" id="chips" data-reveal></ul>
+    <div class="head" data-reveal>
+      <span class="kick">يومك</span>
+      <h2>تمرينة واحدة في سيزر شكلها إيه؟</h2>
+      <p class="sub">من أول ما تدخل من الباب لحد ما تخرج.</p>
+    </div>
+    <ol class="steps-line" id="dayList"></ol>
   </div>
 </section>
+
+<!-- ═══ 06 قسم السيدات ═══ -->
+<section class="sect ladies" id="ladies">
+  <div class="wrap ladies-in">
+    <div class="ladies-t" data-reveal>
+      <span class="kick gold">قسم السيدات</span>
+      <h2>فترات كاملة، والجيم كله ليكي</h2>
+      <p class="sub">مش ركن صغير ولا وقت مسروق — فترات مخصّصة كل يوم،
+        الصالة كلها بأجهزتها ووزنها بالكامل، وكابتن متخصص.</p>
+      <ul class="tick" id="ladiesList"></ul>
+      <a href="#join" class="btn btn-gold">اشتركي دلوقتي</a>
+    </div>
+    <div class="ladies-r" data-reveal>
+      <div class="ring sm" id="ringLadies">
+        <svg viewBox="0 0 260 260" aria-hidden="true">
+          <circle class="ring-bg" cx="130" cy="130" r="116"/>
+          <circle class="ring-fg" cx="130" cy="130" r="116" id="ringLadiesFg"/>
+        </svg>
+        <div class="ring-c">
+          <b id="ringLadiesGroup">—</b>
+          <span id="ringLadiesLeft">&nbsp;</span>
+        </div>
+      </div>
+      <p class="live-note" id="ringLadiesNote">&nbsp;</p>
+    </div>
+  </div>
+</section>
+
 
 <!-- ═══ 04 الأسعار — والعروض جواها في الأول ═══ -->
 <section class="sect prices" id="pricing">
@@ -201,6 +266,11 @@
           <div class="sch-grid" id="schGrid"></div>
         </div>
       </details>
+    </div>
+
+    <div class="cta-band" data-reveal>
+      <p>اختارت باقتك؟ خلّص الاشتراك من هنا وانت في البيت.</p>
+      <a href="#join" class="btn btn-lime">اشترك وانت في البيت</a>
     </div>
   </div>
 </section>
@@ -357,8 +427,8 @@
 <div id="toast"><div></div></div>
 
 <script src="data/img.js?v=2"></script>
-<script src="data/site.js?v=2"></script>
+<script src="data/site.js?v=8"></script>
 <script src="assets/hours.js?v=2"></script>
-<script src="assets/site.js?v=3"></script>
+<script src="assets/site.js?v=8"></script>
 </body>
 </html>

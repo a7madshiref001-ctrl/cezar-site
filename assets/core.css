@@ -14,9 +14,17 @@
   --hair:#E2DFD6;
   --muted:#6E6F67;
   --faint:#9A9B91;
-  --lime:#A8DC42;
-  --lime-deep:#8AB81B;   /* الفسفوري كنص على خلفية فاتحة */
+  --lime:#BEF23C;        /* الفسفوري الأساسي — أفتح وأنور من اللوجو عشان يفرقع على الغامق */
+  --lime-hot:#D6FF4B;    /* أعلى درجة — للتوهّج والهوفر */
+  --lime-deep:#6F9410;   /* الفسفوري كنص على خلفية فاتحة (تباين كافي) */
   --lime-dim:#7E9E2E;
+  --gold:#E8B14C;        /* فترة السيدات */
+  --gold-deep:#9C6F16;
+
+  /* توهّج جاهز — بيتحط على أي حاجة فسفوري */
+  --glow:0 0 22px rgba(190,242,60,.55);
+  --glow-lg:0 0 44px rgba(190,242,60,.42);
+  --glow-gold:0 0 22px rgba(232,177,76,.55);
 
   /* مقاسات */
   --pad:clamp(18px,5vw,64px);
@@ -89,8 +97,15 @@ ul{margin:0;padding:0;list-style:none}
 }
 .eyebrow::before{
   content:'';width:9px;height:9px;flex:none;
-  background:var(--lime);
+  background:var(--lime);box-shadow:var(--glow);
 }
+
+/* عنوان صغير فوق كل قسم */
+.kick{
+  display:inline-block;font-weight:800;font-size:13.5px;
+  color:var(--lime-deep);
+}
+.sect-dark .kick,.tour .kick,.ladies .kick{color:var(--lime);text-shadow:0 0 18px rgba(190,242,60,.7)}
 .on-dark .eyebrow,.dark .eyebrow{color:#8C8D83}
 
 /* خط فسفوري تحت الكلمة المهمة — تحت الحروف مش عليها، عشان الكلمة تفضل مقروءة */
@@ -98,6 +113,7 @@ ul{margin:0;padding:0;list-style:none}
 .mark::after{
   content:'';position:absolute;inset-inline:-.05em;bottom:-.02em;height:.13em;
   background:var(--lime);border-radius:2px;
+  box-shadow:var(--glow),var(--glow-lg);
   transform:scaleX(var(--mark,1));transform-origin:right center;
 }
 
@@ -114,8 +130,8 @@ ul{margin:0;padding:0;list-style:none}
   will-change:transform;
 }
 .btn:active{transform:scale(.965)}
-.btn-lime{background:var(--lime);color:var(--ink)}
-.btn-lime:hover{background:#B6E552;box-shadow:0 10px 26px rgba(168,220,66,.36)}
+.btn-lime{background:var(--lime);color:var(--ink);box-shadow:var(--glow)}
+.btn-lime:hover{background:var(--lime-hot);box-shadow:var(--glow),0 12px 30px rgba(190,242,60,.45)}
 .btn-ink{background:var(--ink);color:var(--paper)}
 .btn-ink:hover{background:#2A2B33}
 .btn-ghost{border:1.5px solid var(--hair);color:var(--ink)}

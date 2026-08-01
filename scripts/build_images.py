@@ -53,11 +53,11 @@ CROPS = [
 # master -> list of (output name, width, height, focus)
 # focus is the crop anchor as (fx, fy) in 0..1 of the master
 DERIVATIVES = {
-    "hero-main":        [("hero-desktop", 1920, 1080, (0.50, 0.55)),
-                         ("hero-tablet",  1280,  900, (0.50, 0.55))],
-    "dumbbell-zone":    [("hero-mobile",  1080, 1440, (0.74, 0.52)),
+    "hero-main":        [("hero-d1",      1920, 1080, (0.50, 0.55))],
+    "dumbbell-zone":    [("hero-m1",      1080, 1560, (0.74, 0.52)),
                          ("card-dumbbell", 900, 1125, (0.40, 0.55))],
-    "floor-wide":       [("band-floor",   1800,  760, (0.50, 0.55)),
+    "floor-wide":       [("hero-m2",      1080, 1560, (0.46, 0.55)),
+                         ("hero-d2",      1920, 1080, (0.50, 0.55)),
                          ("join-bg",      1600,  900, (0.50, 0.55))],
     "cardio":           [("card-cardio",   900, 1125, (0.55, 0.55)),
                          ("gal-cardio",   1400,  933, (0.50, 0.50))],
@@ -67,7 +67,8 @@ DERIVATIVES = {
     # wide, so the lockers AND the "GO HARD or go home" wall both stay in frame
     "lockers":          [("card-lockers", 1400,  875, (0.50, 0.50)),
                          ("gal-lockers",  1400,  933, (0.45, 0.50))],
-    "technogym":        [("proof-techno", 1500, 1000, (0.45, 0.55)),
+    "technogym":        [("hero-m3",      1080, 1560, (0.48, 0.55)),
+                         ("hero-d3",      1920, 1080, (0.45, 0.55)),
                          ("gal-techno",   1400,  933, (0.45, 0.55))],
     "plates-detail":    [("tex-plates",   1600, 1200, (0.50, 0.55))],
     "perfect-body":     [("gal-perfect",  1400,  933, (0.45, 0.50))],

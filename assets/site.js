@@ -110,7 +110,7 @@ function mountImages(root) { $$('.ph[data-img]', root || document).forEach(fillI
     hdr.classList.toggle('solid', y > 40);
     if (mark) mark.src = y > 40 ? 'assets/img/emblem-dark.png' : 'assets/img/emblem-light.png';
     hdr.classList.toggle('hide', y > 420 && y > last && !$('#sheet').classList.contains('open'));
-    var show = y > 300;
+    var show = y > 120;   /* الزرار يبان بدري ويفضل معاك طول الصفحة */
     dock.classList.toggle('up', show);
     fab.classList.toggle('up', show);
 
@@ -187,6 +187,21 @@ function status(now) { return H.status(D.schedule.segments, now); }
 function hhmm(ms) { return H.hhmm(ms); }
 function clock(ms) { return H.clock(ms); }
 
+/* «باقي ساعتين و14 دقيقة» أوضح من 02:14:33 لما الوقت طويل.
+   المثنى في العربي مالوش رقم: «ساعتين» مش «2 ساعتين». */
+function unit(k, one, two, few, many) {
+  if (k === 1) return one;
+  if (k === 2) return two;
+  return k + ' ' + (k <= 10 ? few : many);
+}
+function leftText(ms) {
+  var m = Math.floor(ms / 60000), h = Math.floor(m / 60), mm = m % 60;
+  if (h >= 1) return unit(h, 'ساعة', 'ساعتين', 'ساعات', 'ساعة') +
+                     (mm ? ' و' + unit(mm, 'دقيقة', 'دقيقتين', 'دقايق', 'دقيقة') : '');
+  if (m >= 1) return unit(m, 'دقيقة', 'دقيقتين', 'دقايق', 'دقيقة');
+  return 'أقل من دقيقة';
+}
+
 /* ─── الحلقة: الفترة الشغّالة دلوقتي ─── */
 var ACC = { men: '#A8DC42', women: '#E8B14C' };   /* فسفوري للرجال، ذهبي للسيدات */
 
@@ -196,20 +211,6 @@ var ACC = { men: '#A8DC42', women: '#E8B14C' };   /* فسفوري للرجال،
   if (!sec) return;
   var C = 2 * Math.PI * 116;
 
-  /* «باقي ساعتين و14 دقيقة» أوضح من 02:14:33 لما الوقت طويل.
-     المثنى في العربي مالوش رقم: «ساعتين» مش «2 ساعتين». */
-  function unit(k, one, two, few, many) {
-    if (k === 1) return one;
-    if (k === 2) return two;
-    return k + ' ' + (k <= 10 ? few : many);
-  }
-  function left(ms) {
-    var m = Math.floor(ms / 60000), h = Math.floor(m / 60), mm = m % 60;
-    if (h >= 1) return unit(h, 'ساعة', 'ساعتين', 'ساعات', 'ساعة') +
-                       (mm ? ' و' + unit(mm, 'دقيقة', 'دقيقتين', 'دقايق', 'دقيقة') : '');
-    if (m >= 1) return unit(m, 'دقيقة', 'دقيقتين', 'دقايق', 'دقيقة');
-    return 'أقل من دقيقة';
-  }
 
   function paint() {
     var now = new Date(), st = status(now), t = now.getTime();
@@ -219,7 +220,7 @@ var ACC = { men: '#A8DC42', women: '#E8B14C' };   /* فسفوري للرجال،
       sec.style.setProperty('--acc', ACC[seg.g]);
       fg.style.strokeDashoffset = C * (1 - rest / span);
       gEl.textContent = GNAME[seg.g];
-      lEl.innerHTML = '<i>باقي</i> ' + left(rest);
+      lEl.innerHTML = '<i>باقي</i> ' + leftText(rest);
       note.innerHTML = 'الفترة من <b>' + clock(seg.start) + '</b> لـ <b>' + clock(seg.end) + '</b>';
     } else {
       sec.classList.add('shut');
@@ -227,7 +228,7 @@ var ACC = { men: '#A8DC42', women: '#E8B14C' };   /* فسفوري للرجال،
       fg.style.strokeDashoffset = C;
       gEl.textContent = 'مقفول';
       if (st.next) {
-        lEl.innerHTML = '<i>يفتح بعد</i> ' + left(st.next.start - t);
+        lEl.innerHTML = '<i>يفتح بعد</i> ' + leftText(st.next.start - t);
         note.innerHTML = 'الفترة الجاية <b>' + GNAME[st.next.g] + '</b> الساعة <b>' + clock(st.next.start) + '</b>';
       } else { lEl.textContent = ''; note.textContent = ''; }
     }
@@ -368,24 +369,95 @@ function friendsOffer() {
 /* ============================================================
    الأنشطة
    ============================================================ */
-(function inside() {
-  var strip = $('#shots'), chips = $('#chips');
-  if (!strip) return;
+/* ─── الهيرو: تبديل بين 3 لقطات ─── */
+(function heroSlides() {
+  var bg = $('#heroBg'); if (!bg) return;
+  var slides = $$('.hero-slide', bg);
+  if (slides.length < 2 || reduce) return;
+  var i = 0;
+  setInterval(function () {
+    slides[i].classList.remove('on');
+    i = (i + 1) % slides.length;
+    slides[i].classList.add('on');
+  }, 5200);
+})();
 
-  /* الأنشطة اللي ليها صورة حقيقية = الشريط. الباقي = شيبس تحته. */
-  var withImg = D.services.filter(function (s) { return s.img; });
-  var noImg = D.services.filter(function (s) { return !s.img; });
-
-  strip.innerHTML = withImg.map(function (s) {
-    return '<figure class="shot"><div class="ph" data-img="' + s.img + '"' +
-      ' data-alt="' + esc(s.name) + ' في سيزر جيم" data-sizes="(max-width:900px) 74vw, 32vw"></div>' +
-      '<figcaption><b>' + esc(s.name) + '</b><span>' + esc(s.line) + '</span></figcaption></figure>';
+/* ─── الجولة: كل ركن بشاشة ─── */
+(function tour() {
+  var box = $('#stops'); if (!box || !D.tour) return;
+  box.innerHTML = D.tour.map(function (t, i) {
+    return '<article class="stop" data-reveal>' +
+      '<div class="stop-img"><div class="ph" data-img="' + t.img + '"' +
+        ' data-alt="' + esc(t.name) + ' في سيزر جيم" data-sizes="(max-width:900px) 100vw, 60vw"></div></div>' +
+      '<div class="stop-txt">' +
+        '<span class="stop-n lat">' + esc(t.kick) + '</span>' +
+        '<h3>' + esc(t.name) + '</h3>' +
+        '<p>' + esc(t.line) + '</p>' +
+        (i === D.tour.length - 1
+          ? '<a href="#join" class="btn btn-lime btn-sm">اشترك وانت في البيت</a>' : '') +
+      '</div></article>';
   }).join('');
-  mountImages(strip);
+  mountImages(box);
+  if (window.__watchReveal) window.__watchReveal(box);
+})();
 
-  chips.innerHTML = noImg.map(function (s) {
-    return '<li>' + esc(s.name) + '</li>';
+/* ─── ليه سيزر ─── */
+(function why() {
+  var g = $('#whyGrid'); if (!g || !D.why) return;
+  g.innerHTML = D.why.map(function (w, i) {
+    return '<article class="why-c" data-reveal style="--d:' + i * 70 + 'ms">' +
+      '<span class="why-n lat">' + esc(w.n) + '</span>' +
+      '<h3>' + esc(w.t) + '</h3><p>' + esc(w.line) + '</p></article>';
   }).join('');
+  if (window.__watchReveal) window.__watchReveal(g);
+})();
+
+/* ─── يومك في سيزر ─── */
+(function day() {
+  var g = $('#dayList'); if (!g || !D.day) return;
+  g.innerHTML = D.day.map(function (s, i) {
+    return '<li data-reveal style="--d:' + i * 70 + 'ms">' +
+      '<b class="lat">' + (i + 1) + '</b>' +
+      '<div><h3>' + esc(s.t) + '</h3><p>' + esc(s.line) + '</p></div></li>';
+  }).join('');
+  if (window.__watchReveal) window.__watchReveal(g);
+})();
+
+/* ─── قسم السيدات: نفس الحلقة بس بتقول امتى الفترة الجاية ─── */
+(function ladies() {
+  var g = $('#ladiesList');
+  if (g && D.ladies) g.innerHTML = D.ladies.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+
+  var fg = $('#ringLadiesFg'); if (!fg) return;
+  var C = 2 * Math.PI * 116;
+  var gEl = $('#ringLadiesGroup'), lEl = $('#ringLadiesLeft'), note = $('#ringLadiesNote');
+  var sec = $('#ladies');
+  fg.style.strokeDasharray = C;
+
+  function paint() {
+    var now = new Date(), t = now.getTime();
+    var st = status(now);
+    /* الفترة النسائية الحالية، أو أقرب فترة نسائية جاية */
+    if (st.open && st.seg.g === 'women') {
+      var s = st.seg, rest = s.end - t;
+      sec.classList.add('live-now');
+      fg.style.strokeDashoffset = C * (1 - rest / (s.end - s.start));
+      gEl.textContent = 'دلوقتي';
+      lEl.innerHTML = '<i>باقي</i> ' + leftText(rest);
+      note.innerHTML = 'فترة السيدات شغّالة لحد <b>' + clock(s.end) + '</b>';
+      return;
+    }
+    sec.classList.remove('live-now');
+    var iv = H.intervals(D.schedule.segments, now).filter(function (x) {
+      return x.g === 'women' && x.start > t;
+    })[0];
+    fg.style.strokeDashoffset = C;
+    if (!iv) { gEl.textContent = '—'; lEl.textContent = ''; note.textContent = ''; return; }
+    gEl.textContent = 'الجاية';
+    lEl.innerHTML = '<i>بعد</i> ' + leftText(iv.start - t);
+    note.innerHTML = D.schedule.days[iv.dow] + ' من <b>' + clock(iv.start) + '</b> لـ <b>' + clock(iv.end) + '</b>';
+  }
+  paint(); setInterval(paint, 1000);
 })();
 
 /* ============================================================
