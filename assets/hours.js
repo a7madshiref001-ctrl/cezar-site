@@ -16,8 +16,13 @@ function midnight(d, offsetDays) {
   return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (offsetDays || 0)).getTime();
 }
 
-/* كل الفترات حوالين تاريخ معيّن، كتواريخ حقيقية ومرتّبة */
-function intervals(segments, around, back, fwd) {
+/* كل الفترات حوالين تاريخ معيّن، كتواريخ حقيقية ومرتّبة.
+   مهم: الجدول بيقسّم فترة المجموعة الواحدة على أكتر من سطر لما
+   بتعدّي نص الليل — مثلًا رجال من 3 م لـ 7 ص، وبعدها على طول
+   رجال من 7 ص لـ 5 م. دول فترة واحدة متصلة في الحقيقة، فبنلزّقهم
+   في بعض. من غير كده العدّاد بيقول «باقي ساعتين» وهو لسه فاضل 5.
+   raw=true بيرجّع السطور زي ما هي من غير لزق. */
+function intervals(segments, around, back, fwd, raw) {
   var out = [];
   for (var off = (back == null ? -2 : back); off <= (fwd == null ? 9 : fwd); off++) {
     var base = midnight(around, off);
@@ -27,7 +32,20 @@ function intervals(segments, around, back, fwd) {
     });
   }
   out.sort(function (a, b) { return a.start - b.start; });
-  return out;
+  if (raw) return out;
+
+  var merged = [];
+  out.forEach(function (iv) {
+    var last = merged[merged.length - 1];
+    if (last && last.g === iv.g && iv.start <= last.end) {
+      last.end = Math.max(last.end, iv.end);
+      last.parts.push({ dow: iv.dow, from: iv.from });
+      return;
+    }
+    merged.push({ g: iv.g, from: iv.from, dow: iv.dow, start: iv.start, end: iv.end,
+                  parts: [{ dow: iv.dow, from: iv.from }] });
+  });
+  return merged;
 }
 
 /* الحالة اللحظية: مفتوح ولا مقفول، والفترة الحالية أو الجاية */

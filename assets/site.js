@@ -235,9 +235,7 @@ function headAt(head, filled) {
       cd.textContent = hhmm(rest);
       /* «الجاية» يعني أول فترة بتتغيّر فيها المجموعة — مش أول فترة
          في الجدول، لأن فترات الرجال بتتقسم على يومين ورا بعض. */
-      var flip = H.intervals(D.schedule.segments, now).filter(function (x) {
-        return x.start >= seg.end && x.g !== seg.g;
-      })[0];
+      var flip = st.next;   /* بعد الدمج، اللي بعدها بالضرورة مجموعة تانية */
       note.innerHTML = flip
         ? 'بعدها <b>' + GNAME[flip.g] + '</b> — ' + D.schedule.days[flip.dow] +
           ' الساعة <b>' + clock(flip.start) + '</b>'
@@ -270,7 +268,10 @@ function headAt(head, filled) {
     grid.innerHTML = order.map(function (dow) {
       var segs = (D.schedule.segments[String(dow)] || []).filter(function (s) { return s.g === g; });
       var slots = segs.length ? segs.map(function (s) {
-        var live = st.open && st.seg.g === g && st.seg.dow === dow && st.seg.from === s.from;
+        /* الفترة المدموجة ممكن تكون متكوّنة من أكتر من سطر في الجدول */
+        var live = st.open && st.seg.g === g && (st.seg.parts || []).filter(function (pt) {
+          return pt.dow === dow && pt.from === s.from;
+        }).length > 0;
         var from = H.clockFromMins(s.from), to = H.clockFromMins(s.to);
         return '<span class="slot' + (live ? ' live' : '') + '">' + from + ' — ' + to +
                (s.to > 1440 ? ' <em style="font-style:normal;opacity:.7">(الصبح)</em>' : '') + '</span>';
