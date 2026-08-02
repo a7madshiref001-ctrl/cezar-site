@@ -7,42 +7,38 @@
   position:fixed;inset:0;z-index:200;
   display:grid;place-items:center;
   background:var(--ink);
-  transition:opacity .6s var(--e-out),visibility .6s;
+  transition:opacity .35s var(--e-out),visibility .35s;
 }
 #splash.gone{opacity:0;visibility:hidden}
-.splash-in{display:grid;justify-items:center;gap:24px}
-/* الإمبلم بيتكشف بخط فسفوري نازل من فوق لتحت */
-.splash-emblem{position:relative;width:min(50vw,210px)}
-.splash-emblem img{
-  width:100%;
-  clip-path:inset(0 0 100% 0);
-  animation:wipe 1.05s var(--e-out) .15s forwards;
+/* الشعار وحده بيتجمع من ثلاث طبقات سريعة في مركز الشاشة. */
+.splash-in{
+  position:relative;
+  width:clamp(190px,52vw,300px);
+  aspect-ratio:2.025 / 1;
+  filter:drop-shadow(0 0 22px rgba(190,242,60,.16));
 }
-@keyframes wipe{to{clip-path:inset(0 0 0 0)}}
-.splash-emblem::after{
-  content:'';position:absolute;inset-inline:-6%;top:0;height:2px;
-  background:var(--lime);box-shadow:0 0 18px 3px rgba(168,220,66,.6);
-  animation:scan 1.05s var(--e-out) .15s forwards;
+.splash-mark{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  opacity:0;
+  object-fit:contain;
+  will-change:transform,opacity;
 }
-@keyframes scan{
-  0%{top:0;opacity:0}
-  8%{opacity:1}
-  92%{opacity:1}
-  100%{top:100%;opacity:0}
+.splash-mark--top{
+  clip-path:inset(0 0 66% 0);
+  animation:splashTop .2s var(--e-out) .05s both;
 }
-.splash-word{
-  overflow:hidden;
-  font-size:clamp(19px,4.4vw,27px);font-weight:900;color:var(--paper);
-  letter-spacing:-.5px;
+.splash-mark--middle{
+  clip-path:inset(32% 0 32% 0);
+  animation:splashMiddle .22s var(--e-out) .22s both;
 }
-.splash-word span{display:block;animation:wordUp .8s var(--e-out) .95s both}
-@keyframes wordUp{from{transform:translateY(110%)}to{transform:none}}
-.splash-bar{
-  width:min(52vw,190px);height:2px;background:rgba(243,241,235,.16);overflow:hidden;
+.splash-mark--bottom{
+  clip-path:inset(65% 0 0 0);
+  animation:splashBottom .22s var(--e-out) .39s both;
 }
-.splash-bar i{display:block;height:100%;width:100%;background:var(--lime);
-  transform:translateX(100%);animation:barIn 1.5s var(--e-in-out) .2s forwards}
-@keyframes barIn{to{transform:none}}
+@keyframes splashTop{from{opacity:0;transform:translateY(-16px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes splashMiddle{from{opacity:0;transform:scaleX(.7)}to{opacity:1;transform:none}}
+@keyframes splashBottom{from{opacity:0;transform:translateY(16px) scale(.95)}to{opacity:1;transform:none}}
 
 /* ---------- الهيدر ---------- */
 .hdr{

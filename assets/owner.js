@@ -310,6 +310,9 @@ function renderPay() {
       '<div class="fld"><label>الاسم</label><input data-f="label" value="' + esc(m.label) + '"></div>' +
       '<div class="fld"><label>الرقم / الحساب</label><input data-f="number" dir="ltr" value="' + esc(m.number) + '"></div>' +
       '<div class="fld wide"><label>سطر التعليمات للعميل</label><input data-f="hint" value="' + esc(m.hint || '') + '"></div>' +
+      '<div class="fld wide"><label>لينك يفتح التطبيق (اختياري)</label>' +
+        '<input data-f="link" dir="ltr" placeholder="https://ipn.eg/S/…" value="' + esc(m.link || '') + '">' +
+        '<span class="tip">من تطبيق إنستاباي: مشاركة رابط الدفع. لو حطّيته هيظهر زرار «افتح إنستاباي» للعميل.</span></div>' +
       '<button class="icon-btn" data-del="pay" aria-label="حذف">✕</button>' +
     '</div>';
   }).join('') || '<div class="empty"><b>مفيش طرق تحويل</b>العميل هيشوف «كاش في الجيم» بس.</div>';

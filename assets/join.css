@@ -269,15 +269,6 @@
 }
 @keyframes pop{from{scale:.4;opacity:0}to{scale:1;opacity:1}}
 .j-check svg{width:34px;height:34px}
-.j-code-card{
-  width:100%;margin-top:8px;padding:22px;border-radius:18px;
-  background:var(--ink);color:var(--paper);display:grid;gap:6px;justify-items:center;
-}
-.j-code-card>span{font-size:13px;color:#8C8D83;font-weight:700}
-.j-code-card>b{
-  font-family:'Archivo',sans-serif;font-weight:900;font-size:40px;
-  color:var(--lime);letter-spacing:2px;text-shadow:var(--glow);
-}
 .j-code-rows{
   width:100%;margin-top:12px;display:grid;gap:0;
   border-top:1px solid rgba(243,241,235,.14);
@@ -302,3 +293,62 @@
 .j-dock .btn{padding-block:16px;font-size:17px}
 .j-next{flex:1}
 .j-back-btn{flex:none;padding-inline:24px}
+
+/* ---------- هتيجي امتى (كاش في الجيم) ---------- */
+.j-when{display:grid;gap:10px;margin-top:24px}
+.j-when-t{font-size:14px;font-weight:800;color:var(--muted)}
+.j-when-t:not(:first-child){margin-top:12px}
+.j-days{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.j-days::-webkit-scrollbar{display:none}
+.j-day{
+  flex:none;min-width:86px;padding:14px 10px;border-radius:14px;
+  background:var(--surface);border:1.5px solid var(--hair);
+  display:grid;gap:3px;justify-items:center;
+  transition:all var(--t-fast) var(--e-out);
+}
+.j-day b{font-size:15.5px;font-weight:800}
+.j-day span{font-size:12.5px;color:var(--faint);font-weight:700}
+.j-day.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.j-day.on span{color:#8C8D83}
+.j-slots{display:grid;gap:8px}
+.j-slot{
+  padding:15px 18px;border-radius:14px;text-align:start;
+  background:var(--surface);border:1.5px solid var(--hair);
+  font-family:'Archivo',sans-serif;font-weight:800;font-size:16px;
+  transition:all var(--t-fast) var(--e-out);
+}
+.j-slot.on{background:var(--ink);border-color:var(--ink);color:var(--lime)}
+
+/* ---------- زرار فتح التطبيق ---------- */
+.j-open{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:18px 20px;border-top:1px solid rgba(243,241,235,.13);
+  background:var(--lime);color:var(--ink);
+  font-weight:900;font-size:17px;
+  transition:background var(--t-fast) var(--e-out);
+}
+.j-open:hover{background:var(--lime-hot)}
+.j-open svg{width:20px;height:20px;flex:none}
+
+/* ---------- الأوردر بعد التحويل ---------- */
+.j-order{
+  margin-top:14px;padding:18px 20px;border-radius:16px;
+  background:rgba(190,242,60,.14);border:1.5px solid rgba(190,242,60,.5);
+  display:grid;gap:6px;
+}
+.j-order b{font-size:16px;font-weight:800}
+.j-order p{color:var(--muted);font-size:14.5px;font-weight:600;line-height:1.65}
+
+/* ---------- ملاحظة المراجعة ---------- */
+.j-note{
+  margin-top:14px;padding:15px 18px;border-radius:14px;
+  background:var(--panel);color:var(--muted);
+  font-size:14.5px;font-weight:600;line-height:1.6;
+}
+.j-note b{color:var(--ink)}
+
+/* ---------- شاشة تم ---------- */
+.j-done-card{
+  width:100%;margin-top:8px;padding:20px 22px;border-radius:18px;
+  background:var(--ink);color:var(--paper);
+}

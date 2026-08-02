@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>اشترك في سيزر جيم</title>
-<meta name="description" content="اشترك في سيزر جيم من موبايلك — اختار الباقة، حوّل فودافون كاش أو إنستاباي، وابعت الطلب.">
+<meta name="description" content="اشترك في سيزر جيم من موبايلك — اختار الباقة، حوّل إنستاباي أو فودافون كاش، أو سجّل بياناتك وتعالى ادفع في الجيم.">
 <meta name="theme-color" content="#17181C">
 <meta name="robots" content="noindex">
 <link rel="apple-touch-icon" href="assets/img/icon-180.png">
@@ -13,8 +13,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <script>document.documentElement.className='js';</script>
-<link rel="stylesheet" href="assets/core.css?v=16">
-<link rel="stylesheet" href="assets/join.css?v=3">
+<link rel="stylesheet" href="assets/core.css?v=17">
+<link rel="stylesheet" href="assets/join.css?v=4">
 </head>
 <body class="j-body">
 
@@ -25,23 +25,20 @@
            stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
     </a>
     <img src="assets/img/emblem-light.png" alt="سيزر جيم" class="j-mark">
-    <span class="j-step-lab" id="stepLab">الخطوة 1 من 4</span>
+    <span class="j-step-lab" id="stepLab">&nbsp;</span>
   </div>
   <div class="j-bar"><i id="jBar"></i></div>
 </header>
 
 <main class="j-main">
 
-  <!-- ═══ 1 الباقة ═══ -->
-  <section class="j-step on" data-step="1">
+  <!-- ═══ الباقة ═══ -->
+  <section class="j-step" data-name="plan">
     <h1>اختار اشتراكك</h1>
     <p class="j-sub">الخصم متحسّب جوّه السعر — اللي مكتوب هو اللي بتدفعه.</p>
-
     <div class="j-offer" id="jOffer" hidden></div>
-
     <div class="j-tabs" id="kindTabs"></div>
     <div class="j-plans" id="planList"></div>
-
     <label class="j-friends" id="friendsBox" hidden>
       <input type="checkbox" id="friendsOn"><i></i>
       <span><b id="friendsTitle">إحنا مجموعة</b><em id="friendsHint"></em></span>
@@ -52,8 +49,8 @@
     </div>
   </section>
 
-  <!-- ═══ 2 بياناتك ═══ -->
-  <section class="j-step" data-step="2">
+  <!-- ═══ بياناتك ═══ -->
+  <section class="j-step" data-name="info">
     <h1>بياناتك</h1>
     <p class="j-sub">علشان نجهّز اشتراكك ونرد عليك.</p>
     <div class="j-fields">
@@ -81,36 +78,54 @@
     </div>
   </section>
 
-  <!-- ═══ 3 الدفع ═══ -->
-  <section class="j-step" data-step="3">
-    <h1>الدفع</h1>
-    <p class="j-sub">اختار اللي يريحك.</p>
+  <!-- ═══ طريقة الدفع ═══ -->
+  <section class="j-step" data-name="pay">
+    <h1>هتدفع إزاي؟</h1>
+    <p class="j-sub">اختار اللي يريحك — وهنشرحلك الخطوة اللي بعدها.</p>
     <div class="j-pay" id="payList"></div>
-    <div id="payHow"></div>
   </section>
 
-  <!-- ═══ 4 التأكيد ═══ -->
-  <section class="j-step" data-step="4">
+  <!-- ═══ هتيجي امتى (كاش) ═══ -->
+  <section class="j-step" data-name="when">
+    <h1>هتيجي امتى؟</h1>
+    <p class="j-sub">هنسجّل بياناتك ونفكّرك قبل ميعادك.</p>
+    <div class="j-when">
+      <span class="j-when-t">اليوم</span>
+      <div class="j-days" id="whenDays"></div>
+      <span class="j-when-t">الفترة</span>
+      <div class="j-slots" id="whenSlots"></div>
+    </div>
+    <p class="j-hint" id="whenHint"></p>
+  </section>
+
+  <!-- ═══ التحويل ═══ -->
+  <section class="j-step" data-name="transfer">
+    <h1 id="trTitle">التحويل</h1>
+    <p class="j-sub" id="trSub"></p>
+    <div id="trBox"></div>
+  </section>
+
+  <!-- ═══ راجع وابعت ═══ -->
+  <section class="j-step" data-name="review">
     <h1>راجع وابعت</h1>
     <p class="j-sub">آخر خطوة — الطلب هيتفتح في واتساب مكتوب جاهز.</p>
     <div class="j-rev" id="jRev"></div>
-    <p class="j-hint" id="jSendHint"></p>
+    <div class="j-note" id="jSendHint"></div>
   </section>
 
   <!-- ═══ تم ═══ -->
-  <section class="j-step" data-step="5">
+  <section class="j-step" data-name="done">
     <div class="j-done">
       <div class="j-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
         stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-      <h1>الطلب اتبعت</h1>
-      <p class="j-sub">احتفظ بكود الطلب — هنسأل عليه لو كلّمتنا.</p>
-      <div class="j-code-card">
-        <span>كود طلبك</span>
-        <b class="lat" id="doneCode">—</b>
+      <h1 id="doneTitle">الطلب اتبعت</h1>
+      <p class="j-sub" id="doneSub"></p>
+      <div class="j-done-card">
         <div class="j-code-rows" id="doneRows"></div>
       </div>
       <div class="j-done-btns">
         <a class="btn btn-lime" id="doneWa">افتح واتساب تاني</a>
+        <button class="btn btn-ghost" id="doneIcs" hidden>ضيف الميعاد لتقويمك</button>
         <a class="btn btn-ghost" href="index.html">رجوع للموقع</a>
       </div>
     </div>
@@ -118,16 +133,15 @@
 
 </main>
 
-<footer class="j-dock">
+<footer class="j-dock" id="jDock">
   <button class="btn btn-ghost j-back-btn" id="jPrev" hidden>رجوع</button>
   <button class="btn btn-lime j-next" id="jNext" disabled>كمّل</button>
 </footer>
 
 <div id="toast"><div></div></div>
 
-<script src="data/img.js?v=2"></script>
-<script src="data/site.js?v=15"></script>
+<script src="data/site.js?v=17"></script>
 <script src="assets/hours.js?v=2"></script>
-<script src="assets/join.js?v=3"></script>
+<script src="assets/join.js?v=4"></script>
 </body>
 </html>

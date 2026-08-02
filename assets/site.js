@@ -93,7 +93,7 @@ function mountImages(root) { $$('.ph[data-img]', root || document).forEach(fillI
     sessionStorage.setItem('cezarSeen', '1');
     setTimeout(function () { s.remove(); }, 700);
   };
-  setTimeout(hide, 2350);
+  setTimeout(hide, 1250);
   s.addEventListener('click', hide);
 })();
 
