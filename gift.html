@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مبروك يا باسم</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0E0F12">
+<link rel="apple-touch-icon" href="assets/img/icon-180.png">
+<link rel="icon" href="assets/img/icon-32.png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<script>document.documentElement.className='js';</script>
+<link rel="stylesheet" href="assets/core.css?v=18">
+<link rel="stylesheet" href="assets/gift.css?v=2">
+</head>
+<body class="g-body">
+
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<main class="g-stage">
+
+  <!-- ═══ 1 — مبروك ═══ -->
+  <section class="g-screen on" data-s="1">
+    <span class="g-kick">هدية خاصة</span>
+
+    <figure class="g-photo" id="gPhoto" hidden>
+      <img src="assets/img/basem.jpg" alt="باسم فوزي" id="gPhotoImg">
+    </figure>
+
+    <h1 class="g-h1">
+      <span class="ln"><span>مبروك</span></span>
+      <span class="ln"><span>يا <em>باسم</em></span></span>
+    </h1>
+
+    <!-- الترقية: الرتبة القديمة بتروح والجديدة بتيجي -->
+    <div class="g-rank" aria-label="ترقية من رائد إلى مقدم">
+      <span class="g-old">رائد</span>
+      <span class="g-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+             stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      </span>
+      <span class="g-new">مقدم</span>
+    </div>
+    <p class="g-line">ترقية في الشرطة المصرية — عن استحقاق.</p>
+
+    <button class="btn g-btn" id="open">افتح الهدية</button>
+  </section>
+
+  <!-- ═══ 2 — الهدية إيه ═══ -->
+  <section class="g-screen" data-s="2">
+    <span class="g-kick">الهدية</span>
+    <h2 class="g-h2">موقع كامل لسيزر جيم</h2>
+
+    <ul class="g-list">
+      <li><b>موقع بصور الجيم الحقيقية</b><span>جولة في كل ركن، ومواعيد بتتحدّث لوحدها.</span></li>
+      <li><b>صفحة اشتراك</b><span>العميل يختار باقته ويحوّل من موبايله.</span></li>
+      <li><b>لوحة تحكّم ليك</b><span>تغيّر الأسعار والعروض وتنشر من غير أي كود.</span></li>
+      <li><b>كروت عروض للسوشيال</b><span>جاهزة تنزّلها وتنشرها.</span></li>
+    </ul>
+
+    <p class="g-try">الموقع شغّال دلوقتي وتحت إيدك.<br>
+      <b>جرّبه براحتك — ومتدفعش غير لما تكون متأكد إنه يستاهل.</b></p>
+
+    <a class="btn g-btn" href="index.html">ادخل الموقع</a>
+    <span class="g-from">من أحمد شريف</span>
+  </section>
+
+</main>
+
+<button class="g-sound" id="sound" hidden aria-label="الصوت">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" class="on-i">
+    <path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18.5 5.5a9 9 0 010 13"/>
+  </svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" class="off-i">
+    <path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/>
+  </svg>
+</button>
+
+<audio id="anthem" src="assets/anthem.mp3" preload="none" loop></audio>
+
+<script src="assets/gift.js?v=2"></script>
+</body>
+</html>
