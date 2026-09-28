@@ -2,9 +2,8 @@ services:
   - type: web
     name: cezar-gym-prod
     runtime: python
-    plan: 0.5c-512mb
+    plan: free
     buildCommand: pip install -r requirements.txt
-    preDeployCommand: python -m server.migrate
     startCommand: uvicorn server.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/health
     autoDeployTrigger: off
@@ -25,6 +24,6 @@ services:
           property: connectionString
 databases:
   - name: cezar-gym-db
-    plan: 0.1c-256mb
+    plan: free
     databaseName: cezar_gym
     user: cezar_gym

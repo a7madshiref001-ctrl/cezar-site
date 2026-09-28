@@ -55,6 +55,7 @@ FastAPI بيخدم الواجهة الحالية والـ API من نفس الخ
 
 - Web Service: `cezar-gym-prod`
 - PostgreSQL: `cezar-gym-db`
+- Compute: Free للتجربة الأولية (السيرفر ينام عند الخمول وقاعدة البيانات تنتهي بعد 30 يومًا)
 - Start command: `uvicorn server.app:app --host 0.0.0.0 --port $PORT`
 - Health check: `/api/health`
 
