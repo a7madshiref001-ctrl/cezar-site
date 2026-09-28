@@ -40,8 +40,8 @@
 }
 
 /* ---------- الخطوات ---------- */
-.j-main{padding-inline:var(--pad);padding-block:clamp(26px,5vw,44px)}
-.j-step{display:none;max-width:640px;margin-inline:auto}
+.j-main{width:100%;max-width:100%;padding-inline:var(--pad);padding-block:clamp(26px,5vw,44px);overflow:hidden}
+.j-step{display:none;width:100%;max-width:640px;min-width:0;margin-inline:auto}
 .j-step.on{display:block;animation:jIn .45s var(--e-out)}
 @keyframes jIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .j-step h1{font-size:clamp(28px,7.4vw,40px);letter-spacing:-1.2px}
@@ -78,9 +78,16 @@
 .j-plans{display:grid;gap:10px;margin-top:16px}
 .j-plan{
   display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+  width:100%;min-width:0;
   text-align:start;padding:16px 18px;border-radius:16px;
   background:var(--surface);border:1.5px solid var(--hair);
   transition:all var(--t-fast) var(--e-out);position:relative;
+}
+
+@media(max-width:420px){
+  .j-tabs button{padding-inline:14px}
+  .j-plan{gap:10px;padding-inline:14px}
+  .j-plan-p b{font-size:21px}
 }
 .j-plan:hover{border-color:#CFCBBE}
 .j-plan.on{border-color:var(--ink);background:var(--cream)}

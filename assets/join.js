@@ -88,7 +88,7 @@ function chosen() { return options(S.kind).filter(function (o) { return o.id ===
 function total() { var o = chosen(); return o ? (S.friends ? o.price * S.people : o.price) : 0; }
 
 function ways() {
-  var out = [];
+  var out = [{ id: 'online', label: 'الدفع الإلكتروني', hint: 'بوابة الدفع الآمنة — وضع تجريبي حاليًا' }];
   (D.payment.methods || []).forEach(function (m) {
     out.push({ id: m.id, label: m.label, hint: m.hint || 'تحويل من موبايلك دلوقتي', m: m });
   });
@@ -355,45 +355,44 @@ function icsUrl() {
 function send() {
   var o = chosen(), w = way(), cash = S.pay === 'cash';
   var url = 'https://wa.me/' + D.contact.whatsapp + '?text=' + encodeURIComponent(waText());
-
-  try {
-    var log = JSON.parse(localStorage.getItem('cezarReq') || '[]');
-    log.unshift({ name: S.name, phone: S.phone, plan: o.t, amount: total(),
-      people: S.friends ? S.people : 1, pay: w ? w.label : '—', gender: S.gender,
-      when: cash ? whenText() : '', note: S.note, at: Date.now(), status: 'new' });
-    localStorage.setItem('cezarReq', JSON.stringify(log.slice(0, 200)));
-  } catch (e) {}
-
-  if (D.payment.webhook) {
-    try {
-      fetch(D.payment.webhook, { method: 'POST', mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ name: S.name, phone: S.phone, plan: o.t, amount: total(),
-          pay: w ? w.label : '-', gender: S.gender, when: cash ? whenText() : '',
-          note: S.note, at: new Date().toISOString() }) });
-    } catch (e) {}
-  }
-
-  window.open(url, '_blank');
-
-  $('#doneTitle').textContent = cash ? 'سجّلنا بياناتك' : 'الطلب اتبعت';
-  $('#doneSub').textContent = cash
-    ? 'هنفكّرك قبل ميعادك — وتعالى ادفع في الجيم.'
-    : 'متنساش ترفق صورة التحويل مع الرسالة.';
-  $('#doneRows').innerHTML =
-    '<div><span>الباقة</span><b>' + esc(o.t) + '</b></div>' +
-    '<div><span>الإجمالي</span><b>' + n(total()) + ' ج</b></div>' +
-    (cash ? '<div><span>ميعادك</span><b>' + esc(whenText()) + '</b></div>'
-          : '<div><span>الدفع</span><b>' + esc(w.label) + '</b></div>');
-  $('#doneWa').href = url;
-  var ics = $('#doneIcs');
-  ics.hidden = !cash;
-  if (cash) ics.onclick = function () {
-    var a = document.createElement('a');
-    a.href = icsUrl(); a.download = 'cezar-gym.ics';
-    document.body.appendChild(a); a.click(); a.remove();
-  };
-  go(flow().length);
+  var btn = $('#jNext');
+  btn.disabled = true; btn.textContent = 'بنسجّل الطلب…';
+  var key = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now() + '-' + Math.random();
+  fetch('/api/orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Idempotency-Key': key },
+    body: JSON.stringify({ plan_id: S.planId, plan_type: S.kind, customer_name: S.name,
+      phone: S.phone, gender: S.gender, notes: S.note || null, payment_method: S.pay,
+      friends: S.friends, people: S.friends ? S.people : 1, client_amount: total() })
+  }).then(function (r) {
+    if (!r.ok) return r.json().then(function (x) { throw new Error(x.detail || 'تعذّر تسجيل الطلب'); });
+    return r.json();
+  }).then(function (order) {
+    if (S.pay === 'online' && order.checkout_url) { location.href = order.checkout_url; return; }
+    window.open(url, '_blank');
+    $('#doneTitle').textContent = cash ? 'سجّلنا بياناتك' : 'الطلب اتسجّل';
+    $('#doneSub').textContent = cash
+      ? 'هنفكّرك قبل ميعادك — وتعالى ادفع في الجيم.'
+      : 'متنساش ترفق صورة التحويل مع الرسالة.';
+    $('#doneRows').innerHTML =
+      '<div><span>رقم الطلب</span><b class="lat">' + esc(order.id) + '</b></div>' +
+      '<div><span>الباقة</span><b>' + esc(o.t) + '</b></div>' +
+      '<div><span>الإجمالي</span><b>' + n(order.amount) + ' ج</b></div>' +
+      (cash ? '<div><span>ميعادك</span><b>' + esc(whenText()) + '</b></div>'
+            : '<div><span>الدفع</span><b>' + esc(w.label) + '</b></div>');
+    $('#doneWa').href = url;
+    var ics = $('#doneIcs');
+    ics.hidden = !cash;
+    if (cash) ics.onclick = function () {
+      var a = document.createElement('a');
+      a.href = icsUrl(); a.download = 'cezar-gym.ics';
+      document.body.appendChild(a); a.click(); a.remove();
+    };
+    go(flow().length);
+  }).catch(function (e) {
+    toast(e.message || 'تعذّر تسجيل الطلب');
+    btn.disabled = false; btn.textContent = 'حاول تاني';
+  });
 }
 
 /* ============================================================
@@ -402,7 +401,7 @@ function send() {
 function flow() {
   var f = ['plan', 'info', 'pay'];
   if (S.pay === 'cash') f.push('when');
-  else if (S.pay) f.push('transfer');
+  else if (S.pay && S.pay !== 'online') f.push('transfer');
   f.push('review');
   return f;
 }
@@ -433,7 +432,7 @@ function gate() {
   else if (name === 'pay') ok = !!S.pay;
   else if (name === 'when') { ok = !!S.whenSlot; txt = 'كمّل'; }
   else if (name === 'transfer') txt = 'حوّلت — كمّل';
-  else if (name === 'review') txt = 'ابعت الطلب على واتساب';
+  else if (name === 'review') txt = S.pay === 'online' ? 'انتقل للدفع' : 'سجّل الطلب وافتح واتساب';
   btn.disabled = !ok;
   btn.textContent = txt;
 }

@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>حالة الدفع | سيزر جيم</title><link rel="stylesheet" href="assets/core.css"></head>
+<body style="background:#17181c;color:#f3f1eb;font-family:Tajawal,Arial,sans-serif;display:grid;min-height:100vh;place-items:center;margin:0">
+<main style="max-width:560px;padding:32px;text-align:center"><img src="assets/img/emblem-light.png" alt="سيزر جيم" style="width:100px"><h1 id="title">بنتأكد من الدفع…</h1><p id="message">من فضلك استنى لحظات.</p><a class="btn btn-lime" href="/">الرجوع للموقع</a></main>
+<script>
+(function(){var id=new URLSearchParams(location.search).get('order_id'), tries=0;
+function check(){if(!id){show('الطلب غير موجود','راجع رابط الدفع أو تواصل مع الجيم.');return}fetch('/api/orders/'+encodeURIComponent(id),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(o){if(o.status==='paid')show('تم تأكيد الدفع ✓','اشتراكك اتأكد بنجاح. رقم الطلب: '+o.id);else if(o.status==='payment_failed')show('الدفع ماكملش','تقدر ترجع وتحاول تاني أو تختار طريقة دفع أخرى.');else if(tries++<20)setTimeout(check,2000);else show('لسه بنراجع الدفع','احتفظ برقم الطلب وتواصل مع الجيم: '+o.id)}).catch(function(){show('تعذّر التأكد','جرّب تحديث الصفحة أو تواصل مع الجيم.')})}
+function show(t,m){document.getElementById('title').textContent=t;document.getElementById('message').textContent=m}check()})();
+</script></body></html>

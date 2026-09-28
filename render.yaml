@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: cezar-gym-prod
+    runtime: python
+    plan: 0.5c-512mb
+    buildCommand: pip install -r requirements.txt
+    preDeployCommand: python -m server.migrate
+    startCommand: uvicorn server.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeployTrigger: off
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: PAYMENT_MODE
+        value: test
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: PAYMENT_WEBHOOK_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cezar-gym-db
+          property: connectionString
+databases:
+  - name: cezar-gym-db
+    plan: 0.1c-256mb
+    databaseName: cezar_gym
+    user: cezar_gym
