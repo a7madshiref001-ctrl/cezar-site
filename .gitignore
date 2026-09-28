@@ -1,5 +1,13 @@
-cezar-site-raw/
-*.pyc
+.env
+.venv/
+venv/
 __pycache__/
-.DS_Store
-Thumbs.db
+*.py[cod]
+*.db
+.pytest_cache/
+.coverage
+htmlcov/
+browser-profile*/
+mobile-*.png
+.idea/
+.vscode/

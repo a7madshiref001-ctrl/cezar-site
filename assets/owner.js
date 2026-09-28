@@ -18,7 +18,7 @@ var $$ = function (s, r) { return Array.prototype.slice.call((r || document).que
 
 var PATH = 'data/site.js';
 var K_DRAFT = 'cezarDraft', K_TOKEN = 'cezarToken', K_REPO = 'cezarRepo', K_REQ = 'cezarReq';
-var DEF_REPO = 'cezar-gym/cezar-gym.github.io';
+var DEF_REPO = 'a7madshiref001-ctrl/cezar-site';
 
 var published = JSON.parse(JSON.stringify(window.CEZAR_DATA));  /* آخر حاجة اتنشرت */
 var S = JSON.parse(JSON.stringify(window.CEZAR_DATA));          /* اللي بنعدّل فيه */
@@ -87,6 +87,30 @@ function reqs() { try { return JSON.parse(localStorage.getItem(K_REQ) || '[]'); 
 function saveReqs(v) { try { localStorage.setItem(K_REQ, JSON.stringify(v)); } catch (e) {} }
 
 var ST = { 'new': 'جديد', done: 'تمّت المراجعة', rej: 'مرفوض' };
+
+function renderServerReqs(list) {
+  var box = $('#serverReqList');
+  if (!list.length) { box.innerHTML = '<div class="empty"><b>لا توجد طلبات على السيرفر</b></div>'; return; }
+  box.innerHTML = '<p class="hint">طلبات قاعدة البيانات — المصدر الرئيسي للإنتاج</p>' + list.map(function (r) {
+    var d = new Date(r.created_at);
+    return '<div class="req"><div class="req-n">' + esc((r.customer_name || '؟').charAt(0)) + '</div>' +
+      '<div class="req-b"><b>' + esc(r.customer_name) + ' — ' + esc(r.plan_id) + '</b>' +
+      '<span class="lat" dir="ltr">' + esc(r.phone) + '</span><span class="meta">' + n(r.amount) +
+      ' ج · ' + esc(r.payment_method) + ' · ' + esc(r.status) + ' · ' + d.toLocaleString('ar-EG') +
+      '</span><span class="meta lat">' + esc(r.id) + '</span></div></div>';
+  }).join('');
+}
+
+$('#serverReqLoad').addEventListener('click', function () {
+  var token = $('#adminToken').value.trim();
+  if (!token) { toast('اكتب رمز دخول الطلبات'); return; }
+  try { sessionStorage.setItem('cezarAdminToken', token); } catch (e) {}
+  var btn = this; btn.disabled = true; btn.textContent = 'بنحمّل…';
+  fetch('/api/admin/orders', { headers: { Authorization: 'Bearer ' + token }, cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error(r.status === 401 ? 'رمز الدخول غير صحيح' : 'تعذّر تحميل الطلبات'); return r.json(); })
+    .then(renderServerReqs).catch(function (e) { toast(e.message); })
+    .finally(function () { btn.disabled = false; btn.textContent = 'تحميل طلبات السيرفر'; });
+});
 
 function renderReqs() {
   var list = reqs(), box = $('#reqList');

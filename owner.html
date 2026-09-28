@@ -43,10 +43,13 @@
     <div class="card">
       <div class="card-h">
         <h2>طلبات الاشتراك</h2>
+        <div class="fld" style="max-width:360px"><label>رمز دخول الطلبات</label><input id="adminToken" type="password" dir="ltr" autocomplete="off" placeholder="ADMIN_TOKEN"></div>
+        <button class="btn btn-lime btn-sm" id="serverReqLoad">تحميل طلبات السيرفر</button>
         <button class="btn btn-ghost btn-sm" id="reqAdd">أضف طلب يدوي</button>
         <button class="btn btn-ghost btn-sm" id="reqCsv">نزّل Excel</button>
         <p class="hint" id="reqHint"></p>
       </div>
+      <div class="card-b tight" id="serverReqList"></div>
       <div class="card-b tight" id="reqList"></div>
     </div>
   </section>
@@ -135,7 +138,7 @@
           التوكن بيتحفظ في المتصفح ده بس، وبيتبعت لـ GitHub وخلاص — عمره ما بيدخل جوه الموقع.
           متفتحش اللوحة على جهاز مش بتاعك، ولما تخلّص اضغط «نسيان التوكن».
         </div>
-        <div class="fld"><label>المستودع</label><input id="repo" dir="ltr" placeholder="cezar-gym/cezar-gym.github.io"></div>
+        <div class="fld"><label>المستودع</label><input id="repo" dir="ltr" placeholder="a7madshiref001-ctrl/cezar-site"></div>
         <div class="fld"><label>التوكن</label><input id="token" type="password" dir="ltr" placeholder="github_pat_…"></div>
         <label class="sw"><input type="checkbox" id="remember" checked><i></i> فكّرني على الجهاز ده</label>
         <div style="display:flex;gap:10px;flex-wrap:wrap">

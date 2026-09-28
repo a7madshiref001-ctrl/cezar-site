@@ -148,7 +148,9 @@ function cardHTML(o, i) {
 }
 
 function render() {
-  var items = D.offers.items.filter(function (o) { return o.active; });
+  var items = D.offers.items.filter(function (o) {
+    return o.active && (!o.until || new Date(o.until).getTime() > Date.now());
+  });
   document.getElementById('sheet').innerHTML = items.map(function (o, i) {
     return '<div class="slot"><div class="stage">' + cardHTML(o, i) + '</div>' +
            '<span class="cap">' + esc(o.title) + '</span></div>';
