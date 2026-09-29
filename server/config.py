@@ -19,11 +19,19 @@ class Settings(BaseModel):
     kashier_merchant_id: str | None = os.getenv("KASHIER_MERCHANT_ID")
     kashier_api_key: str | None = os.getenv("KASHIER_API_KEY")
     kashier_secret_key: str | None = os.getenv("KASHIER_SECRET_KEY")
+    gym_api_mode: str = os.getenv("GYM_API_MODE", "disabled").lower()
+    gym_api_base_url: str | None = os.getenv("GYM_API_BASE_URL")
+    gym_api_key: str | None = os.getenv("GYM_API_KEY")
     environment: str = os.getenv("ENVIRONMENT", "development").lower()
 
     def validate_runtime(self) -> None:
         if self.payment_mode not in {"mock", "test", "live"}:
             raise RuntimeError("PAYMENT_MODE must be mock, test, or live")
+        if self.gym_api_mode not in {"disabled", "http"}:
+            raise RuntimeError("GYM_API_MODE must be disabled or http")
+        if self.gym_api_mode == "http":
+            if not self.gym_api_base_url or not self.gym_api_base_url.startswith("https://") or not self.gym_api_key:
+                raise RuntimeError("Gym API requires an HTTPS base URL and server-side API key")
         if self.environment == "production":
             if self.database_url.startswith("sqlite"):
                 raise RuntimeError("Production requires PostgreSQL DATABASE_URL")

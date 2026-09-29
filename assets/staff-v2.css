@@ -1,0 +1,19 @@
+.staff-body{background:#151a15;color:#f4f5ec;font-family:'Tajawal',sans-serif}
+.staff-body .portal-header{background:#151a15;border-bottom-color:#ffffff23}
+.staff-body .portal-shell{max-width:1450px;padding-top:40px}
+.staff-title h1{font-size:clamp(48px,5vw,72px);letter-spacing:-.045em;margin:13px 0 10px}
+.staff-title>div>p:last-child{margin:0}
+.staff-stats{margin:20px 0}
+.staff-title h1 em{color:#c5f04d}.staff-access{border-radius:8px;background:#ffffff08}
+.staff-panel{background:#f5f4ee;border:1px solid #e4e6dc;border-radius:10px;box-shadow:none}
+.staff-panel .panel-n{border-radius:4px;background:#dcebba;color:#344c1e;border:0;min-width:35px;text-align:center}
+.staff-panel .portal-action,.staff-access .portal-action{background:#c5f04d;border-radius:6px;color:#172018}
+.staff-panel .portal-action:hover,.staff-access .portal-action:hover{background:#d8ff70}
+.staff-panel input,.staff-panel select,.staff-access input{border-radius:6px;min-height:49px}
+.staff-member{border-radius:6px}.staff-member-head{background:#e9eddf}.staff-member .portal-action{font-size:13px}
+.staff-panel .portal-outline{border-radius:5px;color:#2e4230}
+.gym-status{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:15px 20px;background:#242d20;border:1px solid #607746;border-radius:8px;margin-top:28px;color:#dce8ce}.gym-status strong{color:#c5f04d}.gym-status span{font-size:13px}
+.gym-import{margin-top:18px;max-width:720px}.gym-import .staff-form{max-width:600px}
+.linked-label{display:inline-block;font-weight:700;font-size:12px;color:#3b6c2a;background:#e7f2d8;padding:5px 9px;border-radius:4px}
+.staff-body .form-message.success{color:#c5f04d}
+@media(max-width:600px){.staff-title h1{font-size:50px}.gym-status{display:block}.gym-status span{display:block;margin-top:5px}}

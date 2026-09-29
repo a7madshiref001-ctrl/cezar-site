@@ -88,3 +88,41 @@ class Attendance(Base):
     membership_id: Mapped[str] = mapped_column(ForeignKey("memberships.id"), index=True)
     checked_in_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     voided_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class MemberSession(Base):
+    __tablename__ = "member_sessions"
+
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)  # SHA-256 of the cookie, never the cookie itself
+    member_id: Mapped[str] = mapped_column(ForeignKey("members.id"), index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class LoginThrottle(Base):
+    __tablename__ = "member_login_throttles"
+
+    key: Mapped[str] = mapped_column(String(64), primary_key=True)
+    failures: Mapped[int] = mapped_column(Integer, default=0)
+    window_started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class GymMemberLink(Base):
+    __tablename__ = "gym_member_links"
+
+    member_id: Mapped[str] = mapped_column(ForeignKey("members.id"), primary_key=True)
+    external_member_id: Mapped[str] = mapped_column(String(120), unique=True)
+    last_synced_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    snapshot_json: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+
+class GymDispatch(Base):
+    __tablename__ = "gym_dispatches"
+
+    membership_id: Mapped[str] = mapped_column(ForeignKey("memberships.id"), primary_key=True)
+    status: Mapped[str] = mapped_column(String(24), default="pending", index=True)
+    external_membership_id: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    last_error: Mapped[str | None] = mapped_column(String(240), nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, onupdate=utcnow)

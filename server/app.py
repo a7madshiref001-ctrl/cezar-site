@@ -53,6 +53,14 @@ async def security_headers(request: Request, call_next):
     })
     if request.url.scheme == "https" or request.headers.get("x-forwarded-proto") == "https":
         response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    if request.url.path.startswith(("/api/member/", "/api/admin/")) or request.url.path in {"/member.html", "/staff.html"}:
+        response.headers["Cache-Control"] = "no-store"
+    if request.url.path in {"/member.html", "/staff.html"}:
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; "
+            "font-src https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; "
+            "frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+        )
     return response
 
 
