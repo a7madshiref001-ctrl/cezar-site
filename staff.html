@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#17181c">
+  <title>إدارة العضويات | سيزر جيم</title><link rel="icon" href="assets/img/icon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/portal.css?v=1"><script src="assets/staff.js?v=1" defer></script>
+</head>
+<body class="portal-body staff-body">
+  <header class="portal-header"><a class="portal-brand" href="/"><img src="assets/img/emblem-light.png" alt=""><span class="latin">CEZAR<span class="lime">.</span></span></a><nav><a href="/owner.html">لوحة الموقع</a><a href="/member.html">واجهة العميل</a></nav><span class="portal-header-tag">العضويات / CONTROL</span></header>
+  <main class="portal-shell">
+    <div class="staff-title reveal"><div><p class="portal-kicker"><i></i> إدارة سيزر</p><h1>كل عضو. <em>كل حصة.</em></h1><p>فعّل الاشتراكات، سجّل الحضور، وتابع الرصيد لحظة بلحظة.</p></div><div class="staff-access"><label for="staffToken">رمز الإدارة</label><div><input id="staffToken" type="password" placeholder="ADMIN_TOKEN" autocomplete="off" dir="ltr"><button id="loadStaff" class="portal-action">فتح اللوحة</button></div><small>الرمز محفوظ في هذه الجلسة فقط.</small></div></div>
+    <p class="form-message" id="staffMessage" role="alert"></p>
+    <div id="staffWorkspace" hidden>
+      <div class="staff-stats" id="staffStats"></div>
+      <div class="staff-columns">
+        <section class="staff-panel"><div class="panel-head"><span class="panel-n">01</span><div><h2>تفعيل اشتراك</h2><p>اختر طلبًا من الموقع أو أضف عميلًا مباشرة.</p></div></div><form id="enrollForm" class="staff-form">
+          <label>طلب الموقع <span>اختياري</span><select id="orderSelect"><option value="">عميل بدون طلب</option></select></label>
+          <div class="form-grid"><label>الاسم الكامل<input id="enrollName" required placeholder="اسم العميل"></label><label>رقم الموبايل<input id="enrollPhone" required inputmode="numeric" dir="ltr" placeholder="01xxxxxxxxx"></label></div>
+          <div class="form-grid"><label>الباقة<input id="planName" required placeholder="مثال: باور"></label><label>عدد الحصص<input id="totalSessions" type="number" min="1" max="500" required placeholder="8"></label></div>
+          <div class="form-grid"><label>بداية الاشتراك<input id="startDate" type="date" required></label><label>نهاية الاشتراك<input id="endDate" type="date" required></label></div>
+          <button class="portal-action" type="submit">تفعيل العضوية <span aria-hidden="true">↗</span></button>
+        </form><div id="accessResult" class="access-result" hidden><b>رمز دخول العضو الجديد</b><p>سلّم الرمز للعميل مباشرة. لن يظهر مرة أخرى بعد إغلاق الصفحة.</p><div><code id="newCode"></code><button id="copyCode" class="portal-outline">نسخ</button></div></div></section>
+        <section class="staff-panel"><div class="panel-head"><span class="panel-n">02</span><div><h2>الأعضاء والحضور</h2><p>ابحث برقم الهاتف أو الاسم، ثم سجّل الحصة.</p></div></div><label class="search-label">بحث عن عضو<input id="memberSearch" type="search" placeholder="اسم أو رقم موبايل"></label><div id="staffMembers" class="staff-members"></div></section>
+      </div>
+    </div>
+  </main>
+  <footer class="portal-footer"><span>© CEZAR GYM</span><span>لوحة الإدارة الداخلية</span></footer>
+</body>
+</html>

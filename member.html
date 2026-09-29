@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#17181c">
+  <title>حسابي | سيزر جيم</title>
+  <link rel="icon" href="assets/img/icon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/portal.css?v=1">
+  <script src="assets/member.js?v=1" defer></script>
+</head>
+<body class="portal-body">
+  <header class="portal-header"><a class="portal-brand" href="/"><img src="assets/img/emblem-light.png" alt=""><span class="latin">CEZAR<span class="lime">.</span></span></a><nav><a href="/">الرئيسية</a><a href="/join.html">الباقات</a></nav><span class="portal-header-tag">منطقة الأبطال / MEMBER AREA</span></header>
+  <main class="portal-shell">
+    <section class="portal-intro reveal" id="portalIntro"><p class="portal-kicker"><i></i> حسابك في سيزر</p><h1>كل تمرينة<br><em>بتقرّبك لهدفك.</em></h1><p>اشتراكك، حصصك، وحضورك قدّامك في مكان واحد.</p></section>
+    <section class="login-card reveal" id="loginPanel">
+      <div class="login-mark">01 / دخول العضو</div><h2>ادخل على حسابك</h2><p>استخدم رقم الموبايل ورمز الدخول اللي استلمته من إدارة الجيم.</p>
+      <form id="loginForm" novalidate><label>رقم الموبايل<input id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01xxxxxxxxx" dir="ltr" required></label><label>رمز الدخول<input id="code" type="password" autocomplete="off" placeholder="رمزك الخاص" dir="ltr" required></label><button type="submit" class="portal-action">عرض اشتراكي <span aria-hidden="true">↗</span></button><p class="form-message" id="loginMessage" role="alert"></p></form>
+      <div class="login-help">مش معاك الرمز؟ <a href="https://wa.me/201097419761" target="_blank" rel="noopener">كلّم إدارة سيزر على واتساب ↗</a></div>
+    </section>
+    <aside class="portal-visual reveal" id="portalVisual" aria-hidden="true"><img src="assets/img/gal-racks.webp" alt=""><div><span>THE WORK SHOWS.</span><strong>تابع قوتك<br>حصة بحصة.</strong><small>CEZAR GYM / Beni Suef</small></div></aside>
+    <section id="dashboard" class="member-dashboard" hidden>
+      <div class="dash-head"><div><p class="portal-kicker"><i></i> لوحة تقدمك</p><h2>أهلًا، <span id="memberName"></span></h2><p>خطوة جديدة كل يوم. خليك مكمل.</p></div><button id="logout" class="portal-outline">تسجيل خروج</button></div>
+      <div id="membershipList"></div>
+      <p class="dash-note">الحضور بيتسجل عند دخولك الجيم بواسطة الفريق. لو فيه حصة ناقصة، كلمنا ونراجعها معاك.</p>
+    </section>
+  </main>
+  <footer class="portal-footer"><span>© CEZAR GYM</span><span>ابنِ قوتك، وراقب تقدمك.</span></footer>
+</body>
+</html>

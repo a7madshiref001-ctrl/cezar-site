@@ -14,6 +14,7 @@ from sqlalchemy.orm import Session
 from .config import ROOT, get_settings
 from .db import Base, engine, get_db
 from .models import AdminAuditLog, Order, WebhookEvent
+from .membership import router as membership_router
 from .pricing import calculate
 from .schemas import OrderCreate, OrderOut
 from .security import require_admin, valid_signature
@@ -33,6 +34,7 @@ app = FastAPI(
     docs_url=None if settings.environment == "production" else "/docs",
     lifespan=lifespan,
 )
+app.include_router(membership_router)
 
 
 @app.middleware("http")
@@ -224,7 +226,7 @@ def admin_orders(limit: int = 100, db: Session = Depends(get_db)):
 @app.get("/robots.txt", response_class=Response)
 def robots():
     return Response(
-        f"User-agent: *\nAllow: /\nDisallow: /owner.html\nDisallow: /offers.html\nSitemap: {settings.public_base_url}/sitemap.xml\n",
+        f"User-agent: *\nAllow: /\nDisallow: /owner.html\nDisallow: /staff.html\nDisallow: /member.html\nDisallow: /offers.html\nSitemap: {settings.public_base_url}/sitemap.xml\n",
         media_type="text/plain",
     )
 
@@ -267,6 +269,16 @@ def join_page():
 @app.get("/owner.html", response_class=HTMLResponse)
 def owner_page():
     return html_page("owner.html")
+
+
+@app.get("/member.html", response_class=HTMLResponse)
+def member_page():
+    return html_page("member.html")
+
+
+@app.get("/staff.html", response_class=HTMLResponse)
+def staff_page():
+    return html_page("staff.html")
 
 
 @app.get("/offers.html", response_class=HTMLResponse)
