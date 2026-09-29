@@ -4,7 +4,7 @@ const dateText = value => new Intl.DateTimeFormat('ar-EG', {day:'numeric', month
 const visitText = value => new Intl.DateTimeFormat('ar-EG', {weekday:'long', day:'numeric', month:'long', hour:'numeric', minute:'2-digit', timeZone:'Africa/Cairo'}).format(new Date(value));
 const sessionsWord = number => number === 1 ? 'حصة' : number === 2 ? 'حصتين' : number >= 3 && number <= 10 ? 'حصص' : 'حصة';
 const statusLabels = {active:'اشتراك نشط', upcoming:'لسه ما بدأش', expired:'انتهى الاشتراك', finished:'اكتملت الحصص'};
-const staticPreviewHost = /(^|\.)raw(?:cdn)?\.githack\.com$/.test(location.hostname);
+const staticPreviewHost = /(^|\.)(raw(?:cdn)?\.githack\.com|htmlpreview\.github\.io)$/.test(location.hostname);
 const demoData = {
   name:'أحمد', source:'demo', last_synced_at:null, memberships:[{
     id:'preview-one', plan_name:'باقة جولد', total_sessions:24, used_sessions:16, remaining_sessions:8,
