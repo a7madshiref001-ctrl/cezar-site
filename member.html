@@ -10,11 +10,13 @@
   <link rel="icon" href="assets/img/icon-32.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/member.css?v=3">
-  <script src="assets/member.js?v=3" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/member.css?v=4">
+  <link rel="stylesheet" href="assets/public-shell.css?v=1">
+  <script src="assets/member.js?v=4" defer></script>
+  <script src="assets/public-shell.js?v=1" defer></script>
 </head>
-<body class="member-app">
+<body class="member-app public-site">
   <a class="skip-link" href="#main">انتقل للمحتوى</a>
   <header class="member-header">
     <a class="member-brand" href="index.html" aria-label="سيزر جيم، الصفحة الرئيسية">
@@ -28,6 +30,14 @@
     </nav>
     <a class="header-help" href="https://wa.me/201097419761" target="_blank" rel="noopener noreferrer">محتاج مساعدة؟ <span aria-hidden="true">↗</span></a>
   </header>
+
+  <nav class="cezar-dock" aria-label="التنقل الأساسي">
+    <a href="index.html#top" data-dock="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21v-7h6v7"/></svg><span>الرئيسية</span></a>
+    <a href="index.html#inside" data-dock="gym"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9v6m3-8v10m12-10v10m3-8v6M6 12h12"/></svg><span>الجيم</span></a>
+    <a href="index.html#pricing" data-dock="prices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h8l9 9-8 8-9-9z"/><circle cx="8.5" cy="8.5" r="1"/></svg><span>الأسعار</span></a>
+    <a href="join.html" data-dock="join"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8m-4-4h8"/></svg><span>اشترك</span></a>
+    <a href="member.html" data-dock="member" class="is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.3-4 2.7-6 7-6s6.7 2 7 6"/></svg><span>حسابي</span></a>
+  </nav>
 
   <main id="main">
     <section class="access-layout" id="loginView" aria-labelledby="accessTitle">

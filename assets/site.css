@@ -731,21 +731,7 @@ input[type=range]::-moz-range-thumb{
 /* ---------- الشريط الثابت في الموبايل ---------- */
 .member-feature{background:#e9eddf;padding:clamp(75px,9vw,130px) 0;border-block:1px solid #cbd5bd}.member-feature-grid{display:grid;grid-template-columns:1fr .9fr;align-items:center;gap:clamp(32px,7vw,100px)}.member-feature-copy h2{font-size:clamp(54px,6.4vw,94px);line-height:1.08;letter-spacing:-.055em;margin:18px 0 20px}.member-feature-copy h2 em{font-style:normal;color:#668b2c}.member-feature-copy>p{font-size:clamp(17px,1.65vw,22px);line-height:1.8;max-width:570px;color:#4e594d}.member-feature-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:30px}.member-feature-preview{font-weight:800;border-bottom:1px solid #607d3c;padding:5px 0}.member-feature-card{background:#171d17;color:#f3f5ea;border-radius:9px;padding:clamp(28px,3.4vw,50px);min-height:395px;position:relative;overflow:hidden;box-shadow:22px 22px 0 #c5d7b9}.member-feature-card:after{content:"CEZAR";font:900 115px Archivo,sans-serif;position:absolute;left:-15px;bottom:6px;color:#ffffff08;pointer-events:none;letter-spacing:-10px}.member-feature-card>div:first-child{display:flex;justify-content:space-between;gap:12px;font:700 11px Archivo,sans-serif;letter-spacing:1.8px;color:#c5f04d}.member-feature-card>div:first-child small{font:700 12px Tajawal,sans-serif;letter-spacing:0;color:#afc1a3}.member-feature-card p{color:#b8c7af;font-weight:700;margin-top:50px}.member-feature-card strong{font-size:clamp(90px,11vw,150px);line-height:1.1;color:#c5f04d;letter-spacing:-9px;direction:ltr;display:block;text-align:right}.member-feature-card strong span{font-size:33px;color:#8a9a81;letter-spacing:-2px;margin-left:12px}.member-feature-meter{height:9px;background:#384a34;border-radius:20px;margin:20px 0 13px;overflow:hidden}.member-feature-meter i{display:block;width:66.67%;height:100%;background:#c5f04d;border-radius:inherit}.member-feature-card>small{color:#b5c2aa;font-weight:700}@media(max-width:760px){.member-feature-grid{grid-template-columns:1fr}.member-feature-card{min-height:330px;box-shadow:12px 12px 0 #c5d7b9}.member-feature-card p{margin-top:35px}.member-feature-card strong{font-size:100px}}
 
-/* ---------- الشريط الثابت في الموبايل ---------- */
-.dock{
-  position:fixed;inset-inline:0;bottom:0;z-index:100;display:none;gap:9px;
-  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-  background:rgba(243,241,235,.93);backdrop-filter:blur(14px);
-  border-top:1px solid var(--hair);
-  transform:translateY(120%);transition:transform .5s var(--e-out);
-}
-.dock.up{transform:none}
-.dock .btn-lime{box-shadow:var(--glow)}
-.dock .btn{flex:1;padding-block:14px;font-size:16px}
-.dock .btn-wa{background:var(--ink);color:var(--paper);flex:none;width:54px;padding:0}
-.dock .btn-wa svg{width:23px;height:23px}
 @media (max-width:900px){
-  .dock{display:flex}
   .nav{display:none}
   .hdr .btn-lime{display:none}
   .burger{display:grid}

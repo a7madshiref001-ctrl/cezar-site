@@ -99,7 +99,7 @@ function mountImages(root) { $$('.ph[data-img]', root || document).forEach(fillI
 
 /* ─── الهيدر: خلفية + إخفاء عند النزول + الرابط النشط ─── */
 (function header() {
-  var hdr = $('#hdr'), dock = $('#dock'), fab = $('#fab');
+  var hdr = $('#hdr'), fab = $('#fab');
   var mark = $('#brandMark');
   var last = 0;
   var sections = $$('main section[id]');
@@ -111,7 +111,6 @@ function mountImages(root) { $$('.ph[data-img]', root || document).forEach(fillI
     if (mark) mark.src = y > 40 ? 'assets/img/emblem-dark.png' : 'assets/img/emblem-light.png';
     hdr.classList.toggle('hide', y > 420 && y > last && !$('#sheet').classList.contains('open'));
     var show = y > 120;   /* الزرار يبان بدري ويفضل معاك طول الصفحة */
-    dock.classList.toggle('up', show);
     fab.classList.toggle('up', show);
 
     var cur = '', mid = y + window.innerHeight * 0.32;
@@ -132,6 +131,9 @@ function mountImages(root) { $$('.ph[data-img]', root || document).forEach(fillI
     sh.classList.toggle('open', open);
     b.setAttribute('aria-expanded', open ? 'true' : 'false');
     sh.setAttribute('aria-hidden', open ? 'false' : 'true');
+    sh.inert = !open;
+    var quickNav = $('.cezar-dock');
+    if (quickNav) quickNav.inert = open;
     document.body.style.overflow = open ? 'hidden' : '';
     if (open) $$('#sheet a').forEach(function (a, i) { a.style.animationDelay = (0.1 + i * 0.055) + 's'; });
   }
@@ -609,7 +611,6 @@ document.addEventListener('click', function (e) {
   set('#sIg', function (e) { e.href = c.instagram; e.target = '_blank'; e.rel = 'noopener'; });
   set('#sWa', function (e) { e.href = wa; e.target = '_blank'; e.rel = 'noopener'; });
   set('#fab', function (e) { e.href = wa; e.target = '_blank'; e.rel = 'noopener'; });
-  set('#dockWa', function (e) { e.href = wa; e.target = '_blank'; e.rel = 'noopener'; });
 })();
 
 /* الصور الثابتة في الصفحة */
