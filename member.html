@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/member.css?v=4">
+  <link rel="stylesheet" href="assets/member-experience.css?v=1">
   <link rel="stylesheet" href="assets/public-shell.css?v=1">
-  <script src="assets/member.js?v=4" defer></script>
+  <script src="assets/member-experience.js?v=1" defer></script>
   <script src="assets/public-shell.js?v=3" defer></script>
 </head>
 <body class="member-app public-site">
@@ -52,7 +52,7 @@
         <div class="access-main-inner">
           <div class="access-eyebrow"><span>حساب العضو</span><span>MEMBER ACCESS / 01</span></div>
           <h2>أهلًا بيك<br>في <span>مساحتك.</span></h2>
-          <p class="access-lead">ادخل برقم موبايلك ورمز العضوية من إدارة سيزر. اشتراكك وحضورك هتلاقيهم هنا.</p>
+          <p class="access-lead">اشتراكك، حصصك، وسجل حضورك في مكان واحد. ادخل بنفس رقمك المسجل ورمز العضوية من فريق سيزر.</p>
           <form id="loginForm" class="member-form" novalidate>
             <div class="form-field"><label for="phone">رقم الموبايل</label><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01xxxxxxxxx" pattern="01[0125][0-9]{8}" maxlength="11" dir="ltr" required><small>نفس الرقم المسجل عند إدارة الجيم</small></div>
             <div class="form-field"><label for="code">رمز العضوية</label><input id="code" name="code" type="password" autocomplete="off" placeholder="الرمز الخاص بيك" minlength="16" maxlength="64" dir="ltr" required><small>رمز خاص بيك، متشاركوش مع حد</small></div>
@@ -68,14 +68,14 @@
     <section class="member-dashboard" id="dashboard" aria-labelledby="dashboardTitle" hidden>
       <div class="dashboard-wrap">
         <div class="dashboard-heading">
-          <div><p class="eyebrow"><span class="signal-dot"></span> CEZAR / MY PROGRESS</p><h1 id="dashboardTitle">أهلًا، <span id="memberName"></span><span class="heading-stop">.</span></h1><p>خطوة جديدة كل يوم. ده سجل اشتراكك وتمريناتك.</p></div>
-          <button class="logout-button" id="logout" type="button">تسجيل خروج <span aria-hidden="true">↗</span></button>
+          <div><p class="eyebrow">CEZAR / MEMBER SPACE</p><h1 id="dashboardTitle">أهلًا، <span id="memberName"></span><span class="heading-stop">.</span></h1><p>كل اللي يهمك في تمرينك، واضح وقدامك.</p></div>
+          <div class="dashboard-tools"><button class="refresh-button" id="refreshData" type="button" title="تحديث بيانات العضوية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M6 9a7 7 0 0 1 12-2l2 5M4 12l2 5a7 7 0 0 0 12-2"/></svg><span>تحديث</span></button><button class="logout-button" id="logout" type="button">خروج <span aria-hidden="true">↗</span></button></div>
         </div>
         <div class="connection-line" id="dataStatus" role="status" aria-live="polite"></div>
-        <div class="demo-banner" id="demoBanner" hidden><strong>نسخة استعراضية</strong><span>الأسماء والأرقام دي للتجربة فقط، مش بيانات عضو حقيقي.</span><a href="member.html">العودة لتسجيل الدخول</a></div>
+        <div class="demo-banner" id="demoBanner" hidden><strong>عرض تجريبي</strong><span>كل الأرقام هنا للمعاينة فقط، وليست بيانات عضو حقيقي.</span><a href="member.html">تسجيل الدخول</a></div>
+        <nav class="member-sections" aria-label="أقسام حساب العضو"><a href="#overview" class="is-current">نظرة عامة</a><a href="#planDetails">الاشتراك</a><a href="#attendanceHistory">الحضور</a><a href="#memberHelp">المساعدة</a></nav>
         <div id="membershipTabs" class="membership-tabs" role="tablist" aria-label="اختيار الاشتراك" hidden></div>
         <div id="membershipContent"></div>
-        <div class="dashboard-bottom"><span>فيه حصة مش ظاهرة أو تاريخ محتاج مراجعة؟</span><a href="https://wa.me/201097419761" target="_blank" rel="noopener noreferrer">كلّم الفريق <span aria-hidden="true">↗</span></a></div>
       </div>
     </section>
   </main>
