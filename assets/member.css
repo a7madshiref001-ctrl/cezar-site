@@ -17,3 +17,116 @@ button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:
 @media(max-width:760px){.member-header{height:68px;gap:15px}.member-brand img{width:33px;height:36px}.member-brand>span{font-size:20px}.member-brand small{font-size:6px}.member-nav{gap:0}.member-nav a{padding:6px 9px;font-size:12px}.header-help{display:none}.access-layout{display:flex;flex-direction:column}.access-story{min-height:385px}.story-topline{padding:22px 24px}.story-copy{right:26px;left:26px;bottom:32px}.story-copy h1{font-size:clamp(53px,12vw,72px);margin:11px 0}.story-copy p{font-size:15px;max-width:390px}.story-vertical{display:none}.access-main{padding:40px 24px 65px}.access-main h2{font-size:48px;margin-top:28px}.dashboard-wrap{padding:36px 18px 70px}.dashboard-heading{align-items:start}.dashboard-heading h1{font-size:48px}.summary-grid{grid-template-columns:1fr}.balance-card{min-height:520px}.balance-number{font-size:clamp(135px,25vw,195px)}.detail-stack{grid-template-columns:1fr 1fr;grid-template-rows:auto}.date-card,.rhythm-card{min-height:260px}.date-card h3{font-size:26px}.rhythm-number{font-size:75px}}
 @media(max-width:520px){.member-header{padding:0 14px}.member-brand{gap:6px}.member-nav a{font-size:11px;padding:6px 7px}.access-story{min-height:340px}.story-copy h1{font-size:56px}.access-main h2{font-size:44px}.dashboard-heading{display:block}.logout-button{margin-top:20px}.connection-line time{margin-inline-start:0;width:100%}.balance-card{min-height:510px;padding:25px}.balance-top{align-items:start}.balance-top>span:first-child{font-size:8px;max-width:120px}.membership-state{font-size:10px}.balance-number{font-size:clamp(125px,32vw,170px)}.detail-stack{grid-template-columns:1fr}.date-card,.rhythm-card{min-height:unset}.rhythm-card{min-height:230px}.history-heading{display:block}.history-heading>span{display:block;margin-top:14px}.visit-tag{display:none}.member-footer span:nth-child(2){display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* The session balance is the member's primary mobile metric. */
+.balance-card{min-height:520px}
+.balance-center{gap:28px}
+.balance-story{position:relative;z-index:1;max-width:330px}
+.balance-story p{font-size:clamp(20px,2vw,27px);font-weight:600;line-height:1.55;letter-spacing:-.03em;margin:12px 0 25px}
+.balance-fraction{display:inline-flex;align-items:baseline;gap:3px;color:#c9d7c0;font-size:13px}
+.balance-fraction strong{color:var(--lime);font:800 29px/1 var(--font-en)}
+.balance-fraction>span{font:700 16px var(--font-en);direction:ltr}
+.session-meter{width:clamp(210px,21vw,274px);aspect-ratio:1;position:relative;flex:none;display:grid;place-items:center;filter:drop-shadow(0 0 30px #bce85113)}
+.session-meter svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transform:rotate(-90deg)}
+.session-meter circle{fill:none}
+.session-meter-ticks{stroke:#d2f88c36;stroke-width:2;stroke-dasharray:1 11}
+.session-meter-track{stroke:#49583f;stroke-width:12}
+.session-meter-arc{stroke:var(--lime);stroke-width:12;stroke-linecap:round}
+.session-meter-count{z-index:1;display:grid;justify-items:center;line-height:1.12;text-align:center}
+.session-meter-count strong{color:var(--lime);font:900 clamp(74px,8vw,112px)/.95 var(--font-en);letter-spacing:-.075em;font-variant-numeric:tabular-nums}
+.session-meter-count span{color:#e4ecdc;font-size:14px;font-weight:700;line-height:1.35;margin-top:8px}
+.balance-progress{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.balance-progress>div{display:flex;gap:12px;align-items:center}
+.balance-progress>div span:last-child{color:var(--lime);font-size:20px;font-weight:900}
+.balance-progress p{font-size:13px}
+
+@media(max-width:1000px){
+  .summary-grid{grid-template-columns:1fr}
+  .detail-stack{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .date-card,.rhythm-card{min-height:260px}
+}
+@media(max-width:760px){
+  .dashboard-wrap{padding:27px 18px 60px}
+  .dashboard-heading h1{font-size:clamp(38px,6vw,48px);margin:7px 0 3px}
+  .dashboard-heading p:last-child{font-size:15px;line-height:1.5}
+  .summary-grid{gap:12px}
+  .balance-card{min-height:0;padding:26px}
+  .balance-card h2{font-size:clamp(32px,5.7vw,45px);margin:18px 0 7px}
+  .balance-center{min-height:235px;justify-content:space-around}
+  .balance-story p{font-size:20px}
+  .session-meter{width:196px}
+  .session-meter-count strong{font-size:79px}
+  .date-card,.rhythm-card{padding:24px}
+  .history-section{padding:26px}
+}
+@media(max-width:520px){
+  .member-header{height:62px;gap:5px}
+  .member-brand img{width:29px;height:33px}
+  .member-brand>span{font-size:18px}
+  .member-nav a{display:grid;place-items:center;min-height:44px;padding:4px 7px;font-size:11px}
+  .access-story{min-height:255px}
+  .story-topline{padding:16px 20px;font-size:9px}
+  .story-copy{right:20px;left:20px;bottom:21px}
+  .story-copy h1{font-size:clamp(41px,10vw,50px);margin:6px 0}
+  .story-copy p{font-size:13px;line-height:1.55}
+  .story-index{font-size:9px}
+  .access-main{padding:27px 20px 52px}
+  .access-main h2{font-size:clamp(36px,9vw,42px);margin:20px 0 9px}
+  .access-lead{font-size:15px;line-height:1.7;margin-bottom:22px}
+  .member-form{gap:15px}
+  .form-field input{height:53px;font-size:16px}
+  .primary-button{min-height:54px;font-size:16px}
+  .access-bottom{margin-top:22px;padding-top:15px}
+  .preview-link{margin-top:15px}
+  .dashboard-wrap{padding:20px 14px 55px}
+  .dashboard-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 10px;margin-bottom:13px}
+  .eyebrow{font-size:9px;letter-spacing:1.4px;gap:7px;justify-content:flex-end}
+  .dashboard-heading h1{font-size:clamp(34px,8vw,40px);margin:3px 0 0}
+  .dashboard-heading p:last-child{font-size:13px;line-height:1.45}
+  .logout-button{margin:0;min-height:44px;padding:7px 9px;font-size:11px;white-space:nowrap}
+  .logout-button span{margin-inline-start:4px}
+  .connection-line{gap:5px 10px;padding:9px 12px;margin-bottom:12px;font-size:11px;line-height:1.4}
+  .connection-line>span:nth-of-type(2){width:100%;padding-inline-start:16px}
+  .connection-line time{width:100%;padding-inline-start:16px}
+  .demo-banner{gap:5px 9px;padding:8px 11px;margin-bottom:12px;font-size:11px;line-height:1.45}
+  .demo-banner a{margin-inline-start:0}
+  .membership-tabs{overflow-x:auto;padding-bottom:4px;margin-bottom:12px}
+  .membership-tabs button{min-height:44px;white-space:nowrap;padding:7px 12px;font-size:12px}
+  .balance-card{padding:18px 19px 20px;border-radius:9px}
+  .balance-card:after{display:none}
+  .balance-top>span:first-child{font-size:8px;letter-spacing:1.1px;max-width:140px}
+  .membership-state{font-size:10px;padding:5px 8px;white-space:nowrap}
+  .balance-card h2{font-size:clamp(29px,7.6vw,36px);margin:11px 0 0}
+  .balance-center{min-height:0;flex-direction:column;gap:4px;align-items:center;padding:4px 0 13px}
+  .session-meter{order:-1;width:clamp(170px,46vw,192px)}
+  .session-meter-count strong{font-size:clamp(65px,18vw,76px)}
+  .session-meter-count span{font-size:12px;margin-top:5px}
+  .balance-story{text-align:center;max-width:290px}
+  .balance-label{font-size:11px;color:#bac9b1}
+  .balance-story p{font-size:13px;line-height:1.55;margin:2px 0 5px}
+  .balance-fraction{font-size:11px}
+  .balance-fraction strong{font-size:19px}
+  .balance-fraction>span{font-size:12px}
+  .balance-progress{padding-top:11px}
+  .balance-progress>div{font-size:11px;gap:7px}
+  .balance-progress>div span:last-child{font-size:15px}
+  .balance-progress p{font-size:11px;text-align:left}
+  .detail-stack{grid-template-columns:1fr;gap:12px}
+  .date-card,.rhythm-card{padding:20px;border-radius:9px}
+  .date-card h3{font-size:22px;margin:13px 0}
+  .date-card dl div{padding:10px 0}
+  .date-card dt,.date-card dd{font-size:12px}
+  .rhythm-card{min-height:170px}
+  .rhythm-number{font-size:60px}
+  .rhythm-card p{font-size:12px;margin-top:4px}
+  .history-section{margin-top:12px;padding:20px;border-radius:9px}
+  .history-heading{padding-bottom:14px}
+  .history-heading h2{font-size:clamp(25px,7vw,32px);margin-top:5px}
+  .history-heading>span{font-size:11px;margin-top:6px}
+  .visit-row{padding:12px 0;gap:11px}
+  .visit-marker{width:33px;height:33px}
+  .visit-row strong{font-size:13px}
+  .visit-row time{font-size:11px}
+  .dashboard-bottom{font-size:12px;margin-top:17px}
+}
+@media(max-width:360px){.member-brand small{display:none}.member-nav a{font-size:10px;padding-inline:5px}.balance-top>span:first-child{max-width:115px}}

@@ -42,6 +42,14 @@ function renderMembership(item) {
   const used = Math.min(total, Math.max(0, Number(item.used_sessions) || 0));
   const left = Math.max(0, total - used);
   const pct = total ? Math.round(used / total * 100) : 0;
+  const motivation = item.status === 'expired' ? 'الاشتراك انتهى. كلّم الفريق لو حابب ترجع تتمرن معانا.'
+    : item.status === 'upcoming' ? 'رحلتك لسه هتبدأ. جهّز نفسك لأول حصة.'
+    : left === 0 ? 'خلصت حصصك كلها. إنجاز تستاهل تفتخر بيه!'
+    : left <= 3 ? 'قربت تخلص الباقة. كمّل بنفس الحماس!'
+    : 'كل حصة بتقربك خطوة من هدفك. كمّل!';
+  const balanceLabel = item.status === 'expired' ? 'مراجعة الاشتراك'
+    : item.status === 'upcoming' ? 'استعد للبداية'
+    : left === 0 ? 'أنجزت الباقة' : 'المشوار لسه مكمل';
   const visits = Array.isArray(item.attendance) ? [...item.attendance].sort((a,b) => new Date(b.checked_in_at) - new Date(a.checked_in_at)) : [];
   const shown = showAllVisits ? visits : visits.slice(0, 5);
   const history = shown.length ? shown.map((visit, index) => `<li class="visit-row"><span class="visit-marker" aria-hidden="true">✓</span><div><strong>زيارة رقم ${Math.max(1, used - index)}</strong><time datetime="${esc(visit.checked_in_at)}">${esc(visitText(visit.checked_in_at))}</time></div><span class="visit-tag">تم الحضور</span></li>`).join('') : '<li class="history-empty">أول حصة ليك هتظهر هنا بعد ما تتسجل في الجيم.</li>';
@@ -51,8 +59,18 @@ function renderMembership(item) {
       <article class="balance-card" aria-labelledby="planTitle">
         <div class="balance-top"><span>YOUR MEMBERSHIP / اشتراكك</span><span class="membership-state ${esc(item.status)}"><i></i>${state}</span></div>
         <h2 id="planTitle">${esc(item.plan_name)}</h2>
-        <div class="balance-center"><div><span class="balance-label">الحصص المتبقية</span><strong class="balance-number">${left}</strong><span class="balance-unit">${sessionsWord(left)} قدامك</span></div><span class="balance-watermark" aria-hidden="true">${String(left).padStart(2,'0')}</span></div>
-        <div class="balance-progress"><div><span>تقدم الاشتراك</span><span dir="ltr">${used} / ${total}</span></div><progress value="${used}" max="${total || 1}" aria-label="الحصص المستخدمة"></progress><p>حضرت ${used} من ${total} حصة · ${pct}% من رحلتك</p></div>
+        <div class="balance-center">
+          <div class="balance-story"><span class="balance-label">${balanceLabel}</span><p>${motivation}</p><span class="balance-fraction"><strong>${used}</strong><span> / ${total}</span> حصة خلصت</span></div>
+          <div class="session-meter" role="meter" aria-label="الحصص المتبقية" aria-valuemin="0" aria-valuemax="${total || 1}" aria-valuenow="${left}" aria-valuetext="${left} ${sessionsWord(left)} متبقية من أصل ${total}">
+            <svg viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+              <circle class="session-meter-ticks" cx="100" cy="100" r="91" />
+              <circle class="session-meter-track" cx="100" cy="100" r="78" />
+              <circle class="session-meter-arc" cx="100" cy="100" r="78" />
+            </svg>
+            <div class="session-meter-count" aria-hidden="true"><strong data-session-count>${left}</strong><span>${sessionsWord(left)}<br>متبقية</span></div>
+          </div>
+        </div>
+        <div class="balance-progress"><div><span>تقدم الاشتراك</span><span dir="ltr">${pct}%</span></div><p>حضرت ${used} من ${total} حصة</p></div>
       </article>
       <div class="detail-stack">
         <article class="date-card"><span class="card-index">01 / المدة</span><h3>اشتراكك<br>من إمتى لإمتى؟</h3><dl><div><dt>بداية الاشتراك</dt><dd>${esc(dateText(item.starts_at))}</dd></div><div><dt>تاريخ الانتهاء</dt><dd>${esc(dateText(item.ends_at))}</dd></div></dl></article>
@@ -61,6 +79,32 @@ function renderMembership(item) {
     </div>
     <section class="history-section" aria-labelledby="historyTitle"><div class="history-heading"><div><span class="section-index">03 / سجل التمرين</span><h2 id="historyTitle">كل زيارة، <em>خطوة لقدّام.</em></h2></div><span>عدد الزيارات: ${visits.length}</span></div><ol class="visit-list">${history}</ol>${visits.length > 5 ? `<button class="more-visits" id="moreVisits" type="button">${showAllVisits ? 'إظهار أقل' : `عرض كل الزيارات (${visits.length})`} <span aria-hidden="true">↓</span></button>` : ''}</section>`;
   $('#moreVisits')?.addEventListener('click', () => {showAllVisits = !showAllVisits; renderMembership(item);});
+  animateSessionMeter(left, total);
+}
+
+function animateSessionMeter(left, total) {
+  const arc = $('.session-meter-arc');
+  const count = $('[data-session-count]');
+  if (!arc || !count) return;
+  const circumference = 2 * Math.PI * 78;
+  const target = circumference * (1 - (total ? left / total : 0));
+  arc.setAttribute('stroke-dasharray', String(circumference));
+  arc.setAttribute('stroke-dashoffset', String(target));
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  arc.animate([
+    {strokeDashoffset: String(circumference)},
+    {strokeDashoffset: String(target)},
+  ], {duration: 1050, easing: 'cubic-bezier(.16,1,.3,1)'});
+  if (!left) return;
+  const started = performance.now();
+  count.textContent = '0';
+  function frame(now) {
+    if (!count.isConnected) return;
+    const t = Math.min(1, (now - started) / 950);
+    count.textContent = String(Math.round(left * (1 - Math.pow(1 - t, 3))));
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 }
 
 function render(data) {
